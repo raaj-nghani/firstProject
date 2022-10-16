@@ -1,0 +1,45 @@
+package chapter3
+
+object andThenfunction extends App{
+println("Step 1: Assume a fre-calculated total cost amount")
+  val totalCost: Double =10
+
+  println("\nStep 2: How to define a val function to apply discount on total cost")
+  val applyDoscountValFunction = (amount: Double) => {
+    println("Apple discount function")
+    val discount = 2
+    amount - discount
+  }
+  println("\nSetp 3: How to call a val function")
+  println(s"Total cost of 5 Donuts with discount = ${applyDoscountValFunction(totalCost)}")
+  println("\nStep 4: How to define a val function to apply tax to total cost")
+  val applyTaxValFunction = (amount : Double) => {
+    println("Apply Tax Function")
+    val tax = 1
+    amount + tax
+  }
+  println("\nStep 5: How to call andThen on  a val function")
+  println(s"Total Cost of 5 Donuts = ${(applyDoscountValFunction andThen applyTaxValFunction)(totalCost)}")
+  
+
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=38407:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter3.andThenfunction
+Step 1: Assume a fre-calculated total cost amount
+
+Step 2: How to define a val function to apply discount on total cost
+
+Setp 3: How to call a val function
+Apple discount function
+Total cost of 5 Donuts with discount = 8.0
+
+Step 4: How to define a val function to apply tax to total cost
+
+Step 5: How to call andThen on  a val function
+Apple discount function
+Apply Tax Function
+Total Cost of 5 Donuts = 9.0
+
+Process finished with exit code 0

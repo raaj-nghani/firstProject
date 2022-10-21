@@ -42,3 +42,20 @@ object trailRecursive extends App{
   println(s"Find Chocolate Donut using TailCall = ${tailNotFound.result}")
 
 }
+
+
+
+OUTPUT
+
+Step 1: Review how to define a tail recursive function
+
+Step 2: Review how to call a tail recursive function
+Find Glazed Donut = Some(true)
+
+Step 3: How to define a tail recursive function using scala.util.control.TailCalls._
+
+Step 4: How to call tail recursive function using scala.util.control.TailCalls._
+Find Glazed Donut using TailCall = Some(true)
+Find Chocolate Donut using TailCall = None
+
+Process finished with exit code 0

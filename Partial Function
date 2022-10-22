@@ -31,3 +31,20 @@ println("step1: Review of Pattern matching in scala")
   println(donutTaste("Plain Donut"))
   println(donutTaste("Chocolate Donut"))
 }
+
+OUTPUT
+
+
+step1: Review of Pattern matching in scala
+Taste level of Glazed Donut = very tasty
+
+Step 2: How to define a Partial Function named isVertTasty
+
+Step 3: How to call the Partial Function named is VeryTasty
+Calling partial function isVeryTasty = Very Tasty
+
+Step 4; How to define partialFunction named isTasty and unkownTaste
+Step 5: How to compose Partial Function using orElse
+Very Tasty
+Tasty
+Unknown taste for donut = Chocolate Donut

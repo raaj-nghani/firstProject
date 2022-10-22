@@ -25,3 +25,20 @@ println("Step 1: How to define a function")
   println(s"Calling checkDonutAvailabilityWithNestedFunction with Vanilla Donut = ${checkDonutAvailabilityWithNestedFunction("Vanilla Donut")}")
 
 }
+
+
+OUTPUT
+
+
+Step 1: How to define a function
+
+Step2: How to call a function
+Calling  checkDonutAvailability with Vanilla Donut = true
+
+ Step 3: How to define a nested function
+
+Step 4: How to call a Nested Function
+Calling checkDonutAvailabilityWithNestedFunction with Vanilla Donut = true
+
+Process finished with exit code 0
+

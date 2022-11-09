@@ -1,0 +1,76 @@
+package chapter4
+
+object UseTypeAlias extends App{
+  println("\nStep 1; How to define a case class to represent a Donut object")
+  case class Donut(name: String, price: Double, productCode: Option[Long] = None)
+
+  println("\nStep 2: How to create instances or objects for the Donut case class")
+  val vanillaDonut: Donut = Donut("Vanilla", 1.50)
+  val glazedDonut: Donut = Donut("Glazed", 2.0)
+  println(s"Vanilla Donut = $vanillaDonut")
+  println(s"Glazed Donut = $glazedDonut")
+
+  println("\nStep 3: How to use type alias to name a Tuple2 pair into a domain type called CartItem")
+  type CartItem[Donut, Int] = Tuple2[Donut, Int]
+
+  println("\nStep 4: How to create instances of the aliased typed CartItem")
+  val cartItem = new CartItem(vanillaDonut, 4)
+  println(s"cartItem = $cartItem")
+  println(s"cartItem first value = ${cartItem._1}")
+  println(s"cartItem second value = ${cartItem._2}")
+
+  println("\nStep 5: How to use an aliased typed into a function parameter")
+
+  def calculateTotal(shoppingCartItems: Seq[CartItem[Donut, Int]]): Double = {
+    // calculate the total cost
+    shoppingCartItems.foreach { cartItem =>
+      println(s"CartItem donut = ${cartItem._1}, quantity = ${cartItem._2}")
+    }
+    10 // some random total cost
+  }
+
+  println("\nStep 6: How to use a case class instead of an aliased typed")
+  case class ShoppingCartItem(donut: Donut, quantity: Int)
+
+  val shoppingItem: ShoppingCartItem = ShoppingCartItem(Donut("Glazed Donut", 2.50), 10)
+  println(s"shoppingItem donut = ${shoppingItem.donut}")
+  println(s"shoppingItem quantity = ${shoppingItem.quantity}")
+
+  println("\nStep 7: How to use case class from Stpe 6 to represent a Sequence of Donut items in a shopping cart")
+  def calculateTotal2(shoppingCartItem: Seq[ShoppingCartItem]): Double ={
+    //calculate the total cost
+    shoppingCartItem.foreach{shoppingCartItem =>
+      println(s"ShoppingCartItem donut = ${shoppingCartItem.donut}, quantity = ${shoppingCartItem.quantity}")
+    }
+    10
+  }
+
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=43639:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter4.UseTypeAlias
+
+Step 1; How to define a case class to represent a Donut object
+
+Step 2: How to create instances or objects for the Donut case class
+Vanilla Donut = Donut(Vanilla,1.5,None)
+Glazed Donut = Donut(Glazed,2.0,None)
+
+Step 3: How to use type alias to name a Tuple2 pair into a domain type called CartItem
+
+Step 4: How to create instances of the aliased typed CartItem
+cartItem = (Donut(Vanilla,1.5,None),4)
+cartItem first value = Donut(Vanilla,1.5,None)
+cartItem second value = 4
+
+Step 5: How to use an aliased typed into a function parameter
+
+Step 6: How to use a case class instead of an aliased typed
+shoppingItem donut = Donut(Glazed Donut,2.5,None)
+shoppingItem quantity = 10
+
+Step 7: How to use case class from Stpe 6 to represent a Sequence of Donut items in a shopping cart
+
+Process finished with exit code 0

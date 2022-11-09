@@ -14,16 +14,25 @@ object DefineCaseClass extends App{
   println(s"Vanilla Donut name field = ${vanillaDonut.name}")
   println(s"Vanilla Donut price field = ${vanillaDonut.Price}")
   println(s"Vanilla Donut productCode field = ${vanillaDonut.ProductCode}")
+  
+  println("\nStep 4: How to modify or update fields of the Donut object")
+  // vanillaDonut.name = "vanilla donut" // compiler error. fields are immutable by default.
 
   println("\nStep 5: How to define the hashcode and equals method for Donut object")
   val shoppingCart:Map[Donut, Int] = Map(vanillaDonut -> 4, glazedDonut -> 3)
   println(s"All items in shopping cart = ${shoppingCart}")
   println(s"Quantity of vanilla donuts in shopping cart = ${shoppingCart(vanillaDonut)}")
   println(s"Quantity of glazed donuts in shopping cart = ${shoppingCart(glazedDonut)}")
+  
+  println("\nTIP: How to create a new object of Donut by using the copy() method of the case class")
+  val chocolateVanillaDonut: Donut = vanillaDonut.copy(name = "Chocolate And Vanilla Donut", Price = 5.0)
+  println(s"Chocolate And Vanilla Donut = $chocolateVanillaDonut")
 
 }
 
 OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=36871:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter4.DefineCaseClass
 
 Step 1: How to define a case class to represent a Donut object
 
@@ -40,5 +49,8 @@ Step 5: How to define the hashcode and equals method for Donut object
 All items in shopping cart = Map(Donut(Vanilla Donut,1.5,None) -> 4, Donut(Glazed Donut,2.0,None) -> 3)
 Quantity of vanilla donuts in shopping cart = 4
 Quantity of glazed donuts in shopping cart = 3
+
+TIP: How to create a new object of Donut by using the copy() method of the case class
+Chocolate And Vanilla Donut = Donut(Chocolate And Vanilla Donut,5.0,None)
 
 Process finished with exit code 0

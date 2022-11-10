@@ -1,0 +1,41 @@
+package chapter4
+
+object class_extensionMethod extends App{
+  println("Step 1: How to define a case class to represent a Donut object")
+  case class Donut(name: String, price: Double, productCode: Option[Long]=None)
+
+  println("\nStep 2: How to create instances or objects for teh Donut case class")
+  val vanillDonut: Donut = Donut("Vanilla",1.50)
+  println(s"Vanilla donut name = ${vanillDonut.name}")
+  println(s"Vanilla donut price = ${vanillDonut.price}")
+  println(s"Vanilla donut product Code = ${vanillDonut.productCode}")
+
+  println("\nStep 3: How to define an implicit class to augment or extend the Donut case class")
+  object DonutImplicits{
+    implicit class AugmentedDonut(donut: Donut){
+      def uuid: String = s"${donut.name} - ${donut.productCode.getOrElse(12345)}"
+    }
+  }
+
+  println("\nStep 4: How to import and use the implicit class AugmentedDonut from step 3")
+  import DonutImplicits._
+  println(s"Vanilla donut uuid = ${vanillDonut.uuid}")
+  
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=37399:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter4.class_extensionMethod
+Step 1: How to define a case class to represent a Donut object
+
+Step 2: How to create instances or objects for teh Donut case class
+Vanilla donut name = Vanilla
+Vanilla donut price = 1.5
+Vanilla donut product Code = None
+
+Step 3: How to define an implicit class to augment or extend the Donut case class
+
+Step 4: How to import and use the implicit class AugmentedDonut from step 3
+Vanilla donut uuid = Vanilla - 12345
+
+Process finished with exit code 0

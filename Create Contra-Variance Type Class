@@ -1,0 +1,80 @@
+package chapter4
+
+object Create_Contra_Variance_Type_Class extends App{
+  println("Step 1: How to define an abstract class called Donut")
+  abstract class Donut(name: String){
+    def printName: Unit
+  }
+  println("\nStpe 2: How to extends abstract class Donut and define a case class called VanillaDonut")
+  case class VanillaDonut(name:String) extends Donut(name){
+    override  def printName: Unit = println(name)
+  }
+
+  println("\nStep 3: How to extend abstract class Donut and define another case class GlazedDonut")
+  case class GlazedDonut(name: String) extends Donut(name){
+    override def printName: Unit = println(name)
+  }
+  println("\nStep 4: Hoe to instantiate Donut objects")
+  val vanillaDonut: Donut = VanillaDonut("Vanilla Donut")
+  vanillaDonut.printName
+
+  val glazedDonut: Donut = GlazedDonut("Glazed Donut")
+  glazedDonut.printName
+
+  println("\nStep 5: How to define a ShoppingCart type class which expects Donut type")
+  class ShoppingCart[D <: Donut] (donuts: Seq[D]){
+    def printCartItems: Unit = donuts.foreach(_.printName)
+  }
+  println("\nStep 6: How to create instances or objects of SHoppingCart class")
+  val shoppingCart: ShoppingCart[Donut] = new ShoppingCart(Seq[Donut](vanillaDonut, glazedDonut))
+  shoppingCart.printCartItems
+
+  println(s"\nStep 7: How to enable contra-variance on ShoppingCart")
+  class ShoppingCart2[-D <: Donut](donuts: Seq[D]){
+    def printCartItems: Unit = donuts.foreach(_.printName)
+  }
+
+
+}
+
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=44767:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter4.Create_Contra_Variance_Type_Class
+Step 1: How to define an abstract class called Donut
+
+Stpe 2: How to extends abstract class Donut and define a case class called VanillaDonut
+
+Step 3: How to extend abstract class Donut and define another case class GlazedDonut
+
+Step 4: Hoe to instantiate Donut objects
+Vanilla Donut
+Glazed Donut
+
+Step 5: How to define a ShoppingCart type class which expects Donut type
+
+Step 6: How to create instances or objects of SHoppingCart class
+Vanilla Donut
+Glazed Donut
+
+Step 7: How to enable contra-variance on ShoppingCart
+
+Process finished with exit code 0
+
+
+Summary
+In this tutorial, we went over the following:
+
+How to define an abstract class called Donut
+How to extend abstract class Donut and define a case class called VanillaDonut
+How to extend abstract class Donut and define another case class of Donut called GlazedDonut
+How to instantiate Donut objects
+How to define a ShoppingCart type class which expects Donut types
+How to create instances or objects of ShoppingCart class
+How to enable contra-variance on ShoppingCart
+Tip
+As we've seen in this tutorial, Scala provides support for the traditional Object Oriented approach regarding class inheritance by extending classes.
+Avoid having a case class extend other case classes. Instead, encapsulate common behaviour in an abstract class - see Scala Documentation.
+However, in Chapter 5, we will show how Scala provides greater flexibility to class inheritance by making use of mix-in with traits.
+Scala Documentation on variance.

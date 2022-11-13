@@ -1,0 +1,56 @@
+package chapter4
+
+object create_typed_class extends App{
+
+  println("\nStep 1: How to define an abstract class called Donut")
+  abstract class Donut(name : String){
+    def printName: Unit
+  }
+  println("\nStep 2: How to extend abstract class Donut and define a case class called VanillaDonut")
+  case class VanillaDonut(name: String) extends Donut(name){
+    override def printName: Unit = println(name)
+  }
+  println("\nStep 3: How to extend abstract class Donut and define another case class called GlazedDonut")
+  case class GlazedDonut(name: String) extends Donut(name){
+    override def printName: Unit = println(name)
+  }
+  println("\nStep 4: How to instantiate Donut objects")
+  val vanillaDonut: Donut = VanillaDonut("Vanilla Donut")
+  vanillaDonut.printName
+
+  val glazedDonut: Donut = GlazedDonut("Glazed Donut")
+  glazedDonut.printName
+
+  println("\nStep 5: How to define a ShoppingCart typed class which expects Donut types")
+  class ShoppintCart[D <: Donut](donuts: Seq[D]){
+    def printCartItem: Unit = donuts.foreach(_.printName)
+  }
+
+  println("\nStep 6: How to create instances or objects of ShoppingCart class")
+  val shoppingCart: ShoppintCart[Donut] = new ShoppintCart(Seq[Donut](vanillaDonut, glazedDonut))
+  shoppingCart.printCartItem
+
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=39313:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter4.create_typed_class
+
+Step 1: How to define an abstract class called Donut
+
+Step 2: How to extend abstract class Donut and define a case class called VanillaDonut
+
+Step 3: How to extend abstract class Donut and define another case class called GlazedDonut
+
+Step 4: How to instantiate Donut objects
+Vanilla Donut
+Glazed Donut
+
+Step 5: How to define a ShoppingCart typed class which expects Donut types
+
+Step 6: How to create instances or objects of ShoppingCart class
+Vanilla Donut
+Glazed Donut
+
+Process finished with exit code 0

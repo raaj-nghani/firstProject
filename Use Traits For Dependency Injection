@@ -1,0 +1,130 @@
+package chapter5
+
+object Traits_For_Dependency_Injection extends App{
+  println("Step 1: Create a trait which knows how to do create, read, update and delete operations CRUD to a given database")
+  trait DonutDatabase[A] {
+
+    def addOrUpdate(donut: A): Long
+
+    def query(donut: A): A
+
+    def delete(donut: A): Boolean
+  }
+
+  println("\nStep 2: Create a class which extends trait DonutDatabase and knows how to perform CRUD operations with Apache Cassandra as storage layer")
+
+  class CassandraDonutStore[A] extends DonutDatabase[A] {
+
+    override def addOrUpdate(donut: A): Long = {
+      println(s"CassandraDonutDatabase-> addOrUpdate method -> donut: $donut")
+      1
+    }
+
+    override def query(donut: A): A = {
+      println(s"CassandraDonutDatabase-> query method -> donut: $donut")
+      donut
+    }
+
+    override def delete(donut: A): Boolean = {
+      println(s"CassandraDonutDatabase-> delete method -> donut: $donut")
+      true
+    }
+  }
+
+  println("\nStep 3: Create a trait which will define the methods for a data access layer and will require dependency injection for DonutDatabase")
+
+  trait DonutShoppingCartDao[A] {
+
+    val donutDatabase: DonutDatabase[A] // dependency injection
+
+    def add(donut: A): Long = {
+      println(s"DonutShoppingCartDao-> add method -> donut: $donut")
+      donutDatabase.addOrUpdate(donut)
+    }
+
+    def update(donut: A): Boolean = {
+      println(s"DonutShoppingCartDao-> update method -> donut: $donut")
+      donutDatabase.addOrUpdate(donut)
+      true
+    }
+
+    def search(donut: A): A = {
+      println(s"DonutShoppingCartDao-> search method -> donut: $donut")
+      donutDatabase.query(donut)
+    }
+
+    def delete(donut: A): Boolean = {
+      println(s"DonutShoppingCartDao-> delete method -> donut: $donut")
+      donutDatabase.delete(donut)
+    }
+  }
+
+  println("\nStep 4: Create a trait which will define the methods for checking donut inventory and will require dependency injection for DonutDatabase")
+
+  trait DonutInventoryService[A] {
+
+    val donutDatabase: DonutDatabase[A] // dependency injection
+
+    def checkStockQuantity(donut: A): Int = {
+      println(s"DonutInventoryService-> checkStockQuantity method -> donut: $donut")
+      donutDatabase.query(donut)
+      1
+    }
+
+  }
+
+  println("\nStep 5: Create a trait which will act as a facade which extends multiple traits namely trait DonutShoppingCartDao and trait DonutInventoryService. It also inject the correct DonutDatabase implementation - a CassandraDonutStore")
+
+  trait DonutShoppingCartServices[A] extends DonutShoppingCartDao[A] with DonutInventoryService[A] {
+    override val donutDatabase: DonutDatabase[A] = new CassandraDonutStore[A]()
+  }
+
+  println("\nStep 6: Create a DonutShoppingCart class which extends a single facade named DonutShoppingCartServices to expose all the underlying features required by a DonutShoppingCart")
+
+  class DonutShoppingCart[A] extends DonutShoppingCartServices[A] {
+
+  }
+
+  println("\nStep 7: Create an instance of DonutShoppingCart and call the add, update, search and delete methods")
+  val donutShoppingCart: DonutShoppingCart[String] = new DonutShoppingCart[String]()
+  donutShoppingCart.add("Vanilla Donut")
+  donutShoppingCart.update("Vanilla Donut")
+  donutShoppingCart.search("Vanilla Donut")
+  donutShoppingCart.delete("Vanilla Donut")
+
+  println("\nStep 8: Call the checkStockQuantity method")
+  donutShoppingCart.checkStockQuantity("Vanilla Donut")
+
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=35693:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter5.Traits_For_Dependency_Injection
+Step 1: Create a trait which knows how to do create, read, update and delete operations CRUD to a given database
+
+Step 2: Create a class which extends trait DonutDatabase and knows how to perform CRUD operations with Apache Cassandra as storage layer
+
+Step 3: Create a trait which will define the methods for a data access layer and will require dependency injection for DonutDatabase
+
+Step 4: Create a trait which will define the methods for checking donut inventory and will require dependency injection for DonutDatabase
+
+Step 5: Create a trait which will act as a facade which extends multiple traits namely trait DonutShoppingCartDao and trait DonutInventoryService. It also inject the correct DonutDatabase implementation - a CassandraDonutStore
+
+Step 6: Create a DonutShoppingCart class which extends a single facade named DonutShoppingCartServices to expose all the underlying features required by a DonutShoppingCart
+
+Step 7: Create an instance of DonutShoppingCart and call the add, update, search and delete methods
+DonutShoppingCartDao-> add method -> donut: Vanilla Donut
+CassandraDonutDatabase-> addOrUpdate method -> donut: Vanilla Donut
+DonutShoppingCartDao-> update method -> donut: Vanilla Donut
+CassandraDonutDatabase-> addOrUpdate method -> donut: Vanilla Donut
+DonutShoppingCartDao-> search method -> donut: Vanilla Donut
+CassandraDonutDatabase-> query method -> donut: Vanilla Donut
+DonutShoppingCartDao-> delete method -> donut: Vanilla Donut
+CassandraDonutDatabase-> delete method -> donut: Vanilla Donut
+
+Step 8: Call the checkStockQuantity method
+DonutInventoryService-> checkStockQuantity method -> donut: Vanilla Donut
+CassandraDonutDatabase-> query method -> donut: Vanilla Donut
+
+Process finished with exit code 0

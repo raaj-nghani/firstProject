@@ -1,0 +1,73 @@
+package chapter5
+
+object traits_with_type_parameter extends App{
+  println("Step 1: Create a trait with type which will define the methods for a data access layer")
+  trait DonutShoppingCartDao[A]{
+    def add(donut: A): Long
+    def update(donut: A): Boolean
+    def search(donut: A): A
+    def delete(donut: A): Boolean
+  }
+
+  println("\nStep 2: Create a DonutShoppingCart class of type A which extends the trait from Step 1 and implements its methods")
+  class DonutShoppingCart[A] extends DonutShoppingCartDao[A]{
+    override def add(donut: A): Long={
+      println(s"DonutShoppingCart -> add method -> donut: $donut")
+      1
+    }
+
+    override def update(donut: A): Boolean ={
+      println(s"DonutShoppingCart -> update method -> donut: $donut")
+      true
+    }
+
+    override def search(donut: A): A ={
+      println(s"DonutShoppingCart -> search method -> donut: $donut")
+      donut
+    }
+
+    override def delete(donut: A): Boolean = {
+      println(s"DonutShoppingCart -> delete method -> donut: $donut")
+      true
+    }
+  }
+  println("\nStep 3: Create an instance of DonutShoppingCart of type String and call the add, update, search and delete methods")
+  val donutShoppingCart1: DonutShoppingCart[String] = new DonutShoppingCart[String]()
+  donutShoppingCart1.add("Vanilla Donut")
+  donutShoppingCart1.update("Vanilla Donut")
+  donutShoppingCart1.search("Vanilla Donut")
+  donutShoppingCart1.delete("Vanilla Donut")
+
+  println("\nStep 4: Create an instance of DonutShoppingCart of type String and assign its type to the trait DonutShoppingCartDao")
+  val donutShoppingCart2: DonutShoppingCartDao[String] = new DonutShoppingCart[String]()
+  donutShoppingCart2.add("Vanilla Donut")
+  donutShoppingCart2.update("Vanilla Donut")
+  donutShoppingCart2.search("Vanilla Donut")
+  donutShoppingCart2.delete("Vanilla Donut")
+
+
+
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=37933:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter5.traits_with_type_parameter
+Step 1: Create a trait with type which will define the methods for a data access layer
+
+Step 2: Create a DonutShoppingCart class of type A which extends the trait from Step 1 and implements its methods
+
+Step 3: Create an instance of DonutShoppingCart of type String and call the add, update, search and delete methods
+DonutShoppingCart -> add method -> donut: Vanilla Donut
+DonutShoppingCart -> update method -> donut: Vanilla Donut
+DonutShoppingCart -> search method -> donut: Vanilla Donut
+DonutShoppingCart -> delete method -> donut: Vanilla Donut
+
+Step 4: Create an instance of DonutShoppingCart of type String and assign its type to the trait DonutShoppingCartDao
+DonutShoppingCart -> add method -> donut: Vanilla Donut
+DonutShoppingCart -> update method -> donut: Vanilla Donut
+DonutShoppingCart -> search method -> donut: Vanilla Donut
+DonutShoppingCart -> delete method -> donut: Vanilla Donut
+
+Process finished with exit code 0
+

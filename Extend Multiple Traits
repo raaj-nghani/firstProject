@@ -1,0 +1,88 @@
+package chapter5
+
+object Extend_Multiple_Traits extends App{
+
+  println("Step 1: Create a trait with type which will define the methods for a data access layer")
+
+  trait DonutShoppingCartDao[A] {
+
+    def add(donut: A): Long
+
+    def update(donut: A): Boolean
+
+    def search(donut: A): A
+
+    def delete(donut: A): Boolean
+
+  }
+
+  println("\nStep 2: Create a second trait which will define the methods for checking donut inventory")
+
+  trait DonutInventoryService[A] {
+
+    def checkStockQuantity(donut: A): Int
+
+  }
+
+  println("\nStep 3: Create a DonutShoppingCart class which extends multiple traits namely trait DonutShoppingCartDao and trait DonutInventoryService")
+
+  class DonutShoppingCart[A] extends DonutShoppingCartDao[A] with DonutInventoryService[A] {
+
+    override def add(donut: A): Long = {
+      println(s"DonutShoppingCart-> add method -> donut: $donut")
+      1
+    }
+
+    override def update(donut: A): Boolean = {
+      println(s"DonutShoppingCart-> update method -> donut: $donut")
+      true
+    }
+
+    override def search(donut: A): A = {
+      println(s"DonutShoppingCart-> search method -> donut: $donut")
+      donut
+    }
+
+    override def delete(donut: A): Boolean = {
+      println(s"DonutShoppingCart-> delete method -> donut: $donut")
+      true
+    }
+
+    override def checkStockQuantity(donut: A): Int = {
+      println(s"DonutShoppingCart-> checkStockQuantity method -> donut: $donut")
+      10
+    }
+  }
+
+  println("\nStep 4: Create an instance of DonutShoppingCart and call the add, update, search and delete methods")
+  val donutShoppingCart: DonutShoppingCart[String] = new DonutShoppingCart[String]()
+  donutShoppingCart.add("Vanilla Donut")
+  donutShoppingCart.update("Vanilla Donut")
+  donutShoppingCart.search("Vanilla Donut")
+  donutShoppingCart.delete("Vanilla Donut")
+
+  println("\nStep 5: Call the checkStockQuantity method which was inherited from trait DonutInventoryService")
+  donutShoppingCart.checkStockQuantity("Vanilla Donut")
+
+
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=44621:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter5.Extend_Multiple_Traits
+Step 1: Create a trait with type which will define the methods for a data access layer
+
+Step 2: Create a second trait which will define the methods for checking donut inventory
+
+Step 3: Create a DonutShoppingCart class which extends multiple traits namely trait DonutShoppingCartDao and trait DonutInventoryService
+
+Step 4: Create an instance of DonutShoppingCart and call the add, update, search and delete methods
+DonutShoppingCart-> add method -> donut: Vanilla Donut
+DonutShoppingCart-> update method -> donut: Vanilla Donut
+DonutShoppingCart-> search method -> donut: Vanilla Donut
+DonutShoppingCart-> delete method -> donut: Vanilla Donut
+
+Step 5: Call the checkStockQuantity method which was inherited from trait DonutInventoryService
+DonutShoppingCart-> checkStockQuantity method -> donut: Vanilla Donut
+
+Process finished with exit code 0

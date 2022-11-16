@@ -1,0 +1,56 @@
+package chapter5
+
+object Traits_Companion_Object_Factory_Pattern extends App{
+  println("Step 1: Define a wrapper object called cakes to hold various types of cakes")
+  object Cakes {
+    println("Step 2 : Define a base trait to represent a Cake")
+    trait Cake {
+      def name: String
+    }
+    // Step 3: Define class implementations for the Cake trait namely: Cupcake, Donut and UnknownCake
+    class UnknownCake extends Cake {
+      override def name: String = "Unknown Cake ... but still delicious"
+    }
+
+    class Cupcake extends Cake {
+      override def name: String = "Cupcake"
+    }
+    class Donut extends Cake {
+      override def name: String = "Donut"
+    }
+  }
+  println("\nStep 4: Define a wrapper object called CakeFactory")
+  object CakeFactory{
+    import Cakes._
+    println("\nStep 5: Define an apply method which will act as a factory to produce the correct cake implementation")
+    def apply(cake: String): Cake ={
+      cake match{
+        case "Cupcake" => new Cupcake
+        case "donut" => new Donut
+        case _ => new UnknownCake
+      }
+    }
+  }
+  println("\nStep 6: Call the CakeFactory")
+  println(s"a cupcake = ${CakeFactory("cupcake").name}")
+  println(s"a donut = ${CakeFactory("donut").name}")
+  println(s"Unknown Cake = ${CakeFactory("Coconut Tart").name}")
+
+}
+
+OUTPUT
+
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=38961:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter5.Traits_Companion_Object_Factory_Pattern
+Step 1: Define a wrapper object called cakes to hold various types of cakes
+
+Step 4: Define a wrapper object called CakeFactory
+
+Step 6: Call the CakeFactory
+
+Step 5: Define an apply method which will act as a factory to produce the correct cake implementation
+a cupcake = Unknown Cake ... but still delicious
+a donut = Donut
+Unknown Cake = Unknown Cake ... but still delicious
+
+Process finished with exit code 0

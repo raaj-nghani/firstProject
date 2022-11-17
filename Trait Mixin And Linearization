@@ -1,0 +1,53 @@
+package chapter5
+
+object Trait_Mixin_And_Linearization extends App{
+  println("Step 1: Review of inheritence using traits")
+  case class Donut(name: String)
+  trait ShoppingCart[T]{
+    def printItems(items : Seq[T]): Unit
+  }
+  class DonutShoppigCart extends ShoppingCart[Donut]{
+    override def printItems(items: Seq[Donut]): Unit ={
+      items.foreach(println(_))
+    }
+  }
+
+  val donuts = Seq(Donut("PlaindDonut"), Donut("VanillaDonut"))
+  val donutCart = new DonutShoppigCart()
+  donutCart.printItems(donuts)
+
+  println("\nStep 2: Define trait PrettyPrintUpperCase and mixin with DonutShoppingCart")
+  trait PrettyPrintUpperCase[T] extends ShoppingCart[T]{
+    override def printItems(items: Seq[T]): Unit = items.foreach(items => print(items.toString.toUpperCase))
+      }
+    val donutCart2 = new DonutShoppigCart() with PrettyPrintUpperCase[Donut]
+    donutCart2.printItems(donuts)
+
+
+  println("\nStep 2: Define trait PrettyPrintUpperCase and mixin with DonutShoppingCart")
+  trait PrettyPrintLowerCase[T] extends ShoppingCart[T] {
+    override def printItems(items: Seq[T]): Unit = items.foreach(items => print(items.toString.toLowerCase))
+  }
+
+  val donutCart3 = new DonutShoppigCart() with PrettyPrintUpperCase[Donut] with PrettyPrintLowerCase[Donut]
+  donutCart3.printItems(donuts)
+
+  val donutCart4 = new DonutShoppigCart() with PrettyPrintLowerCase[Donut] with PrettyPrintUpperCase[Donut]
+  donutCart4.printItems(donuts)
+
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=41625:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter5.Trait_Mixin_And_Linearization
+Step 1: Review of inheritence using traits
+Donut(PlaindDonut)
+Donut(VanillaDonut)
+
+Step 2: Define trait PrettyPrintUpperCase and mixin with DonutShoppingCart
+DONUT(PLAINDDONUT)DONUT(VANILLADONUT)
+
+Step 2: Define trait PrettyPrintUpperCase and mixin with DonutShoppingCart
+donut(plainddonut)donut(vanilladonut)
+DONUT(PLAINDDONUT)DONUT(VANILLADONUT)
+Process finished with exit code 0

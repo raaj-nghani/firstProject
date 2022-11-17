@@ -1,0 +1,52 @@
+package chapter5
+
+object Type_Class_For_Ad_hoc_Polymorphism extends App{
+  case class Donut(name: String, price: Double, productCode: Option[Long] = None)
+
+  case class Cupcake(name: String)
+
+  trait UniversalId[T] {
+    def uuid(t: T): String
+  }
+
+  object UniversalId {
+    def apply[T](implicit id: UniversalId[T]): UniversalId[T] = id
+
+    object instances {
+      def instance[T](func: T => String): UniversalId[T] =
+        new UniversalId[T] {
+          override def uuid(t: T): String = func(t)
+        }
+
+      implicit val donutId: UniversalId[Donut] =
+        instance(donut => s"${donut.name} - ${donut.name.hashCode}")
+
+      implicit val cupcakeId: UniversalId[Cupcake] =
+        instance(cupcake => s"${cupcake.name} - ${cupcake.name.hashCode}")
+
+    }
+
+    object ops {
+      implicit class UniversalIdOps[T: UniversalId](t: T) {
+        def uniqueId = UniversalId[T].uuid(t)
+      }
+    }
+  }
+
+  import UniversalId.ops._
+  import UniversalId.instances._
+
+  val plainDonut = Donut("PlainDonut", 1.50)
+  println(plainDonut.uniqueId)
+  val cupcake = Cupcake("VanillaCupcake")
+  println(cupcake.uniqueId)
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=32967:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter5.Type_Class_For_Ad_hoc_Polymorphism
+PlainDonut - -1304825960
+VanillaCupcake - 1052206491
+
+Process finished with exit code 0

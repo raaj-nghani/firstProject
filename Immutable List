@@ -1,0 +1,44 @@
+package chapter6
+import java.util.Scanner
+object Immutable_list {
+
+
+
+  def main(args:Array[String]):Unit= {
+    println("Step 1: How to initialize an immutable List with 3 elements")
+    val list1: List[String] = List("Plain Donut", "Strawberry Donut", "Chocolate Donut")
+    println(s"Elements of list1 = $list1")
+
+    /*println("\nStep 2: How to access elements of immutable List at specific index")
+    println(s"Element at index 0 = ${list1(0)}")
+    println(s"Element at index 1 = ${list1(1)}")
+    println(s"Element at index 2 = ${list1(2)}")*/
+
+
+    println("Enter new element of List")
+    val a = scala.io.StdIn.readLine()
+
+
+
+    println("\nStep 3: How to append elements at the end of immutable list using :+")
+    val list2: List[String] = list1 :+ a
+    println(s"Append elements at the end using :+ = $list2")
+
+  }
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:46067,suspend=y,server=n -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/plugins/java/lib/rt/debugger-agent.jar -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar chapter6.Immutable_list
+Connected to the target VM, address: '127.0.0.1:46067', transport: 'socket'
+Step 1: How to initialize an immutable List with 3 elements
+Elements of list1 = List(Plain Donut, Strawberry Donut, Chocolate Donut)
+Enter new element of List
+new
+
+Step 3: How to append elements at the end of immutable list using :+
+Append elements at the end using :+ = List(Plain Donut, Strawberry Donut, Chocolate Donut, new)
+Disconnected from the target VM, address: '127.0.0.1:46067', transport: 'socket'
+
+Process finished with exit code 0

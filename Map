@@ -1,0 +1,59 @@
+object immutable_Map extends App{
+  println("Step 1: How to initialize a map with 3 elements")
+  val map1: Map[String, String] = Map(("PD","Plain Donut"),("SD","Strawberry Donut"),("CD","Chocolate Donut"));
+  println(s"ELements of map1 = $map1");
+
+  println("\nStep 2: How to initialize map using key -> value notation");
+  val map2: Map[String, String] = Map("VD" -> "Vanilla Donut","GD" -> "Glazed Donut");
+  println(s"Elements of map2 = $map2");
+
+  println("\nStep 3: How to access elements by specific key");
+  println(s"Elements by key VD = ${map2("VD")}");
+  println(s"Elements by key GD = ${map2("GD")}");
+  println(s"Elements by key PD = ${map1("PD")}");
+
+  println("\nStep 4: How to add elements using +");
+  val map3: Map[String, String] = map1 + ("KD" -> "Krispy Kreme Donut");
+  println(s"Elements in map3 = $map3");
+
+  println("\nStep 5: How to add two Maps together using ++")
+  val map4: Map[String, String] = map1 ++ map2;
+  println(s"Elements of map4 = $map4");
+
+  println("\nStep 6: How to remove key and its value from map using -");
+  val map5: Map[String, String] = map4 - ("CD");
+  println(s"ELements of map4 without key CD and its value = $map5");
+
+  println("\nStep 7: How to initialize an empty Map");
+  val emptyMap: Map[String, String] = Map.empty[String, String];
+  println(s"Empty Map = $emptyMap");
+
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=35339:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar immutable_Map
+Step 1: How to initialize a map with 3 elements
+ELements of map1 = Map(PD -> Plain Donut, SD -> Strawberry Donut, CD -> Chocolate Donut)
+
+Step 2: How to initialize map using key -> value notation
+Elements of map2 = Map(VD -> Vanilla Donut, GD -> Glazed Donut)
+
+Step 3: How to access elements by specific key
+Elements by key VD = Vanilla Donut
+Elements by key GD = Glazed Donut
+Elements by key PD = Plain Donut
+
+Step 4: How to add elements using +
+Elements in map3 = Map(PD -> Plain Donut, SD -> Strawberry Donut, CD -> Chocolate Donut, KD -> Krispy Kreme Donut)
+
+Step 5: How to add two Maps together using ++
+Elements of map4 = HashMap(PD -> Plain Donut, GD -> Glazed Donut, SD -> Strawberry Donut, VD -> Vanilla Donut, CD -> Chocolate Donut)
+
+Step 6: How to remove key and its value from map using -
+ELements of map4 without key CD and its value = HashMap(PD -> Plain Donut, GD -> Glazed Donut, SD -> Strawberry Donut, VD -> Vanilla Donut)
+
+Step 7: How to initialize an empty Map
+Empty Map = Map()
+
+Process finished with exit code 0

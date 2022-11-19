@@ -1,0 +1,50 @@
+package chapter6
+
+import scala.collection.immutable.ListSet
+
+object ListSet extends App{
+  println("Step 1: How to initialize an immutable ListSet with 3 elements")
+  val listSet1: ListSet[String] = new ListSet
+  println(s"Elements of listSet1 = $listSet1")
+
+  println("\nStep 2: How to check elements of immutable ListSet")
+  println(s"Element Plain Donut = ${listSet1("Plain Donut")}")
+  println(s"Element Strawberry Donut = ${listSet1("Strawberry Donut")}")
+  println(s"Element Chocolate Donut = ${listSet1("Chocolate Donut")}")
+
+  println("\nStep 3: How to add elements of immutable ListSet using +")
+  val listSet2: ListSet[String] = listSet1 + "Vanilla Donut"
+  println(s"Adding element Vanilla to ListSet using + = $listSet2")
+
+  /*println("\n Step 4: How to add two ListSet together using ++")
+  val listSet3: ListSet[String] = listSet1 ++ listSet2("Glazed Donut");
+  println(s"Add two lists together using ++ = $listSet3")*/
+
+  println("\nStep 5: How to remove element from the ListSet using - ");
+  val listSet4: ListSet[String] = listSet2 - ("Vanilla Donut");
+  println(s"ListSet without the element Vanilla Donut = $listSet4");
+
+  println("\nStep 6: How to initialize an empty ListSet ");
+  val emptyListSet: ListSet[String] = ListSet.emptyListSet[String]
+  println(s"Empty ListSet of type String = $emptyListSet");
+  
+}
+
+
+
+OUTPUT
+
+Step 1: How to initialize an immutable List with 3 elements
+Elements of listSet1 = ListSet(Chocolate Donut, Strawberry Donut, Plain Donut)
+
+Step 2: How to check elements of immutable ListSet
+Element Plain Donut = true
+Element Strawberry Donut = true
+Element Chocolate Donut = true
+
+Step 3: How to add elements of immutable ListSet using +
+Adding element Vanilla to ListSet using + = ListSet(Vanilla Donut, Chocolate Donut, Strawberry Donut, Plain Donut)
+
+Step 4: How to add two ListSet together using ++
+Add two lists together using ++ = ListSet(Glazed Donut, Chocolate Donut, Strawberry Donut, Plain Donut)
+

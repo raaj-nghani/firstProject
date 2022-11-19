@@ -24,14 +24,27 @@ object Immutable_list {
     val list2: List[String] = list1 :+ a
     println(s"Append elements at the end using :+ = $list2")
 
+    println("\nSTep 4: How to prepend elements at the fornt of immutable list using +:")
+    val list3: List[String] = "Vanilla Donut" +: list1
+    println(s"Prepend elements at teh front using +: = $list3")
+
+    println("\nStep 5: How to add two immutable lists together using ::")
+    val list4 : List[Any] = list1 :: list2
+    println(s"\nAdd two list together using :: = $list4")
+
+    println("\nStep 6: How to add two immutable Lists together using :::");
+    val list5 : List[String] = list1:::list3;
+    println(s"Add tow lists together using ::: = $list5")
+
+    println("\nStep 7: How to initialize an empty immutable List");
+    val emptyList: List[String] = List.empty[String];
+    println(s"Empty List = $emptyList");
   }
 }
 
-
 OUTPUT
 
-/home/raj/jdk1.8.0_202/bin/java -agentlib:jdwp=transport=dt_socket,address=127.0.0.1:46067,suspend=y,server=n -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/plugins/java/lib/rt/debugger-agent.jar -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar chapter6.Immutable_list
-Connected to the target VM, address: '127.0.0.1:46067', transport: 'socket'
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=36481:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter6.Immutable_list
 Step 1: How to initialize an immutable List with 3 elements
 Elements of list1 = List(Plain Donut, Strawberry Donut, Chocolate Donut)
 Enter new element of List
@@ -39,6 +52,18 @@ new
 
 Step 3: How to append elements at the end of immutable list using :+
 Append elements at the end using :+ = List(Plain Donut, Strawberry Donut, Chocolate Donut, new)
-Disconnected from the target VM, address: '127.0.0.1:46067', transport: 'socket'
+
+STep 4: How to prepend elements at the fornt of immutable list using +:
+Prepend elements at teh front using +: = List(Vanilla Donut, Plain Donut, Strawberry Donut, Chocolate Donut)
+
+Step 5: How to add two immutable lists together using ::
+
+Add two list together using :: = List(List(Plain Donut, Strawberry Donut, Chocolate Donut), Plain Donut, Strawberry Donut, Chocolate Donut, new)
+
+Step 6: How to add two immutable Lists together using :::
+Add tow lists together using ::: = List(Plain Donut, Strawberry Donut, Chocolate Donut, Vanilla Donut, Plain Donut, Strawberry Donut, Chocolate Donut)
+
+Step 7: How to initialize an empty immutable List
+Empty List = List()
 
 Process finished with exit code 0

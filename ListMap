@@ -1,0 +1,32 @@
+package chapter6
+import scala.collection._
+
+object ListMap extends App{
+  println("Step 1: How to initialize a ListMap with 3 elements using key -> value notation")
+  import scala.collection.immutable.ListMap
+  val listMap1: ListMap[String, String] =  ListMap("PD" -> "Plain Donut", "SD" -> "Strawberry Donut", "CD" -> "Chocolate Donut")
+  println(s"Elements of listMap1 = $listMap1")
+
+  println("\nStep 2: How to access elements by specific key in the ListMap");
+  println(s"Element by Key PD = ${listMap1("PD")}");
+  println(s"Element by key SD = ${listMap1("SD")}");
+  println(s"Element by key CD = ${listMap1("CD")}");
+
+  println("\nStep 3: How to add elements to ListMao using +");
+  val listMap2: ListMap[String, String] = listMap1 + ("KD" -> "Krispy Creme Donut");
+  println(s"Elements of listMap2 = $listMap2");
+
+  println("\nStep 4: How to add two ListMaps together using ++");
+  val listMap3: ListMap[String, String] = listMap1 ++ listMap2;
+  println(s"Elements fo listMap3 - #listMap3");
+
+  println("\nStep 5: How to remove key and value from ListMap using -");
+  val listMap4: ListMap[String, String] = listMap1 - ("CD");
+  println(s"ListMap without the key CD and its value = $listMap4");
+
+  println("\nStep 6: How to initialize an empty ListMap");
+  val emptyListMap: ListMap[String, String] = ListMap.empty[String, String];
+  println(s"Empty ListMap with key type String and Vlaue also of type String = $emptyListMap")
+  
+
+}

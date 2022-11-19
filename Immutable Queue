@@ -1,0 +1,68 @@
+package chapter6
+
+object Immutable_Queue {
+  def main(args:Array[String]):Unit={
+
+    import scala.collection.immutable.Queue
+    println("Step 1: How to initialize a Queue with 3 elements")
+    val queue1: Queue[String] = Queue("Plain Donut", "Strawberry Donut", "Chocolate Donut")
+    println(s"Elements of queue1 = $queue1")
+
+    println("\nStep 2: How to access elements at specific index in a Queue")
+    println(s"Element at index 0 = ${queue1(0)}")
+    println(s"Element at index 1 = ${queue1(1)}")
+    println(s"Element at index 2 = ${queue1(2)}")
+
+    println("\nStep 3: How to add elements in a Queue using :+")
+    val queue2: Queue[String] = queue1 :+ "Glazed Donut"
+    println(s"Elements of queue2 = $queue2")
+
+    println("\nStep 4: How to add elements in Queue using enqueue function")
+    val enqueue: Queue[String] = queue1.enqueue("Vanilla Donut");
+    println(s"Enqueue element vanilla Donut into queue1 = $enqueue");
+
+    println("\nStep 5: How to tale the first element from the Queue using dequeue function");
+    val dequeue: (String, Queue[String]) = queue1.dequeue
+    println(s"first element dequeue = ${dequeue._1}")
+    println(s"Remainaing elements after dequue = ${dequeue._2}")
+
+    println("\nStep 6: How to add two Queue together using ++");
+    val queue3: Queue[String] = queue1 ++ Queue[String]("Glazed Donut","Vanilla Donut");
+    println(s"Elements in quque3 = $queue3")
+
+    println("\nStep 7: How to initialize empty Queue");
+    val emptyQueue: Queue[String] = Queue.empty[String];
+    println(s"Empty Queue = $emptyQueue")
+
+  }
+}
+
+
+OUTPUT
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=34907:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter6.Immutable_Queue
+Step 1: How to initialize a Queue with 3 elements
+Elements of queue1 = Queue(Plain Donut, Strawberry Donut, Chocolate Donut)
+
+Step 2: How to access elements at specific index in a Queue
+Element at index 0 = Plain Donut
+Element at index 1 = Strawberry Donut
+Element at index 2 = Chocolate Donut
+
+Step 3: How to add elements in a Queue using :+
+Elements of queue2 = Queue(Plain Donut, Strawberry Donut, Chocolate Donut, Glazed Donut)
+
+Step 4: How to add elements in Queue using enqueue function
+Enqueue element vanilla Donut into queue1 = Queue(Plain Donut, Strawberry Donut, Chocolate Donut, Vanilla Donut)
+
+Step 5: How to tale the first element from the Queue using dequeue function
+first element dequeue = Plain Donut
+Remainaing elements after dequue = Queue(Strawberry Donut, Chocolate Donut)
+
+Step 6: How to add two Queue together using ++
+Elements in quque3 = Queue(Plain Donut, Strawberry Donut, Chocolate Donut, Glazed Donut, Vanilla Donut)
+
+Step 7: How to initialize empty Queue
+Empty Queue = Queue()
+
+Process finished with exit code 0
+

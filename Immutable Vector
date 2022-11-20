@@ -1,0 +1,62 @@
+package chapter6
+
+object Immutable_Vector {
+  def main(args:Array[String]):Unit={
+
+    println("Step 1: How to initialize a Vector with 3 elements")
+    val vector1: Vector[String] = Vector("Plain Donut","Strawberry Donut","Chocolate Donut")
+    println(s"Elements of vector1 = $vector1")
+
+    println("\nStep 2: How to access elements of Vector at specific index")
+    println(s"Element at index 0 = ${vector1(0)}")
+    println(s"Element at index 1 = ${vector1(1)}")
+    println(s"Element at index 2 = ${vector1(2)}")
+
+    println("\nStep 3: How to append elements at the end of Vector using :+")
+    val vector2 = vector1 :+ "Vanilla Donut"
+    println(s"Adding elements to Vector using :+ = $vector2")
+
+    println("\nStep 4: How to prepend elements in front of Vector using +:")
+    val vector3 = "Vanilla Donut" +: vector1
+    println(s"Adding elements to Vector using :+ = $vector3")
+
+    println("\nStep 5: How to add two Vectors together using ++")
+    val vector4 = vector1 ++ Vector[String]("Glazed Donut")
+    println(s"Add two vectors together using ++ = $vector3")
+    // NOTE: this return a new Vector(...), elements from the second vector)
+
+    println("\nStep 6: How to initialize an empty Vector")
+    val emptyVector: Vector[String] = Vector.empty[String]
+    println(s"Empty vector of type String = $emptyVector")
+
+
+
+  }
+
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=44063:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter6.Immutable_Vector
+Step 1: How to initialize a Vector with 3 elements
+Elements of vector1 = Vector(Plain Donut, Strawberry Donut, Chocolate Donut)
+
+Step 2: How to access elements of Vector at specific index
+Element at index 0 = Plain Donut
+Element at index 1 = Strawberry Donut
+Element at index 2 = Chocolate Donut
+
+Step 3: How to append elements at the end of Vector using :+
+Adding elements to Vector using :+ = Vector(Plain Donut, Strawberry Donut, Chocolate Donut, Vanilla Donut)
+
+Step 4: How to prepend elements in front of Vector using +:
+Adding elements to Vector using :+ = Vector(Vanilla Donut, Plain Donut, Strawberry Donut, Chocolate Donut)
+
+Step 5: How to add two Vectors together using ++
+Add two vectors together using ++ = Vector(Vanilla Donut, Plain Donut, Strawberry Donut, Chocolate Donut)
+
+Step 6: How to initialize an empty Vector
+Empty vector of type String = Vector()
+
+Process finished with exit code 0

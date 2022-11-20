@@ -1,0 +1,65 @@
+package chapter6
+
+object Immutable_Set extends App{
+  println("\nStep 1: How to initialize a set with 3 elements");
+  val set1: Set[String] = Set("Plain Donut","Strawberry Donut","Chocolate Donut");
+  println(s"elements of Set1 is = $set1")
+
+  println("\nStep 2: How to check specific elements of exists in set");
+  println(s"Element Plain Donut = ${set1("Plain Donut")}");
+  println(s"Element Strawberry Donut = ${set1("Strawberry Donut")}");
+  println(s"Element Chocolate Donut = ${set1("Chocolate Donut")}");
+
+  println("\nStep 3: How to add elements in set using +");
+  val set2: Set[String] = set1 + "Vanilla Donut" + "Vanilla Donut";
+  println(s"Adding element to set using + = $set2");
+
+  println("\nStep 4: How to add two Sets together using ++");
+  val set3: Set[String] = set1 + Set[String]("Vanilla Donut","Glazed Donut");
+  println(s"Add tow sets together using ++ = $set3");
+
+  println("\nStep 5: How to remove element from Set using -")
+  val set4: Set[String] = set1 - "Plain Donut"
+  println(s"Set without Plain Donut element = $set4")
+
+  println("\nStep 6: How to find the intersection between two sets using &");
+  val set5: Set[String] = Set("Vanilla Donut","Glazed Donut","Plain Donut");
+  println(s"Intersection of set1 and set5 = ${set1 & set5}");
+
+  println("\nStep 7: How to find the difference between two Sets using &~")
+  println(s"Difference between set1 and set5 = ${set1 &~ set5}")
+
+  println("\nStep 8: How to initialize an empty set")
+  val emptySet: Set[String] = Set.empty[String]
+  println(s"Empty set = $emptySet")
+
+
+}
+
+OUTOUT
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=37211:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter6.Immutable_Set
+
+Step 1: How to initialize a set with 3 elements
+elements of Set1 is = Set(Plain Donut, Strawberry Donut, Chocolate Donut)
+
+Step 2: How to check specific elements of exists in set
+Element Plain Donut = true
+Element Strawberry Donut = true
+Element Chocolate Donut = true
+
+Step 3: How to add elements in set using +
+Adding element to set using + = Set(Plain Donut, Strawberry Donut, Chocolate Donut, Vanilla Donut)
+
+Step 5: How to remove element from Set using -
+Set without Plain Donut element = Set(Strawberry Donut, Chocolate Donut)
+
+Step 6: How to find the intersection between two sets using &
+Intersection of set1 and set5 = Set(Plain Donut)
+
+Step 7: How to find the difference between two Sets using &~
+Difference between set1 and set5 = Set(Strawberry Donut, Chocolate Donut)
+
+Step 8: How to initialize an empty set
+Empty set = Set()
+
+Process finished with exit code 0

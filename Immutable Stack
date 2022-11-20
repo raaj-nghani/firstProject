@@ -1,0 +1,55 @@
+package chapter6
+
+object Immutable_Stack {
+  def main(args:Array[String]):Unit={
+
+    import scala.collection.immutable.Stack
+    println("Step 1: How to initialize Stack with 3 elements")
+    val stack1: Stack[String] = Stack("Plain Donut", "Strawberry Donut", "Chocolate Donut")
+    println(s"Elements of stack1 = $stack1")
+
+    println("\nStep 2: How to initialize a Stack using an Immutable List")
+    val stack2: List[String] = List("Plain Donut", "Strawberry Donut", "Chocolate Donut")
+    println(s"Using an Immutable List for stack, elements are = $stack2")
+
+    println("\nStep 3: Push one element at the top of the stack using :: of Immutable List")
+    val stack3: List[String] = "Vanilla Donut" :: stack2
+    println(s"Using an Immutable List for stack, elements after push = $stack3")
+
+    println("\nStep 4: Push N elements at the top of the stack using :: of Immutable List")
+    val stack4: List[String] = "Glazed Donut" :: "Vanilla Donut" :: stack2
+    println(s"Using an Immutable List for stack, elements after pushing N elements = $stack4")
+
+    println("\nStep 5: Pop element from the Stack using tail function of Immutable List")
+    val stack5: List[String] = stack2.tail
+    println(s"Using an Immutable List for stack, elements after tail function to simulate Stack pop = $stack5")
+
+    println("\nStep 6: How to initialize an empty Stack using Immutable List")
+    val emptyStack: List[String] = List.empty[String]
+    println(s"Using an Immutable List for stack, the empty stack = $emptyStack")
+    
+  }
+
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=33165:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter6.Immutable_Stack
+
+Step 2: How to initialize a Stack using an Immutable List
+Using an Immutable List for stack, elements are = List(Plain Donut, Strawberry Donut, Chocolate Donut)
+
+Step 3: Push one element at the top of the stack using :: of Immutable List
+Using an Immutable List for stack, elements after push = List(Vanilla Donut, Plain Donut, Strawberry Donut, Chocolate Donut)
+
+Step 4: Push N elements at the top of the stack using :: of Immutable List
+Using an Immutable List for stack, elements after pushing N elements = List(Glazed Donut, Vanilla Donut, Plain Donut, Strawberry Donut, Chocolate Donut)
+
+Step 5: Pop element from the Stack using tail function of Immutable List
+Using an Immutable List for stack, elements after tail function to simulate Stack pop = List(Strawberry Donut, Chocolate Donut)
+
+Step 6: How to initialize an empty Stack using Immutable List
+Using an Immutable List for stack, the empty stack = List()
+
+Process finished with exit code 0
+

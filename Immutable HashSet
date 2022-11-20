@@ -1,0 +1,70 @@
+package chapter6
+
+object Immutable_HashMap extends App{
+  import scala.collection.immutable.HashSet
+  println("Step 1: How to initialize a HashSet with 3 elements")
+  val hashSet1: HashSet[String] = HashSet("Plain Donut","Strawberry Donut","Chocolate Donut")
+  println(s"Elements of hashset1 = $hashSet1")
+
+  println("\nStep 2: How to check specific elements in HashSet")
+  println(s"Elements Plain Donut = ${hashSet1("Plain Donut")}")
+  println(s"Elements Strawberry Donut = ${hashSet1("Strawberry Donut")}")
+  println(s"Elements Chocolate Donut = ${hashSet1("Chocolate Donut")}")
+
+  println("\nStep 3: How to add elements in HashSet using +")
+  val hashSet2: HashSet[String] = hashSet1 + "Vanilla Donut" + "Vanilla Donut"
+  println(s"Adding elements to HashSet using + = $hashSet2")
+  // NOTE: we only have one Vanilla Donut element and not two as HashSet is distinct
+
+  println("\nStep 4: How to add two HashSets together using ++")
+  val hashSet3: HashSet[String] = hashSet1 ++ HashSet[String]("Vanilla Donut", "Glazed Donut")
+  println(s"Add two HashSets together using ++ = $hashSet3")
+
+  println("\nStep 5: How to remove element in HashSet using -")
+  val hashSet4: HashSet[String] = hashSet1 - "Plain Donut"
+  println(s"HashSet without Plain Donut element = $hashSet4")
+
+  println("\nStep 6: How to find the intersection between two HashSets using &")
+  val hashSet5: HashSet[String] = HashSet("Vanilla Donut", "Glazed Donut", "Plain Donut")
+  println(s"Intersection of hashSet1 and hashSet5 = ${hashSet1 & hashSet5}")
+
+  println("\nStep 7: How to find the difference between two HashSets using &~")
+  println(s"Difference of hashSet1 and hashSet5 = ${hashSet1 &~ hashSet5}")
+
+  println("\nStep 8: How to initialize an empty HashSet")
+  val emptyHashSet: HashSet[String] = HashSet.empty[String]
+  println(s"Empty HashSet = $emptyHashSet")
+
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=43095:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter6.Immutable_HashMap
+Step 1: How to initialize a HashSet with 3 elements
+Elements of hashset1 = HashSet(Plain Donut, Chocolate Donut, Strawberry Donut)
+
+Step 2: How to check specific elements in HashSet
+Elements Plain Donut = true
+Elements Strawberry Donut = true
+Elements Chocolate Donut = true
+
+Step 3: How to add elements in HashSet using +
+Adding elements to HashSet using + = HashSet(Vanilla Donut, Plain Donut, Chocolate Donut, Strawberry Donut)
+
+Step 4: How to add two HashSets together using ++
+Add two HashSets together using ++ = HashSet(Vanilla Donut, Plain Donut, Chocolate Donut, Strawberry Donut, Glazed Donut)
+
+Step 5: How to remove element in HashSet using -
+HashSet without Plain Donut element = HashSet(Chocolate Donut, Strawberry Donut)
+
+Step 6: How to find the intersection between two HashSets using &
+Intersection of hashSet1 and hashSet5 = HashSet(Plain Donut)
+
+Step 7: How to find the difference between two HashSets using &~
+Difference of hashSet1 and hashSet5 = HashSet(Chocolate Donut, Strawberry Donut)
+
+Step 8: How to initialize an empty HashSet
+Empty HashSet = HashSet()
+
+Process finished with exit code 0

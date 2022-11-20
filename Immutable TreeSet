@@ -1,0 +1,81 @@
+package chapter6
+
+object Immutable_TreeSet {
+  def main(args:Array[String]):Unit={
+
+    import scala.collection.immutable.TreeSet
+    println("Step 1: How to initialize a TreeSet with 3 elements")
+    val treeSet1: TreeSet[String] = TreeSet("Plain Donut", "Strawberry Donut", "Chocolate Donut")
+    println(s"Elements of treeSet1 = $treeSet1")
+
+    println("\nStep 2: How to check specific elements in TreeSet")
+    println(s"Element Plain Donut = ${treeSet1("Plain Donut")}")
+    println(s"Element Strawberry Donut = ${treeSet1("Strawberry Donut")}")
+    println(s"Element Chocolate Donut = ${treeSet1("Chocolate Donut")}")
+
+    println("\nStep 3: How to add elements to TreeSet using +")
+    val treeSet2: TreeSet[String] = treeSet1 + "Vanilla Donut" + "Vanilla Donut"
+    println(s"Adding elements to TreeSet using + = $treeSet2")
+    // NOTE: we only have one Vanilla Donut element and not two as sets are distinct
+
+    println("\nStep 4: How to add two TreeSets together using ++")
+    val treeSet3: TreeSet[String] = treeSet1 ++ TreeSet[String]("Vanilla Donut", "Glazed Donut")
+    println(s"Add two TreeSets together using ++ = $treeSet3")
+
+    println("\nStep 5: How to remove element in TreeSet using -")
+    val treeSet4: TreeSet[String] = treeSet1 - "Plain Donut"
+    println(s"TreeSet without Plain Donut element = $treeSet4")
+
+    println("\nStep 6: How to find the intersection between two TreeSets using &")
+    val treeSet5: TreeSet[String] = TreeSet("Vanilla Donut", "Glazed Donut", "Plain Donut")
+    println(s"Intersection of treeSet1 and treeSet5 = ${treeSet1 & treeSet5}")
+
+    println("\nStep 7: How to find the difference between two TreeSets using &~")
+    println(s"Difference of treeSet1 and treeSet5 = ${treeSet1 &~ treeSet5}")
+
+    println("\nStep 8: How to change ordering of TreeSet to descending alphabet")
+    object AplhabetOrdering extends Ordering[String]{
+      def compare(element1: String, element2:String) = element2.compareTo(element1)
+    }
+    val treeSet6: TreeSet[String] = TreeSet("Plain Donut","Strawberry Donut","Chocolate Donut")(AplhabetOrdering)
+    println(s"Elements of treeSet6 = $treeSet6")
+
+    println("\nStep 9: How to initialize an empty TreeSet")
+    val emptyTreeSet: TreeSet[String] = TreeSet.empty[String]
+    println(s"Empty TreeSet = $emptyTreeSet")
+  }
+}
+
+OUTPUT
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=44403:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter6.Immutable_TreeSet
+Step 1: How to initialize a TreeSet with 3 elements
+Elements of treeSet1 = TreeSet(Chocolate Donut, Plain Donut, Strawberry Donut)
+
+Step 2: How to check specific elements in TreeSet
+Element Plain Donut = true
+Element Strawberry Donut = true
+Element Chocolate Donut = true
+
+Step 3: How to add elements to TreeSet using +
+Adding elements to TreeSet using + = TreeSet(Chocolate Donut, Plain Donut, Strawberry Donut, Vanilla Donut)
+
+Step 4: How to add two TreeSets together using ++
+Add two TreeSets together using ++ = TreeSet(Chocolate Donut, Glazed Donut, Plain Donut, Strawberry Donut, Vanilla Donut)
+
+Step 5: How to remove element in TreeSet using -
+TreeSet without Plain Donut element = TreeSet(Chocolate Donut, Strawberry Donut)
+
+Step 6: How to find the intersection between two TreeSets using &
+Intersection of treeSet1 and treeSet5 = TreeSet(Plain Donut)
+
+Step 7: How to find the difference between two TreeSets using &~
+Difference of treeSet1 and treeSet5 = TreeSet(Chocolate Donut, Strawberry Donut)
+
+Step 8: How to change ordering of TreeSet to descending alphabet
+Elements of treeSet6 = TreeSet(Strawberry Donut, Plain Donut, Chocolate Donut)
+
+Step 9: How to initialize an empty TreeSet
+Empty TreeSet = TreeSet()
+
+Process finished with exit code 0
+

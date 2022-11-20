@@ -1,0 +1,64 @@
+package chapter6
+
+object Immutable_Stream {
+  def main(args:Array[String]):Unit={
+
+    println("Step 1: How to create a Stream with 3 numbers using #::")
+    val stream1: Stream[Int] = 1#:: 2#:: 3#:: Stream.empty
+    println(s"Elements of stream1 = $stream1")
+
+    import scala.collection.immutable.Stream.cons
+    println("\nStep 2: How to create a Steam with 3 numbers using Stream.cons")
+    val stream2: Stream[Int] = cons(1, cons(2, cons(3, Stream.empty)))
+    println(s"Elements of stream2 = ${stream2}")
+
+    println("\nStep 3: How to print all 3 numbers from stream2 using the take function")
+    print("Take first 3 numbers from stream2 = ")
+    stream2.take(3).print
+
+    print("\nTake first 10 numbers from stream2 = ")
+    stream2.take(10).print
+
+    println("\n\nStep 4: How to define an infinite Stream of numbers using Stream.cons")
+
+    def inifiniteNumberStream(number: Int): Stream[Int] = Stream.cons(number, inifiniteNumberStream(number + 1))
+
+    print("Take only the first 20 numbers from the infinite number stream = ")
+    inifiniteNumberStream(1).take(20).print
+
+    println("\n\nStep 5: How to define an infinite stream of numbers using Stream.from")
+    val stream3: Stream[Int] = Stream.from(1)
+    print("Take only the first 20 numbers from the infinite number stream = ")
+    stream3.take(20).print
+
+    println("\n\nStep 6: How to initialize an empty Stream")
+    val emptyStream: Stream[Int] = Stream.empty[Int]
+    println(s"Empty Stream = $emptyStream")
+
+  }
+
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=44863:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter6.Immutable_Stream
+Step 1: How to create a Stream with 3 numbers using #::
+Elements of stream1 = Stream(1, <not computed>)
+
+Step 2: How to create a Steam with 3 numbers using Stream.cons
+Elements of stream2 = Stream(1, <not computed>)
+
+Step 3: How to print all 3 numbers from stream2 using the take function
+Take first 3 numbers from stream2 = 1, 2, 3
+Take first 10 numbers from stream2 = 1, 2, 3
+
+Step 4: How to define an infinite Stream of numbers using Stream.cons
+Take only the first 20 numbers from the infinite number stream = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+
+Step 5: How to define an infinite stream of numbers using Stream.from
+Take only the first 20 numbers from the infinite number stream = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20
+
+Step 6: How to initialize an empty Stream
+Empty Stream = Stream()
+
+Process finished with exit code 0

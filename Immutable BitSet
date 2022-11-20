@@ -1,0 +1,73 @@
+package chapter6
+
+object Immutable_BitSet extends App{
+  import scala.collection.immutable.BitSet
+
+  println("Step 1: How to initialize a BitSet with 3 elements")
+  val bitSet1: BitSet = BitSet(3, 2, 0)
+  println(s"Elements of bitSet1 = $bitSet1")
+
+  println("\nStep 2: How to check specific elements in BitSet")
+  println(s"Element 0 = ${bitSet1(0)}")
+  println(s"Element 2 = ${bitSet1(2)}")
+  println(s"Element 3 = ${bitSet1(3)}")
+  println(s"Element 5 = ${bitSet1(5)}")
+
+  println("\nStep 3: How to add elements in BitSet using +")
+  val bitSet2: BitSet = bitSet1 + 13 + 13
+  println(s"Adding elements to BitSet using + = $bitSet2")
+  // NOTE: we only have one 13 element and not two as BitSet is distinct
+
+  println("\nStep 4: How to add two BitSets together using ++")
+  val bitSet3: BitSet = bitSet1 ++ BitSet(13, 14, 15, 16, 17)
+  println(s"Add two BitSets together using ++ = $bitSet3")
+
+  println("\nStep 5: How to remove element in BitSet using -")
+  val bitSet4: BitSet = bitSet1 - 0
+  println(s"BitSet without element 0 = $bitSet4")
+
+  println("\nStep 6: How to find the intersection between two BitSets using &")
+  val bitSet5: BitSet = BitSet(0, 2, 4)
+  println(s"Intersection of bitSet1 and bitSet5 = ${bitSet1 & bitSet5}")
+
+  println("\nStep 7: How to find the difference between two BitSets using &~")
+  println(s"Difference of bitSet1 and bitSet5 = ${bitSet1 &~ bitSet5}")
+
+  println("\nStep 8: How to initialize an empty BitSet")
+  val emptyBitSet: BitSet = BitSet.empty
+  println(s"Empty BitSet = $emptyBitSet")
+
+
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=43545:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter6.Immutable_BitSet
+Step 1: How to initialize a BitSet with 3 elements
+Elements of bitSet1 = BitSet(0, 2, 3)
+
+Step 2: How to check specific elements in BitSet
+Element 0 = true
+Element 2 = true
+Element 3 = true
+Element 5 = false
+
+Step 3: How to add elements in BitSet using +
+Adding elements to BitSet using + = BitSet(0, 2, 3, 13)
+
+Step 4: How to add two BitSets together using ++
+Add two BitSets together using ++ = BitSet(0, 2, 3, 13, 14, 15, 16, 17)
+
+Step 5: How to remove element in BitSet using -
+BitSet without element 0 = BitSet(2, 3)
+
+Step 6: How to find the intersection between two BitSets using &
+Intersection of bitSet1 and bitSet5 = BitSet(0, 2)
+
+Step 7: How to find the difference between two BitSets using &~
+Difference of bitSet1 and bitSet5 = BitSet(3)
+
+Step 8: How to initialize an empty BitSet
+Empty BitSet = BitSet()
+
+Process finished with exit code 0

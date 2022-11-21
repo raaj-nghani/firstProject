@@ -1,0 +1,65 @@
+package chapter7
+
+object mutable_PriorityQueue {
+  def main(args:Array[String]):Unit={
+    println("Step 1: How to declare a case class to represent Donut object")
+    case class Donut(name: String, price: Double)
+
+    println("\nStep 2: How to declare a function which defines the ordering of a PriorityQueue of Donut objects")
+
+    def donutOrder(d: Donut) = d.price
+
+    println("\nStep 3: How to initialize a PriorityQueue of Donut objects and specify the Ordering")
+    import scala.collection.mutable.PriorityQueue
+    val priorityQueue1: PriorityQueue[Donut] = PriorityQueue(
+      Donut("Plain Donut", 1.50),
+      Donut("Strawberry Donut", 2.0),
+      Donut("Chocolate Donut", 2.50))(Ordering.by(donutOrder))
+    println(s"Elements of priorityQueue1 = $priorityQueue1")
+
+    println("\nStep 4: How to add an element to PriorityQueue using enqueue function")
+    priorityQueue1.enqueue(Donut("Vanilla Donut", 1.0))
+    println(s"Elements of priorityQueue1 after enqueue function is called = $priorityQueue1")
+
+    println("\nStep 5: How to add an element to PriorityQueue using +=")
+    priorityQueue1 += (Donut("Krispy Kreme Donut", 1.0))
+    println(s"Elements of priorityQueue1 after enqueue function is called = $priorityQueue1")
+
+    println("\nStep 6: How to remove an element from PriorityQueue using the dequeue function")
+    val donutDequeued: Donut = priorityQueue1.dequeue()
+    println(s"Donut element dequeued = $donutDequeued")
+    println(s"Elements of priorityQueue1 after dequeued function is called = $priorityQueue1")
+
+    println("\nStep 7: How to initialize an empty PriorityQueue")
+    val emptyPriorityQueue: PriorityQueue[String] = PriorityQueue.empty[String]
+    println(s"Empty emptyPriorityQueue = $emptyPriorityQueue")
+
+  }
+
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=37731:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter7.mutable_PriorityQueue
+Step 1: How to declare a case class to represent Donut object
+
+Step 2: How to declare a function which defines the ordering of a PriorityQueue of Donut objects
+
+Step 3: How to initialize a PriorityQueue of Donut objects and specify the Ordering
+Elements of priorityQueue1 = PriorityQueue(Donut(Chocolate Donut,2.5), Donut(Strawberry Donut,2.0), Donut(Plain Donut,1.5))
+
+Step 4: How to add an element to PriorityQueue using enqueue function
+Elements of priorityQueue1 after enqueue function is called = PriorityQueue(Donut(Chocolate Donut,2.5), Donut(Strawberry Donut,2.0), Donut(Plain Donut,1.5), Donut(Vanilla Donut,1.0))
+
+Step 5: How to add an element to PriorityQueue using +=
+Elements of priorityQueue1 after enqueue function is called = PriorityQueue(Donut(Chocolate Donut,2.5), Donut(Strawberry Donut,2.0), Donut(Plain Donut,1.5), Donut(Vanilla Donut,1.0), Donut(Krispy Kreme Donut,1.0))
+
+Step 6: How to remove an element from PriorityQueue using the dequeue function
+Donut element dequeued = Donut(Chocolate Donut,2.5)
+Elements of priorityQueue1 after dequeued function is called = PriorityQueue(Donut(Strawberry Donut,2.0), Donut(Krispy Kreme Donut,1.0), Donut(Plain Donut,1.5), Donut(Vanilla Donut,1.0))
+
+Step 7: How to initialize an empty PriorityQueue
+Empty emptyPriorityQueue = PriorityQueue()
+
+Process finished with exit code 0

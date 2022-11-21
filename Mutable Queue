@@ -1,0 +1,61 @@
+package chapter7
+
+object mutable_Queue extends App{
+
+  import scala.collection.mutable.Queue
+
+  println("\nStep 1: How to initialize a Queue with 3 elements")
+  val queue1: Queue[String] = Queue("Plain Donut", "Strawberry Donut", "Chocolate Donut")
+  println(s"Elements of queue1 = $queue1")
+
+  println("\nStep 2: How to access elements of Queue at specific index")
+  println(s"Element at index 0 = ${queue1(0)}")
+  println(s"Element at index 0 = ${queue1(1)}")
+  println(s"Element at index 0 = ${queue1(2)}")
+
+  println("\nStep 3: How to add elements to Queue using +=")
+  queue1 += "Glazed Donut"
+  println(s"Elements of queue1 = $queue1")
+
+  println("\nStep 4: How to add elements to Queue using enqueue")
+  queue1.enqueue("Vanilla Donut")
+  println(s"Enqueue element Vanilla Donut onto queue1 = $queue1")
+
+  println("\nStep 5: How to take the first element or head from the Queue")
+  val dequeuedElement: String = queue1.dequeue
+  println(s"Dequeued element = $dequeuedElement")
+  println(s"Elements of queue1 after dequeue = $queue1")
+
+  println("\nStep 6: How to initialize an empty Queue")
+  val emptyQueue: Queue[String] = Queue.empty[String]
+  println(s"Empty Queue = $emptyQueue")
+
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=41013:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter7.mutable_Queue
+
+Step 1: How to initialize a Queue with 3 elements
+Elements of queue1 = Queue(Plain Donut, Strawberry Donut, Chocolate Donut)
+
+Step 2: How to access elements of Queue at specific index
+Element at index 0 = Plain Donut
+Element at index 0 = Strawberry Donut
+Element at index 0 = Chocolate Donut
+
+Step 3: How to add elements to Queue using +=
+Elements of queue1 = Queue(Plain Donut, Strawberry Donut, Chocolate Donut, Glazed Donut)
+
+Step 4: How to add elements to Queue using enqueue
+Enqueue element Vanilla Donut onto queue1 = Queue(Plain Donut, Strawberry Donut, Chocolate Donut, Glazed Donut, Vanilla Donut)
+
+Step 5: How to take the first element or head from the Queue
+Dequeued element = Plain Donut
+Elements of queue1 after dequeue = Queue(Strawberry Donut, Chocolate Donut, Glazed Donut, Vanilla Donut)
+
+Step 6: How to initialize an empty Queue
+Empty Queue = Queue()
+
+Process finished with exit code 0

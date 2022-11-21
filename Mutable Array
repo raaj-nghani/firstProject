@@ -1,0 +1,140 @@
+package chapter7
+
+object mutable_Array {
+  def main(args:Array[String]):Unit={
+    println("Step 1: How to initialize a String Array with 3 elements")
+    val array1: Array[String] = Array("Plain Donut","Strawberry Donut","Chocolate Donut")
+    println(s"Elements of array1 = ${array1.mkString(", ")}")
+
+    println("\nStep 2: How to access elements at specific index in an array")
+    println(s"Element at index 0 = ${array1(0)}")
+    println(s"Element at index 1 = ${array1(1)}")
+    println(s"Element at index 2 = ${array1(2)}")
+
+    println("\nStep 3: How to initialize an Array by specifying its capacity")
+    val array2: Array[String] = new Array(3)
+    array2(0) = "Plain Donut"
+    array2(1) = "Strawberry Donut"
+    array2(2) = "Chocolate Donut"
+    println(s"Elements of array2 = ${array2.mkString(", ")}")
+
+    println("\nStep 4: How to create a 2D array (2 dimentiona array)")
+    val rows = 2
+    val columns = 2
+    val array3: Array[Array[String]] = Array.ofDim[String](rows,columns)
+    array3(0)(0) = "Plain"
+    array3(0)(1) = "Donut"
+    array3(1)(0) = "Strawberry"
+    array3(1)(1) = "Donut"
+    //println(s"Elements of 2d Array = ${array3.deep.toList}")
+
+    println("\nStep 5: How to create 3d array (3 diemention array) using Array.ofDim() method")
+    val array4: Array[Array[String]] = Array.ofDim[String](3,3)
+    println(s"Elements of 3 dimentional arry = ${array4.toIndexedSeq.toList}")
+
+    println("\nStep 6: How to create an Array using tabulate function")
+    val array5: Array[Int] = Array.tabulate(5)(_+1)
+    println(s"Array of 5 columns = ${array5.toList}")
+
+    println("\nStep 7: How to create dimentioanl Arrays using tabulate function")
+    val row1 = 1
+    val column1 = 3
+    val arrayOf1Row3Columns = Array.tabulate(row1, column1)((row, column) => row + column)
+    //println(s"Array with 1 row and 3 columns = ${arrayOf1Row3Columns.deep.toString}")
+    val row2 = 2
+    val arrayOf2row3columns = Array.tabulate(row2, column1)((row, column) => row + column )
+    //println(s"Array with 2 rows and 3 columns = ${arrayOf2row3columns.deep.toString}")
+
+    println("\nStep 8: How to create array using range")
+    val rangeArray: Array[Int] = (1 to 10).toArray[Int]
+    println(s"Array using Range from 1 to 10 = ${rangeArray.mkString(", ")}")
+
+    println("\nStep 9: How to copy an Array using Array.copy")
+    val copyOfArray: Array[Int] = new Array(rangeArray.size)
+    Array.copy(rangeArray, 0, copyOfArray, 0,rangeArray.size)
+    println(s"Copy of range array with elements from rangeArray = ${copyOfArray.mkString(", ")}")
+
+    println("\nStep 10: How to clone an Array")
+    val clonedRangeArray = rangeArray.clone()
+    clonedRangeArray(0) = 10 //update index 0 to value 10
+    println(s"clonedRangeArray = ${clonedRangeArray.mkString(", ")}")
+    println(s"original range array still unchanged = ${rangeArray.mkString(", ")}")
+
+    println("\nStep 11: How to iterate over an Array using for comprehension")
+    for(d <- array1){
+      println(s"d = $d")
+    }
+
+    println("\nStep 12: How to merge two Arrays using Array.concate")
+    val moreDonutsArray: Array[String] = Array("Vanilla Donut","glazed Donut")
+    val mergedDonutArray: Array[String] = Array.concat(array1, moreDonutsArray)
+    println(s"Merged array of donuts = ${mergedDonutArray.mkString(", ")}")
+
+    println("\nStep 13: How to check if two Arrays are equal")
+    val arrayToCompare: Array[String]("Plain Donut","Strawberry Donut","Chocolate Donut")
+
+    println(s"using == ${array1 == moreDonutsArray}") // print false
+    println(s"using == ${array1 == arrayToCompare}") // aslo print false???
+    println(s"Using sameElement function = ${array1 sameElements(arrayToCompare)}")
+
+    println("\nStep 14: How to check if two Arrays are equal using deep function and == ")
+    println(s"using deep function = ${array1.deep == arrayToCompare.deep}")
+
+
+  }
+
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=43513:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter7.mutable_Array
+Step 1: How to initialize a String Array with 3 elements
+Elements of array1 = Plain Donut, Strawberry Donut, Chocolate Donut
+
+Step 2: How to access elements at specific index in an array
+Element at index 0 = Plain Donut
+Element at index 1 = Strawberry Donut
+Element at index 2 = Chocolate Donut
+
+Step 3: How to initialize an Array by specifying its capacity
+Elements of array2 = Plain Donut, Strawberry Donut, Chocolate Donut
+
+Step 4: How to create a 2D array (2 dimentiona array)
+
+Step 5: How to create 3d array (3 diemention array) using Array.ofDim() method
+Elements of 3 dimentional arry = List([Ljava.lang.String;@7a79be86, [Ljava.lang.String;@34ce8af7, [Ljava.lang.String;@b684286)
+
+Step 6: How to create an Array using tabulate function
+Array of 5 columns = List(1, 2, 3, 4, 5)
+
+Step 7: How to create dimentioanl Arrays using tabulate function
+
+Step 8: How to create array using range
+Array using Range from 1 to 10 = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+
+Step 9: How to copy an Array using Array.copy
+Copy of range array with elements from rangeArray = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+
+Step 10: How to clone an Array
+clonedRangeArray = 10, 2, 3, 4, 5, 6, 7, 8, 9, 10
+original range array still unchanged = 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+
+Step 11: How to iterate over an Array using for comprehension
+d = Plain Donut
+d = Strawberry Donut
+d = Chocolate Donut
+
+Step 12: How to merge two Arrays using Array.concate
+Merged array of donuts = Plain Donut, Strawberry Donut, Chocolate Donut, Vanilla Donut, glazed Donut
+
+Step 13: How to check if two Arrays are equal
+using == false
+using == false
+Using sameElement function = true
+
+Step 14: How to check if two Arrays are equal using deep function and == 
+
+Process finished with exit code 0
+
+
+

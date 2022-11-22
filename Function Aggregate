@@ -1,0 +1,50 @@
+package chapter8
+
+object functionAggregate extends App{
+  println("Step 1: How to initialize a set of type String to represent Donut elements")
+  val donutBasket1: Set[String] = Set("Plain Donut","Strawberry Donut")
+  println(s"elements of donutBasekt1 = $donutBasket1")
+
+  println("\nStep 2: How to define an accumulator function to calculate the total length of the String elements")
+  val donutLengthAccumulator: (Int,String) => Int = (accumulator, donutName) => accumulator + donutName.length
+
+  println("\nStep 3: How to call aggregate function with the accumulator function from Step 2")
+  val totalLength = donutBasket1.aggregate(0)(donutLengthAccumulator,_+_)
+  println(s"Total length of elements in donutBasket1 = $totalLength")
+
+  println("\nStep 4: How to initialize a Set of Tuple3 elements to represent Donut name, price and quantity")
+  val donutBasket2:Set[(String, Double, Int)] = Set(("Plain Donut", 1.50, 10),("Strawberry Donut", 2.0, 10))
+  println(s"Elements of donutBasket2 = $donutBasket2")
+
+  println("\nStep 5: How to define an accumulator function to calculate the total cost of Donuts")
+  val totalCostAccumulator: (Double, Double, Int) => Double = (accumulator, price, quantity) => accumulator + (price * quantity)
+  println(s"Value of totalCostAccumulator = $totalCostAccumulator")
+
+  println("\nStep 6: How to call aggregate function with accumulator function from Step 5")
+  val totalCost = donutBasket2.aggregate(0.0)((accumulator: Double, tuple:(String, Double, Int)) => totalCostAccumulator(accumulator, tuple._2, tuple._3), _+_)
+  println(s"Value of totalCost = $totalCost")
+
+
+
+
+}
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=33127:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.functionAggregate
+Step 1: How to initialize a set of type String to represent Donut elements
+elements of donutBasekt1 = Set(Plain Donut, Strawberry Donut)
+
+Step 2: How to define an accumulator function to calculate the total length of the String elements
+
+Step 3: How to call aggregate function with the accumulator function from Step 2
+Total length of elements in donutBasket1 = 27
+
+Step 4: How to initialize a Set of Tuple3 elements to represent Donut name, price and quantity
+Elements of donutBasket2 = Set((Plain Donut,1.5,10), (Strawberry Donut,2.0,10))
+
+Step 5: How to define an accumulator function to calculate the total cost of Donuts
+Value of totalCostAccumulator = chapter8.functionAggregate$$$Lambda$8/1239731077@2133c8f8
+
+Step 6: How to call aggregate function with accumulator function from Step 5
+Value of totalCost = 35.0
+
+Process finished with exit code 0

@@ -1,0 +1,83 @@
+package chapter7
+
+object mutable_SortedSet extends App{
+
+  import scala.collection.mutable.SortedSet
+
+  println("\nStep 1: How to initialize a SortedSet with 3 elements")
+  val sortedSet1: SortedSet[String] = SortedSet("Plain Donut", "Strawberry Donut", "Chocolate Donut")
+  println(s"Elements of sortedSet1 = $sortedSet1")
+
+  println("\nStep 2: How to check specific elements in SortedSet")
+  println(s"Element Plain Donut = ${sortedSet1("Plain Donut")}")
+  println(s"Element Strawberry Donut = ${sortedSet1("Strawberry Donut")}")
+  println(s"Element Chocolate Donut = ${sortedSet1("Chocolate Donut")}")
+
+  println("\nStep 3: How to add elements to SortedSet using +=")
+  sortedSet1 += "Vanilla Donut"
+  println(s"Elements of sortedSet1 after adding Vanilla Donut element = $sortedSet1")
+
+  println("\nStep 4: How to add two SortedSets together using ++=")
+  sortedSet1 ++= SortedSet[String]("Vanilla Donut", "Glazed Donut")
+  println(s"Elements of sortedSet1 after adding second SortedSet = $sortedSet1")
+
+  println("\nStep 5: How to remove element from SortedSet using -=")
+  sortedSet1 -= "Plain Donut"
+  println(s"sortedSet1 without Plain Donut element = $sortedSet1")
+
+  println("\nStep 6: How to find the intersection between two SortedSets using &")
+  val sortedSet2: SortedSet[String] = SortedSet("Vanilla Donut", "Glazed Donut", "Plain Donut")
+  println(s"Intersection of sortedSet1 and sortedSet5 = ${sortedSet1 & sortedSet2}")
+
+  println("\nStep 7: How to find the difference between two SortedSets using &~")
+  println(s"Difference of sortedSet1 and sortedSet5 = ${sortedSet1 &~ sortedSet2}")
+
+  println("\nStep 8: How to change ordering to descending alphabet in SortedSet")
+
+  object DescendingAlphabetOrdering extends Ordering[String] {
+    def compare(element1: String, element2: String) = element2.compareTo(element1)
+  }
+
+  val sortedSet6: SortedSet[String] = SortedSet("Plain Donut", "Strawberry Donut", "Chocolate Donut")(DescendingAlphabetOrdering)
+  println(s"Elements of sortedSet6 = $sortedSet6")
+
+  println("\nStep 9: How to initialize an empty SortedSet")
+  val emptySortedSet: SortedSet[String] = SortedSet.empty[String]
+  println(s"Empty SortedSet = $emptySortedSet")
+
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=42999:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter7.mutable_SortedSet
+
+Step 1: How to initialize a SortedSet with 3 elements
+Elements of sortedSet1 = TreeSet(Chocolate Donut, Plain Donut, Strawberry Donut)
+
+Step 2: How to check specific elements in SortedSet
+Element Plain Donut = true
+Element Strawberry Donut = true
+Element Chocolate Donut = true
+
+Step 3: How to add elements to SortedSet using +=
+Elements of sortedSet1 after adding Vanilla Donut element = TreeSet(Chocolate Donut, Plain Donut, Strawberry Donut, Vanilla Donut)
+
+Step 4: How to add two SortedSets together using ++=
+Elements of sortedSet1 after adding second SortedSet = TreeSet(Chocolate Donut, Glazed Donut, Plain Donut, Strawberry Donut, Vanilla Donut)
+
+Step 5: How to remove element from SortedSet using -=
+sortedSet1 without Plain Donut element = TreeSet(Chocolate Donut, Glazed Donut, Strawberry Donut, Vanilla Donut)
+
+Step 6: How to find the intersection between two SortedSets using &
+Intersection of sortedSet1 and sortedSet5 = TreeSet(Glazed Donut, Vanilla Donut)
+
+Step 7: How to find the difference between two SortedSets using &~
+Difference of sortedSet1 and sortedSet5 = TreeSet(Chocolate Donut, Strawberry Donut)
+
+Step 8: How to change ordering to descending alphabet in SortedSet
+Elements of sortedSet6 = TreeSet(Strawberry Donut, Plain Donut, Chocolate Donut)
+
+Step 9: How to initialize an empty SortedSet
+Empty SortedSet = TreeSet()
+
+Process finished with exit code 0

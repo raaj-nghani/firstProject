@@ -1,0 +1,33 @@
+package chapter8
+
+object functionCollect {
+  def main(args:Array[String]):Unit={
+    println("Step 1: How to initialize a Sequence which contains donut names and prices")
+    val donutNamesandPrices: Seq[Any] = Seq("Plain Donut", 1.5, "Strawberry Donut", 2.0,"Glazed Donut", 2.5)
+    println(s"Elements of donutNamesAndPrices = $donutNamesandPrices")
+
+    println("\nStep 2: How to use collect function to cherry pick all the donut names")
+    val donutNames: Seq[String] = donutNamesandPrices.collect{case name: String => name}
+    println(s"Elements of donutNames = $donutNames")
+
+    println("\nStep 3: How to use collect function to cherry pick all the donut prices")
+    val donutPrice: Seq[Double] = donutNamesandPrices.collect{case price: Double => price}
+    println(s"Elements of donutPrice = $donutPrice")
+
+
+  }
+
+}
+
+OUTPUT
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=41941:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.functionCollect
+Step 1: How to initialize a Sequence which contains donut names and prices
+Elements of donutNamesAndPrices = List(Plain Donut, 1.5, Strawberry Donut, 2.0, Glazed Donut, 2.5)
+
+Step 2: How to use collect function to cherry pick all the donut names
+Elements of donutNames = List(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Step 3: How to use collect function to cherry pick all the donut prices
+Elements of donutPrice = List(1.5, 2.0, 2.5)
+
+Process finished with exit code 0

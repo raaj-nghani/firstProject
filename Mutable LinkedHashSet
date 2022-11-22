@@ -1,0 +1,70 @@
+package chapter7
+
+object mutable_LinkedHashSet extends App{
+  import scala.collection.mutable.LinkedHashSet
+  println("\nStep 1: How to initialize a LinkedHashSet with 3 elements")
+  val linkedHashSet1: LinkedHashSet[String] = LinkedHashSet("Plain Donut","Strawberry Donut","Chocolate Donut")
+  println(s"Elements of linkedHashSet1 = $linkedHashSet1")
+
+  println("\nStep 2: How to check specific elements in LinkedHashSet")
+  println(s"Element Plain Donut = ${linkedHashSet1("Plain Donut")}")
+  println(s"Element Strawberry Donut = ${linkedHashSet1("Strawberry Donut")}")
+  println(s"Element Chocolate Donut = ${linkedHashSet1("Chocolate Donut")}")
+
+  println("\nStep 3: How to add elements to LinkedHashSet using +=")
+  linkedHashSet1 += "Vanilla Donut"
+  println(s"Elements of linkedHashSet1 after adding Vanilla Donut element = $linkedHashSet1")
+
+  println("\nStep 4: How to add two LinkedHashSets together using ++=")
+  linkedHashSet1 ++= LinkedHashSet[String]("Vanilla Donut", "Glazed Donut")
+  println(s"Elements of linkedHashSet1 after adding another HashSet = $linkedHashSet1")
+
+  println("\nStep 5: How to remove element from LinkedHashSet using -=")
+  linkedHashSet1 -= "Plain Donut"
+  println(s"Set without Plain Donut element = $linkedHashSet1")
+
+  println("\nStep 6: How to find the intersection between two LinkedHashSets using &")
+  val linkedHashSet2: LinkedHashSet[String] = LinkedHashSet("Vanilla Donut", "Glazed Donut", "Plain Donut")
+  println(s"Intersection of linkedHashSet1 and linkedHashSet2 = ${linkedHashSet1 & linkedHashSet2}")
+
+  println("\nStep 7: How to find the difference between two LinkedHashSets using &~")
+  println(s"Difference of linkedHashSet1 and linkedHashSet2 = ${linkedHashSet1 &~ linkedHashSet2}")
+
+  println("\nStep 8: How to initialize an empty LinkedHashSet")
+  val emptyLinkedHashSet: LinkedHashSet[String] = LinkedHashSet.empty[String]
+  println(s"Empty LinkedHashSet = $emptyLinkedHashSet")
+
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=36193:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter7.mutable_LinkedHashSet
+
+Step 1: How to initialize a LinkedHashSet with 3 elements
+Elements of linkedHashSet1 = LinkedHashSet(Plain Donut, Strawberry Donut, Chocolate Donut)
+
+Step 2: How to check specific elements in LinkedHashSet
+Element Plain Donut = true
+Element Strawberry Donut = true
+Element Chocolate Donut = true
+
+Step 3: How to add elements to LinkedHashSet using +=
+Elements of linkedHashSet1 after adding Vanilla Donut element = LinkedHashSet(Plain Donut, Strawberry Donut, Chocolate Donut, Vanilla Donut)
+
+Step 4: How to add two LinkedHashSets together using ++=
+Elements of linkedHashSet1 after adding another HashSet = LinkedHashSet(Plain Donut, Strawberry Donut, Chocolate Donut, Vanilla Donut, Glazed Donut)
+
+Step 5: How to remove element from LinkedHashSet using -=
+Set without Plain Donut element = LinkedHashSet(Strawberry Donut, Chocolate Donut, Vanilla Donut, Glazed Donut)
+
+Step 6: How to find the intersection between two LinkedHashSets using &
+Intersection of linkedHashSet1 and linkedHashSet2 = LinkedHashSet(Vanilla Donut, Glazed Donut)
+
+Step 7: How to find the difference between two LinkedHashSets using &~
+Difference of linkedHashSet1 and linkedHashSet2 = LinkedHashSet(Strawberry Donut, Chocolate Donut)
+
+Step 8: How to initialize an empty LinkedHashSet
+Empty LinkedHashSet = LinkedHashSet()
+
+Process finished with exit code 0

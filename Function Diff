@@ -1,0 +1,49 @@
+package chapter8
+
+object functionDiff {
+def main(args:Array[String]):Unit={
+  println("Step 1: How to initialize a Set containing 3 donuts")
+  val donutBasket1: Set[String] = Set("Plain Donut", "Strawberry Donut", "Glazed Donut")
+  println(s"Elements of donutBasket1 = $donutBasket1")
+
+  println("\nStep 2: How to initialize a Set containing 2 donuts")
+  val donutBasket2: Set[String] = Set("Glazed Donut", "Vanilla Donut")
+  println(s"Elements of donutBasket2 = $donutBasket2")
+
+  println("\nStep 3: How to find the difference between two Sets using the diff function")
+  val diffDonutBasket1from2: Set[String] = donutBasket1 diff(donutBasket2)
+  println(s"Elements of diffDonutBasket1from2 = $diffDonutBasket1from2")
+
+  println("\nStep 4: How to find the difference between two Sets using the diff function")
+  val diffDonutBasket2From1: Set[String] = donutBasket2 diff donutBasket1
+  println(s"Elements of diff DonutBasket2From1 = $diffDonutBasket2From1")
+
+  println("\nStep 5: How to find the difference between two Sets using the --")
+  println(s"Difference between donutBasket1 and donutBasket2 = ${donutBasket1 -- donutBasket2}")
+  println(s"Difference between donutBasket2 and donutBasket1 = ${donutBasket2 -- donutBasket1}")
+
+  
+
+}
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=35737:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.functionDiff
+Step 1: How to initialize a Set containing 3 donuts
+Elements of donutBasket1 = Set(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Step 2: How to initialize a Set containing 2 donuts
+Elements of donutBasket2 = Set(Glazed Donut, Vanilla Donut)
+
+Step 3: How to find the difference between two Sets using the diff function
+Elements of diffDonutBasket1from2 = Set(Plain Donut, Strawberry Donut)
+
+Step 4: How to find the difference between two Sets using the diff function
+Elements of diff DonutBasket2From1 = Set(Vanilla Donut)
+
+Step 5: How to find the difference between two Sets using the --
+Difference between donutBasket1 and donutBasket2 = Set(Plain Donut, Strawberry Donut)
+Difference between donutBasket2 and donutBasket1 = Set(Vanilla Donut)
+
+Process finished with exit code 0

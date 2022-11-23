@@ -1,0 +1,54 @@
+package chapter8
+
+object function_FIne extends App{
+
+  println("Step 1: How to initialize a Sequence of donuts")
+  val donuts: Seq[String] = Seq("Plain Donut", "Strawberry Donut", "Glazed Donut")
+  println(s"Elements of donuts = $donuts")
+
+  println("\nStep 2: How to find a particular element in the sequence using the find function")
+  val plainDonut: Option[String] = donuts.find(x => x == "Plain Donut")
+  println(s"find plain donut = ${plainDonut.get}")
+
+  println("\nStep 3: How to find element Vanilla Donut which does not exist in the sequence using the find function")
+  val vanillaDonut:String = donuts.find(_ == "Vanilla Donut").get
+  println(s"Find Vanilla Donuts = $vanillaDonut")
+
+  println("\nStep 4: How to find element Vanilla Donut using the find function and getOrElse")
+  val vanillaDonut2:String = donuts.find(_== "Vanilla Donut").getOrElse("Vanilla Donut not found")
+  println(s"Find Vanilla Donut = $vanillaDonut2")
+
+  
+}
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=34929:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.function_FIne
+Step 1: How to initialize a Sequence of donuts
+Elements of donuts = List(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Step 2: How to find a particular element in the sequence using the find function
+find plain donut = Plain Donut
+
+Step 3: How to find element Vanilla Donut which does not exist in the sequence using the find function
+Exception in thread "main" java.util.NoSuchElementException: None.get
+	at scala.None$.get(Option.scala:627)
+	at scala.None$.get(Option.scala:626)
+	at chapter8.function_FIne$.delayedEndpoint$chapter8$function_FIne$1(function_FIne.scala:14)
+	at chapter8.function_FIne$delayedInit$body.apply(function_FIne.scala:3)
+	at scala.Function0.apply$mcV$sp(Function0.scala:42)
+	at scala.Function0.apply$mcV$sp$(Function0.scala:42)
+	at scala.runtime.AbstractFunction0.apply$mcV$sp(AbstractFunction0.scala:17)
+	at scala.App.$anonfun$main$1(App.scala:98)
+	at scala.App.$anonfun$main$1$adapted(App.scala:98)
+	at scala.collection.IterableOnceOps.foreach(IterableOnce.scala:575)
+	at scala.collection.IterableOnceOps.foreach$(IterableOnce.scala:573)
+	at scala.collection.AbstractIterable.foreach(Iterable.scala:933)
+	at scala.App.main(App.scala:98)
+	at scala.App.main$(App.scala:96)
+	at chapter8.function_FIne$.main(function_FIne.scala:3)
+	at chapter8.function_FIne.main(function_FIne.scala)
+  
+Step 4: How to find element Vanilla Donut using the find function and getOrElse
+Find Vanilla Donut = Vanilla Donut not found
+
+
+Process finished with exit code 1

@@ -1,0 +1,52 @@
+package chapter8
+
+object function_Exists {
+  def main(args:Array[String]):Unit={
+
+    println("Step 1: How to initialize a Sequence of donuts")
+    val donuts: Seq[String] = Seq("Plain Donut", "Strawberry Donut", "Glazed Donut")
+    println(s"Elements of donuts = $donuts")
+
+    println("\nStep 2: How to check if a particular element exists in the sequence using the exists function")
+    val doesPlainDonutExists:Boolean = donuts.exists(donutName => donutName =="Plain Donut")
+    println(s"Does plain Donut exists = $doesPlainDonutExists")
+
+    println("\nStep 3: How to declare a predicate value function for the exists function")
+    val plainDonutPredicate: (String) => Boolean = (donutName) => donutName == "Plain Donut"
+    println(s"Value function plainDonutPredicate = $plainDonutPredicate")
+
+    println("\nStep 4: How to find element Plain Donut using the exists function and passing through the predicate function from Step 3")
+    println(s"Does Plain Donut exists = ${donuts.exists(plainDonutPredicate)}")
+
+    println("\nStep 5: How to declare a predicate def function for the exists function")
+
+    def plainDonutPredicateFunction(donutName: String): Boolean = donutName == "Plain Donut"
+
+    println("\nStep 6: How to find element Plain Donut using the exists function and passing through the predicate function from Step 5")
+    println(s"Does plain Donut exists = ${donuts.exists(plainDonutPredicateFunction(_))}")
+  }
+
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=40239:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.function_Exists
+Step 1: How to initialize a Sequence of donuts
+Elements of donuts = List(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Step 2: How to check if a particular element exists in the sequence using the exists function
+Does plain Donut exists = true
+
+Step 3: How to declare a predicate value function for the exists function
+Value function plainDonutPredicate = chapter8.function_Exists$$$Lambda$4/564160838@77f03bb1
+
+Step 4: How to find element Plain Donut using the exists function and passing through the predicate function from Step 3
+Does Plain Donut exists = true
+
+Step 5: How to declare a predicate def function for the exists function
+
+Step 6: How to find element Plain Donut using the exists function and passing through the predicate function from Step 5
+Does plain Donut exists = true
+
+Process finished with exit code 0

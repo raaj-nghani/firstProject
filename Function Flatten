@@ -1,0 +1,52 @@
+package chapter8
+
+object function_flatten {
+  def main(args:Array[String]):Unit={
+    println("Step 1: How to initialize a Sequence of donuts")
+    val donuts1: Seq[String] = Seq("Plain", "Strawberry", "Glazed")
+    println(s"Elements of donuts1 = $donuts1")
+
+    println("\nStep 2: How to initialize another Sequence of donuts")
+    val donuts2: Seq[String] = Seq("Vanilla", "Glazed")
+    println(s"Elements of donuts2 = $donuts2")
+
+    println("\nStep 3: How to create a List of donuts initialized using the two Sequences from Step 1 and Step 2")
+    val listDonuts: List[Seq[String]] = List(donuts1, donuts2)
+    println(s"Elements of listDonuts = $listDonuts")
+
+    println("\nStep 4: How to return a single list of donut using the flatten function")
+    val listDonutsFromFlatten: List[String] = listDonuts.flatten
+    println(s"Elements of listDonutsFromFlatten = $listDonutsFromFlatten")
+
+    println("\nStep 5: How to append the word Donut to each element of listDonuts using flatten and map functions")
+    val listDonutsFromFlatten2: List[String] = listDonuts.flatten.map(_ + " Donut")
+    println(s"Elements of listDonutsFromFlatten2 = $listDonutsFromFlatten2")
+
+    val listDOnuts : List[String] = listDonuts.flatten.map(x => x + " Donut")
+    println(listDOnuts)
+
+
+  }
+
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=42485:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.function_flatten
+Step 1: How to initialize a Sequence of donuts
+Elements of donuts1 = List(Plain, Strawberry, Glazed)
+
+Step 2: How to initialize another Sequence of donuts
+Elements of donuts2 = List(Vanilla, Glazed)
+
+Step 3: How to create a List of donuts initialized using the two Sequences from Step 1 and Step 2
+Elements of listDonuts = List(List(Plain, Strawberry, Glazed), List(Vanilla, Glazed))
+
+Step 4: How to return a single list of donut using the flatten function
+Elements of listDonutsFromFlatten = List(Plain, Strawberry, Glazed, Vanilla, Glazed)
+
+Step 5: How to append the word Donut to each element of listDonuts using flatten and map functions
+Elements of listDonutsFromFlatten2 = List(Plain Donut, Strawberry Donut, Glazed Donut, Vanilla Donut, Glazed Donut)
+List(Plain Donut, Strawberry Donut, Glazed Donut, Vanilla Donut, Glazed Donut)
+
+Process finished with exit code 0

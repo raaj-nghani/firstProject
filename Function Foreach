@@ -1,0 +1,52 @@
+package chapter8
+
+object function_foreach extends App{
+  println("Step 1: How to initialize a Sequence of donuts")
+  val donuts: Seq[String] = Seq("Plain Donut", "Strawberry Donut", "Glazed Donut")
+  println(s"Elements of donuts = $donuts")
+
+  println("\nStep 2: How to loop through all the elements in the sequence using the foreach function")
+  donuts.foreach(println(_))
+
+  println("\nStep 4: How to declare a value function to format a donut names into upper case format")
+  val uppercase: (String) => String = (s) => {
+    val upper = s.toUpperCase
+    println(upper)
+    upper
+  }
+  println(s"Value function formatting donut names to uppercase = $uppercase")
+  
+  println("\nStep 5: How to format all donuts to uppercase using value function from Step 4")
+  donuts.foreach(uppercase)
+
+
+
+  println("\nStep 3: How to loop through and access all the elements in the sequence using the foreach function")
+  donuts.foreach(x => println(s"x = $x"))
+
+}
+
+OUTPUT
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=35549:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.function_foreach
+Step 1: How to initialize a Sequence of donuts
+Elements of donuts = List(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Step 2: How to loop through all the elements in the sequence using the foreach function
+Plain Donut
+Strawberry Donut
+Glazed Donut
+
+Step 4: How to declare a value function to format a donut names into upper case format
+Value function formatting donut names to uppercase = chapter8.function_foreach$$$Lambda$6/1879034789@34340fab
+
+Step 5: How to format all donuts to uppercase using value function from Step 4
+PLAIN DONUT
+STRAWBERRY DONUT
+GLAZED DONUT
+
+Step 3: How to loop through and access all the elements in the sequence using the foreach function
+x = Plain Donut
+x = Strawberry Donut
+x = Glazed Donut
+
+Process finished with exit code 0

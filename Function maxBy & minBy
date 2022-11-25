@@ -1,0 +1,65 @@
+package chapter8
+
+object function_maxBy_minBy {
+  def main(args:Array[String]):Unit={
+    println("Step 1: How to create a case class to represent Donut object")
+    case class Donut(name: String, price: Double)
+
+    println("\nStep 2: How to create a sequence of type Donut")
+    val donuts: Seq[Donut] = Seq(Donut("Plain Donut", 1.5),Donut("Strawberry Donut", 2.0),Donut("Glaized Donut", 2.5))
+    println(s"Elements of donuts = $donuts")
+
+    println("\nStep 3: How to find the maximum element in a sequence of case classes objects using the maxBy function")
+    println(s"Maximum element in sequence of case class of type Donut, ordered by price = ${donuts.maxBy(donut => donut.price)}")
+
+    println("\nStep 4: How to declare a value predicate function for maxBy function")
+    val donutsMaxBy: (Donut) => Double = (donut) => donut.price
+    println(s"Value function donutMaxBy = $donutsMaxBy")
+
+    println("\nStep 5: How to find the maximum element using maxBy function and pass through the predicate function from Step 4")
+    println(s"Maximum element in sequence using function from Step 3 = ${donuts.maxBy(donutsMaxBy)}")
+
+
+    println("\nStep 3: How to find the minimum element in a sequence of case classes using the minBy function")
+    println(s"Minimum element in sequence of case class of type Donut, ordered by price = ${donuts.minBy(donut => donut.price)}")
+
+    println("\nStep 4: How to declare a value predicate function for minBy function")
+    val donutsMinBy: (Donut) => Double = (donut) => donut.price
+    println(s"Value function donutMinBy = $donutsMinBy")
+
+    println("\nStep 5: How to find the minimum element using minBy function and passing through the predicate function from Step 4")
+    println(s"Minimum element in sequence using function from Step 3 = ${donuts.minBy(donutsMinBy)}")
+
+
+
+
+  }
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=44145:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.function_maxBy_minBy
+Step 1: How to create a case class to represent Donut object
+
+Step 2: How to create a sequence of type Donut
+Elements of donuts = List(Donut(Plain Donut,1.5), Donut(Strawberry Donut,2.0), Donut(Glaized Donut,2.5))
+
+Step 3: How to find the maximum element in a sequence of case classes objects using the maxBy function
+Maximum element in sequence of case class of type Donut, ordered by price = Donut(Glaized Donut,2.5)
+
+Step 4: How to declare a value predicate function for maxBy function
+Value function donutMaxBy = chapter8.function_maxBy_minBy$$$Lambda$4/1688019098@6adca536
+
+Step 5: How to find the maximum element using maxBy function and pass through the predicate function from Step 4
+Maximum element in sequence using function from Step 3 = Donut(Glaized Donut,2.5)
+
+Step 3: How to find the minimum element in a sequence of case classes using the minBy function
+Minimum element in sequence of case class of type Donut, ordered by price = Donut(Plain Donut,1.5)
+
+Step 4: How to declare a value predicate function for minBy function
+Value function donutMinBy = chapter8.function_maxBy_minBy$$$Lambda$6/706277948@d7b1517
+
+Step 5: How to find the minimum element using minBy function and passing through the predicate function from Step 4
+Minimum element in sequence using function from Step 3 = Donut(Plain Donut,1.5)
+
+Process finished with exit code 0

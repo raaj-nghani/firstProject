@@ -1,0 +1,57 @@
+package chapter8
+
+object function_max_min extends App{
+  println("Step 1: How to initialize a Sequence of donuts")
+  val donuts: Seq[String] = Seq("Plain Donut", "Strawberry Donut", "Glazed Donut")
+  println(s"Elements of donuts = $donuts")
+
+  println("\nStep 2: How to find the maximum element in the sequence using the max function")
+  println(s"Max element in the donuts sequence = ${donuts.max}")
+
+  println("\nStep 3: How to initialize donut prices")
+  val prices: Seq[Double] = Seq(1.50, 2.0, 2.50)
+
+  println("\nStep 4: How to find the maximum element in the sequence using the max function")
+  println(s"Max element in the donut prices sequence = ${prices.max}")
+
+  println("Step 1: How to initialize a Sequence of donuts")
+  val donuts1: Seq[String] = Seq("Plain Donut", "Strawberry Donut", "Glazed Donut")
+  println(s"Elements of donuts = $donuts")
+
+  println("\nStep 2: How to find the maximum element in the sequence using the max function")
+  println(s"Max element in the donuts sequence = ${donuts1.min}")
+
+  println("\nStep 3: How to initialize donut prices")
+  val prices1: Seq[Double] = Seq(1.50, 2.0, 2.50)
+
+  println("\nStep 4: How to find the maximum element in the sequence using the max function")
+  println(s"Max element in the donut prices sequence = ${prices1.min}")
+
+
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=39643:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.function_max_min
+Step 1: How to initialize a Sequence of donuts
+Elements of donuts = List(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Step 2: How to find the maximum element in the sequence using the max function
+Max element in the donuts sequence = Strawberry Donut
+
+Step 3: How to initialize donut prices
+
+Step 4: How to find the maximum element in the sequence using the max function
+Max element in the donut prices sequence = 2.5
+Step 1: How to initialize a Sequence of donuts
+Elements of donuts = List(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Step 2: How to find the maximum element in the sequence using the max function
+Max element in the donuts sequence = Glazed Donut
+
+Step 3: How to initialize donut prices
+
+Step 4: How to find the maximum element in the sequence using the max function
+Max element in the donut prices sequence = 1.5
+
+Process finished with exit code 0

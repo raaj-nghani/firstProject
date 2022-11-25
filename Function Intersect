@@ -1,0 +1,42 @@
+package chapter8
+
+object function_intersect {
+  def main(args:Array[String]):Unit={
+    println("Step 1: How to initialize a Set of donuts")
+    val donuts1: Set[String] = Set("Plain Donut", "Strawberry Donut", "Glazed Donut")
+    println(s"Elements of donuts1 = $donuts1")
+
+    println("\nStep 2: How to initialize another Set of donuts")
+    val donuts2: Set[String] = Set("Plain Donut", "Chocolate Donut", "Vanilla Donut")
+    println(s"Elements of donuts2 = $donuts2")
+
+    println("\nStep 3: How to find the common elements between two Sets using intersect function")
+    println(s"Common elements between donuts1 and donuts2 = ${donuts1 intersect donuts2}")
+    println(s"Common elements between donuts2 and donuts1 = ${donuts2 intersect donuts1}")
+
+    println("\nStep 4: How to find the common elements between two Sets using & function")
+    println(s"Common elements between donuts1 and donuts2 = ${donuts1 & donuts2}")
+    println(s"Common elements between donuts2 and donuts1 = ${donuts2 & donuts1}")
+
+
+  }
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=42475:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.function_intersect
+Step 1: How to initialize a Set of donuts
+Elements of donuts1 = Set(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Step 2: How to initialize another Set of donuts
+Elements of donuts2 = Set(Plain Donut, Chocolate Donut, Vanilla Donut)
+
+Step 3: How to find the common elements between two Sets using intersect function
+Common elements between donuts1 and donuts2 = Set(Plain Donut)
+Common elements between donuts2 and donuts1 = Set(Plain Donut)
+
+Step 4: How to find the common elements between two Sets using & function
+Common elements between donuts1 and donuts2 = Set(Plain Donut)
+Common elements between donuts2 and donuts1 = Set(Plain Donut)
+
+Process finished with exit code 0

@@ -1,0 +1,71 @@
+package chapter8
+
+object function_per extends App{
+  println("Step 1: How to initialize an Immutable Sequence of various donut flavours")
+  val donutFlavours = Seq("Plain", "Strawberry", "Glazed")
+  println(s"Elements of donutFlavours immutable sequence = $donutFlavours")
+
+  println("\nStep 2: Convert the Immutable donut flavours Sequence into Parallel Collection")
+  import scala.collection.parallel.ParSeq
+  //val donutFlavoursParallel: ParSeq[String] = donutFlavours.par
+
+  println("\nStep3: How to use scala parallel collection")
+  //val donuts: ParSeq[String] = donutFlavours.map(x => s"$x donut")
+  //println(s"Elements of donuts parallel collection = $donuts")
+
+  println("Step 1: How to initialize a sequence which contains donut names and prices")
+  val donutNamesAndPrices: Seq[Any] = Seq("Plain Donut", 1.5, "Strawberry Donut", 2.0, "Glazed Donut", 2.5)
+  println(s"Elements of donutNamesAndPrices = $donutNamesAndPrices")
+
+  println("\nStep 2: How to split the sequence by the element types using partition function")
+  val nameAndPrices:(Seq[Any], Seq[Any]) = donutNamesAndPrices.partition{
+    case name: String => true
+    case price: Double => false
+  }
+  println(s"Elements of namesAndPrices = $nameAndPrices")
+
+  println("\nStep 3: How to access the donut String sequence from Step 2")
+  println(s"Donut names = ${nameAndPrices._1}")
+
+  println("\nStep 4: How to access the donut String sequence from Step 2")
+  println(s"Donut names = ${nameAndPrices._2}")
+
+  println("\nStep 5: How to extract the pair returned by partition function")
+  val (donutNames, donutPrices)= donutNamesAndPrices.partition{
+    case name: String => true
+    case _ => false
+  }
+  println(s"donutNames =$donutNames")
+  println(s"donutPrices = $donutPrices")
+
+  
+
+
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=41339:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.function_per
+Step 1: How to initialize an Immutable Sequence of various donut flavours
+Elements of donutFlavours immutable sequence = List(Plain, Strawberry, Glazed)
+
+Step 2: Convert the Immutable donut flavours Sequence into Parallel Collection
+
+Step3: How to use scala parallel collection
+Step 1: How to initialize a sequence which contains donut names and prices
+Elements of donutNamesAndPrices = List(Plain Donut, 1.5, Strawberry Donut, 2.0, Glazed Donut, 2.5)
+
+Step 2: How to split the sequence by the element types using partition function
+Elements of namesAndPrices = (List(Plain Donut, Strawberry Donut, Glazed Donut),List(1.5, 2.0, 2.5))
+
+Step 3: How to access the donut String sequence from Step 2
+Donut names = List(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Step 4: How to access the donut String sequence from Step 2
+Donut names = List(1.5, 2.0, 2.5)
+
+Step 5: How to extract the pair returned by partition function
+donutNames =List(Plain Donut, Strawberry Donut, Glazed Donut)
+donutPrices = List(1.5, 2.0, 2.5)
+
+Process finished with exit code 0

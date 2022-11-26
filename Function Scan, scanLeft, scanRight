@@ -1,0 +1,61 @@
+package chapter8
+
+object function_scan_scanLeft_scanRight {
+  def main(args:Array[String]):Unit={
+    println("Step 1: How to initialize a sequence of numbers")
+    val numbers: Seq[Int] = Seq(1, 2, 3, 4, 5)
+    println(s"Elements of numbers = $numbers")
+
+    println("\nStep 2: How to create a running total using the scan function")
+    val runningTotal1: Seq[Int] = numbers.scan(0)(_ + _)
+    println(s"Running total of all elements in the collection = $runningTotal1")
+
+    println("\nStep 3: How to create a running total using the scan function explicitly")
+    val runningTotal2: Seq[Int] = numbers.scan(0)((a, b) => a + b)
+    println(s"Running total of all elements in the collection = $runningTotal2")
+
+    println("\nStep 2: How to create a running total using the scanLeft function")
+    val runningTotal: Seq[Int] = numbers.scanLeft(0)(_ + _)
+    println(s"Running total of all elements in the collection = $runningTotal")
+
+    println("\nStep 3: How to create a running total using the scanLeft function explicitly")
+    val runningTotal3: Seq[Int] = numbers.scanLeft(0)((a, b) => a + b)
+    println(s"Running total of all elements in the collection = $runningTotal3")
+
+    println("\nStep 2: How to create a running total using the scanRight function")
+    val runningTotal4: Seq[Int] = numbers.scanRight(0)(_ + _)
+    println(s"Running total of all elements in the collection = $runningTotal4")
+
+    println("\nStep 3: How to create a running total using the scanRight function explicitly")
+    val runningTotal5: Seq[Int] = numbers.scanRight(0)((a, b) => a + b)
+    println(s"Running total of all elements in the collection = $runningTotal5")
+
+  }
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=33357:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.function_scan_scanLeft_scanRight
+Step 1: How to initialize a sequence of numbers
+Elements of numbers = List(1, 2, 3, 4, 5)
+
+Step 2: How to create a running total using the scan function
+Running total of all elements in the collection = List(0, 1, 3, 6, 10, 15)
+
+Step 3: How to create a running total using the scan function explicitly
+Running total of all elements in the collection = List(0, 1, 3, 6, 10, 15)
+
+Step 2: How to create a running total using the scanLeft function
+Running total of all elements in the collection = List(0, 1, 3, 6, 10, 15)
+
+Step 3: How to create a running total using the scanLeft function explicitly
+Running total of all elements in the collection = List(0, 1, 3, 6, 10, 15)
+
+Step 2: How to create a running total using the scanRight function
+Running total of all elements in the collection = List(15, 14, 12, 9, 5, 0)
+
+Step 3: How to create a running total using the scanRight function explicitly
+Running total of all elements in the collection = List(15, 14, 12, 9, 5, 0)
+
+Process finished with exit code 0

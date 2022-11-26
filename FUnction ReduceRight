@@ -1,0 +1,79 @@
+package chapter8
+
+object function_reduceRight {
+  def main(args:Array[String]):Unit={
+    println("Step 1: How to initialize a sequence of donut prices")
+    val donutPrices: Seq[Double] = Seq(1.5, 2.0, 2.5)
+    println(s"Elements of donutPrices = $donutPrices")
+
+    println("\nStep 2: How to find the sum of the elements using reduceRight function")
+    val sum: Double = donutPrices.reduceRight(_ + _)
+    println(s"Sum of elements from donutPrices = $sum")
+
+    println("\nStep 3: How to find the sum of elements using reduceRight function explicitly")
+    val sum1: Double = donutPrices.reduceRight((a, b) => a + b)
+    println(s"Sum of elements from donutPrices by calling reduceRight function explicitly= $sum1")
+
+    println("\nStep 4: How to find the cheapest donut using reduceRight function")
+    println(s"Cheapest donut price = ${donutPrices.reduceRight(_ min _)}")
+
+    println("\nStep 5: How to find the most expensive donut using reduceRight function")
+    println(s"Most expensive donut price = ${donutPrices.reduceRight(_ max _)}")
+
+    println("\nStep 6: How to initialize a Sequence of donuts")
+    val donuts: Seq[String] = Seq("Plain Donut", "Strawberry Donut", "Glazed Donut")
+    println(s"Elements of donuts = $donuts")
+
+    println("\nStep 7: How to concatenate the elements from the sequence using reduceRight function")
+    println(s"Elements of donuts sequence concatenated = ${donuts.reduceRight((left, right) => left + ", " + right)}")
+
+    println("\nStep 8: How to declare a value function to concatenate donut names")
+    val concatDonutNames: (String, String) => String = (left, right) => {
+      left + ", " + right
+    }
+    println(s"Value function concatDonutNames = $concatDonutNames")
+
+    println("\nStep 9: How to pass a function to reduceRight function")
+    println(s"Elements of donuts sequence concatenated by passing function to the reduceRight function = ${donuts reduceRight concatDonutNames}")
+
+    println("\nStep 10: How to use reduceRightOption to avoid exception if the collection is empty")
+    println(s"Using reduceRightOption will NOT throw any exception = ${Seq.empty[String].reduceRightOption(_ + ", " + _)}")
+
+  }
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=35307:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.function_reduceRight
+Step 1: How to initialize a sequence of donut prices
+Elements of donutPrices = List(1.5, 2.0, 2.5)
+
+Step 2: How to find the sum of the elements using reduceRight function
+Sum of elements from donutPrices = 6.0
+
+Step 3: How to find the sum of elements using reduceRight function explicitly
+Sum of elements from donutPrices by calling reduceRight function explicitly= 6.0
+
+Step 4: How to find the cheapest donut using reduceRight function
+Cheapest donut price = 1.5
+
+Step 5: How to find the most expensive donut using reduceRight function
+Most expensive donut price = 2.5
+
+Step 6: How to initialize a Sequence of donuts
+Elements of donuts = List(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Step 7: How to concatenate the elements from the sequence using reduceRight function
+Elements of donuts sequence concatenated = Plain Donut, Strawberry Donut, Glazed Donut
+
+Step 8: How to declare a value function to concatenate donut names
+Value function concatDonutNames = chapter8.function_reduceRight$$$Lambda$9/1577213552@1fbc7afb
+
+Step 9: How to pass a function to reduceRight function
+Elements of donuts sequence concatenated by passing function to the reduceRight function = Plain Donut, Strawberry Donut, Glazed Donut
+
+Step 10: How to use reduceRightOption to avoid exception if the collection is empty
+Using reduceRightOption will NOT throw any exception = None
+
+Process finished with exit code 0
+

@@ -1,0 +1,50 @@
+package chapter8
+
+object function_mkString extends App{
+  println("Step 1: How to initialize a Sequence of donuts")
+  val donuts: Seq[String] = Seq("Plain Donut", "Strawberry Donut", "Glazed Donut")
+  println(s"Elements of donuts = $donuts")
+
+  println("\nStep 2: How to concatenate the elements of a sequence into a String using mkString function")
+  val donutsAsString: String = donuts.mkString(" and ")
+  println(s"Donuts elements using mkString function = $donutsAsString")
+
+  println("\nStep 3: How to concatenate the elements of a sequence into a String using mkString and specifying prefix and suffix")
+  val donutsWithPrefixAndSuffix: String = donuts.mkString("My favorite donuts namely ", " and ", " are very tasty!")
+  println(s"$donutsWithPrefixAndSuffix")
+
+  println("\nStep 2: How to check if a sequence is not empty using nonEmpty function")
+  println(s"Is donuts sequence NOT empty = ${donuts.nonEmpty}")
+
+  println("\nStep 3: How to create an empty sequence")
+  val emptyDonuts: Seq[String] = Seq.empty[String]
+  println(s"Elements of emptyDonuts = $emptyDonuts")
+
+  println("\nStep 4: How to find out if sequence is empty using nonEmpty function")
+  println(s"Is emptyDonuts sequence empty = ${emptyDonuts.nonEmpty}")
+
+
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=43893:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.function_mkString
+Step 1: How to initialize a Sequence of donuts
+Elements of donuts = List(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Step 2: How to concatenate the elements of a sequence into a String using mkString function
+Donuts elements using mkString function = Plain Donut and Strawberry Donut and Glazed Donut
+
+Step 3: How to concatenate the elements of a sequence into a String using mkString and specifying prefix and suffix
+My favorite donuts namely Plain Donut and Strawberry Donut and Glazed Donut are very tasty!
+
+Step 2: How to check if a sequence is not empty using nonEmpty function
+Is donuts sequence NOT empty = true
+
+Step 3: How to create an empty sequence
+Elements of emptyDonuts = List()
+
+Step 4: How to find out if sequence is empty using nonEmpty function
+Is emptyDonuts sequence empty = false
+
+Process finished with exit code 0

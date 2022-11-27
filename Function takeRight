@@ -1,0 +1,27 @@
+package chapter8
+
+object fumction_takrRight {
+  def main(raj:Array[String]):Unit={
+    println("Step 1: How to initialize a Sequence of donuts")
+    val donuts: Seq[String] = Seq("Plain Donut", "Strawberry Donut", "Glazed Donut")
+    println(s"Elements of donuts = $donuts")
+
+    println("\nStep 2: How to take the last N elements using the takeRight function")
+    println(s"Take the last donut element in the sequence = ${donuts.takeRight(1)}")
+    println(s"Take the last two donut elements in the sequence = ${donuts.takeRight(2)}")
+    println(s"Take the last three donut elements in the sequence = ${donuts.takeRight(3)}")
+  }
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=40315:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.fumction_takrRight
+Step 1: How to initialize a Sequence of donuts
+Elements of donuts = List(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Step 2: How to take the last N elements using the takeRight function
+Take the last donut element in the sequence = List(Glazed Donut)
+Take the last two donut elements in the sequence = List(Strawberry Donut, Glazed Donut)
+Take the last three donut elements in the sequence = List(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Process finished with exit code 0

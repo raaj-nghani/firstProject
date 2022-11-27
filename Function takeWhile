@@ -1,0 +1,37 @@
+package chapter8
+
+object function_takeWhile {
+  def main(raj:Array[String]):Unit={
+    println("Step 1: How to initialize a List of donuts")
+    val donuts: Seq[String] = List("Plain Donut", "Strawberry Donut", "Glazed Donut")
+    println(s"Elements of donuts = $donuts")
+
+    println("\nStep 2: How to take elements from the List using the takeWhile function")
+    println(s"Take donut elements which start with letter P = ${donuts.takeWhile(_.charAt(0) == 'P')}")
+
+    println("\nStep 3: How to declare a predicate function to be passed-through to the takeWhile function")
+    val takeDonutPredicate: (String) => Boolean =(donutName) => donutName.charAt(0) == 'G'
+    println(s"Value function takeDonutPredicate = $takeDonutPredicate")
+
+    println("\nStep 4: How to take elements using the predicate function from Step 3")
+    println(s"Take elements using function form Step 3 = ${donuts.takeWhile(takeDonutPredicate)}")
+
+  }
+}
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=42907:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/IdeaProjects/firstProject/target/scala-2.13/classes:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/joda-time/joda-time/2.9.3/joda-time-2.9.3.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/joda/joda-convert/1.8/joda-convert-1.8.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/modules/scala-parallel-collections_2.13/0.2.0/scala-parallel-collections_2.13-0.2.0.jar:/home/raj/.cache/coursier/v1/https/repo1.maven.org/maven2/org/scala-lang/scala-library/2.13.9/scala-library-2.13.9.jar chapter8.function_takeWhile
+Step 1: How to initialize a List of donuts
+Elements of donuts = List(Plain Donut, Strawberry Donut, Glazed Donut)
+
+Step 2: How to take elements from the List using the takeWhile function
+Take donut elements which start with letter P = List(Plain Donut)
+
+Step 3: How to declare a predicate function to be passed-through to the takeWhile function
+Value function takeDonutPredicate = chapter8.function_takeWhile$$$Lambda$4/754666084@5474c6c
+
+Step 4: How to take elements using the predicate function from Step 3
+Take elements using function form Step 3 = List()
+
+Process finished with exit code 0

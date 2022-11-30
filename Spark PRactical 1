@@ -1,0 +1,1488 @@
+package pack
+import org.apache.spark._
+import org.apache.spark.sql._
+trait Context {
+
+  lazy val sparkConf = new SparkConf()
+    .setAppName("Learn Spark")
+    .setMaster("local[*]")
+    .set("spark.cores.max", "2")
+
+  lazy val sparkSession = SparkSession
+    .builder()
+    .config(sparkConf)
+    .getOrCreate()
+}
+object obj1 extends App with Context{
+  // Create a DataFrame from reading a CSV file
+  val dfTags = sparkSession
+    .read
+    .option("header", "true")
+    .option("inferSchema", "true")
+    .csv("src/main/resources/question_tags_10K.csv")
+    .toDF("id", "tag")
+
+  dfTags.show(10)
+  // Print DataFrame schema
+  dfTags.printSchema()
+
+  // Query dataframe: select columns from a dataframe
+  dfTags.select("id", "tag").show(10)
+
+  // DataFrame Query: filter by column value of a dataframe
+  dfTags.filter("tag == 'php'").show(10)
+
+  // DataFrame Query: count rows of a dataframe
+  println(s"Number of php tags = ${dfTags.filter("tag == 'php'").count()}")
+
+  // DataFrame Query: SQL like query
+  dfTags.filter("tag like 's%'").show(10)
+
+  // DataFrame Query: Multiple filter chaining
+  dfTags
+    .filter("tag like 's%'")
+    .filter("id == 25 or id == 108")
+    .show(10)
+
+  //DataFrame Query: SQL IN clause
+  dfTags.filter("id in(25, 108)").show()
+
+  //DataFrame Query: SQL Group By
+  println("Group By tag value")
+  dfTags.groupBy("tag").count().show(10)
+
+  // DataFrame Query: SQL Group By with filter
+  dfTags.groupBy("tag").count().filter("count > 5").show(10)
+
+  // DataFrame Query: SQL order by
+  dfTags.groupBy("tag").count().filter("count > 5").orderBy("tag").show(10)
+
+
+
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=46439:/home/raj/Downloads/idea-IC-222.4167.29/bin -Dfile.encoding=UTF-8 -classpath /home/raj/jdk1.8.0_202/jre/lib/charsets.jar:/home/raj/jdk1.8.0_202/jre/lib/deploy.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/cldrdata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/dnsns.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jaccess.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/jfxrt.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/localedata.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/nashorn.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunec.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunjce_provider.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/sunpkcs11.jar:/home/raj/jdk1.8.0_202/jre/lib/ext/zipfs.jar:/home/raj/jdk1.8.0_202/jre/lib/javaws.jar:/home/raj/jdk1.8.0_202/jre/lib/jce.jar:/home/raj/jdk1.8.0_202/jre/lib/jfr.jar:/home/raj/jdk1.8.0_202/jre/lib/jfxswt.jar:/home/raj/jdk1.8.0_202/jre/lib/jsse.jar:/home/raj/jdk1.8.0_202/jre/lib/management-agent.jar:/home/raj/jdk1.8.0_202/jre/lib/plugin.jar:/home/raj/jdk1.8.0_202/jre/lib/resources.jar:/home/raj/jdk1.8.0_202/jre/lib/rt.jar:/home/raj/eclipse-workspace/untitled1/target/classes:/home/raj/.ivy2/cache/org.scala-lang/scala-library/jars/scala-library-2.11.12.jar:/home/raj/.ivy2/cache/org.scala-lang/scala-reflect/jars/scala-reflect-2.11.12.jar:/home/raj/.ivy2/cache/org.scala-lang.modules/scala-xml_2.11/bundles/scala-xml_2.11-1.0.5.jar:/home/raj/.ivy2/cache/org.scala-lang.modules/scala-parser-combinators_2.11/bundles/scala-parser-combinators_2.11-1.0.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/activation-1.1.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/aircompressor-0.8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/antlr-2.7.7.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/antlr-runtime-3.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/antlr4-runtime-4.7.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/aopalliance-1.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/aopalliance-repackaged-2.4.0-b34.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/apache-log4j-extras-1.2.17.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/apacheds-i18n-2.0.0-M15.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/apacheds-kerberos-codec-2.0.0-M15.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/api-asn1-api-1.0.0-M20.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/api-util-1.0.0-M20.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/arpack_combined_all-0.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/arrow-format-0.8.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/arrow-memory-0.8.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/automaton-1.11-8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/avro-1.7.7.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/avro-ipc-1.7.7.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/avro-mapred-1.7.7-hadoop2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/base64-2.3.8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/bcprov-jdk15on-1.58.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/bonecp-0.8.0.RELEASE.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/breeze-macros_2.11-0.13.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/breeze_2.11-0.13.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/calcite-avatica-1.2.0-incubating.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/calcite-core-1.2.0-incubating.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/calcite-linq4j-1.2.0-incubating.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/chill-java-0.8.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/chill_2.11-0.8.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-beanutils-1.7.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-beanutils-core-1.8.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-cli-1.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-codec-1.10.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-collections-3.2.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-compiler-3.0.8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-compress-1.4.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-configuration-1.6.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-crypto-1.0.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-dbcp-1.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-digester-1.8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-httpclient-3.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-io-2.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-lang-2.6.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-lang3-3.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-logging-1.1.3.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-math3-3.4.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-net-2.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/commons-pool-1.5.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/compress-lzf-1.0.3.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/core-1.1.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/curator-client-2.6.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/curator-framework-2.6.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/curator-recipes-2.6.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/datanucleus-api-jdo-3.2.6.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/datanucleus-core-3.2.10.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/datanucleus-rdbms-3.2.9.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/derby-10.12.1.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/eigenbase-properties-1.1.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/flatbuffers-1.2.0-3f79e055.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/generex-1.0.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/gson-2.2.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/guava-14.0.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/guice-3.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/guice-servlet-3.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-annotations-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-auth-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-common-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-hdfs-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-mapreduce-client-app-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-mapreduce-client-common-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-mapreduce-client-core-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-mapreduce-client-jobclient-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-mapreduce-client-shuffle-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-yarn-api-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-yarn-client-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-yarn-common-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-yarn-server-common-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hadoop-yarn-server-web-proxy-2.6.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hive-beeline-1.2.1.spark2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hive-cli-1.2.1.spark2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hive-exec-1.2.1.spark2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hive-jdbc-1.2.1.spark2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hive-metastore-1.2.1.spark2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hk2-api-2.4.0-b34.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hk2-locator-2.4.0-b34.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hk2-utils-2.4.0-b34.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/hppc-0.7.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/htrace-core-3.0.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/httpclient-4.5.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/httpcore-4.4.8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/ivy-2.4.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jackson-annotations-2.6.7.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jackson-core-2.6.7.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jackson-core-asl-1.9.13.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jackson-databind-2.6.7.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jackson-dataformat-yaml-2.6.7.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jackson-jaxrs-1.9.13.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jackson-mapper-asl-1.9.13.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jackson-module-jaxb-annotations-2.6.7.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jackson-module-paranamer-2.7.9.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jackson-module-scala_2.11-2.6.7.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jackson-xc-1.9.13.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/janino-3.0.8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/java-xmlbuilder-1.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/JavaEWAH-0.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/javassist-3.18.1-GA.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/javax.annotation-api-1.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/javax.inject-1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/javax.inject-2.4.0-b34.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/javax.servlet-api-3.1.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/javax.ws.rs-api-2.0.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/javolution-5.5.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jaxb-api-2.2.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jcl-over-slf4j-1.7.16.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jdo-api-3.0.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jersey-client-2.22.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jersey-common-2.22.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jersey-container-servlet-2.22.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jersey-container-servlet-core-2.22.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jersey-guava-2.22.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jersey-media-jaxb-2.22.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jersey-server-2.22.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jets3t-0.9.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jetty-6.1.26.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jetty-util-6.1.26.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jline-2.12.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/joda-time-2.9.3.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jodd-core-3.5.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jpam-1.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/json4s-ast_2.11-3.2.11.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/json4s-core_2.11-3.2.11.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/json4s-jackson_2.11-3.2.11.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jsr305-1.3.9.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jta-1.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jtransforms-2.4.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/jul-to-slf4j-1.7.16.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/kryo-shaded-3.0.3.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/kubernetes-client-3.0.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/kubernetes-model-2.0.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/leveldbjni-all-1.8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/libfb303-0.9.3.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/libthrift-0.9.3.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/log4j-1.2.17.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/logging-interceptor-3.8.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/lz4-java-1.4.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/machinist_2.11-0.6.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/macro-compat_2.11-1.1.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/mesos-1.4.0-shaded-protobuf.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/metrics-core-3.1.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/metrics-graphite-3.1.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/metrics-json-3.1.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/metrics-jvm-3.1.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/minlog-1.3.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/netty-3.9.9.Final.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/netty-all-4.1.17.Final.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/objenesis-2.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/okhttp-3.8.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/okio-1.13.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/opencsv-2.3.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/orc-core-1.4.4-nohive.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/orc-mapreduce-1.4.4-nohive.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/oro-2.0.8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/osgi-resource-locator-1.0.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/paranamer-2.8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/parquet-column-1.8.3.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/parquet-common-1.8.3.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/parquet-encoding-1.8.3.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/parquet-format-2.3.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/parquet-hadoop-1.8.3.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/parquet-hadoop-bundle-1.6.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/parquet-jackson-1.8.3.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/protobuf-java-2.5.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/py4j-0.10.7.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/pyrolite-4.13.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/RoaringBitmap-0.5.11.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/scala-compiler-2.11.8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/scala-library-2.11.8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/scala-parser-combinators_2.11-1.0.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/scala-reflect-2.11.8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/scala-xml_2.11-1.0.5.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/scalap-2.11.8.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/shapeless_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/slf4j-api-1.7.16.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/slf4j-log4j12-1.7.16.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/snakeyaml-1.15.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/snappy-0.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/snappy-java-1.1.2.6.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-catalyst_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-core_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-graphx_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-hive-thriftserver_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-hive_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-kubernetes_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-kvstore_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-launcher_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-mesos_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-mllib-local_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-mllib_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-network-common_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-network-shuffle_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-repl_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-sketch_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-sql_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-streaming_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-tags_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-unsafe_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spark-yarn_2.11-2.3.2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spire-macros_2.11-0.13.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/spire_2.11-0.13.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/ST4-4.0.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/stax-api-1.0-2.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/stax-api-1.0.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/stream-2.7.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/stringtemplate-3.2.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/super-csv-2.2.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/univocity-parsers-2.5.9.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/validation-api-1.1.0.Final.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/xbean-asm5-shaded-4.4.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/xercesImpl-2.9.1.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/xmlenc-0.52.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/xz-1.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/zjsonpatch-0.3.0.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/zookeeper-3.4.6.jar:/home/raj/spark-2.3.2-bin-hadoop2.6/jars/zstd-jni-1.3.2-2.jar pack.obj1
+2022-11-30 06:10:17 WARN  Utils:66 - Your hostname, Hp-Notebook resolves to a loopback address: 127.0.1.1; using 192.168.43.52 instead (on interface wlo1)
+2022-11-30 06:10:17 WARN  Utils:66 - Set SPARK_LOCAL_IP if you need to bind to another address
+2022-11-30 06:10:17 INFO  SparkContext:54 - Running Spark version 2.3.2
+2022-11-30 06:10:18 WARN  NativeCodeLoader:62 - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2022-11-30 06:10:19 INFO  SparkContext:54 - Submitted application: Learn Spark
+2022-11-30 06:10:19 INFO  SecurityManager:54 - Changing view acls to: raj
+2022-11-30 06:10:19 INFO  SecurityManager:54 - Changing modify acls to: raj
+2022-11-30 06:10:19 INFO  SecurityManager:54 - Changing view acls groups to: 
+2022-11-30 06:10:19 INFO  SecurityManager:54 - Changing modify acls groups to: 
+2022-11-30 06:10:19 INFO  SecurityManager:54 - SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(raj); groups with view permissions: Set(); users  with modify permissions: Set(raj); groups with modify permissions: Set()
+2022-11-30 06:10:20 INFO  Utils:54 - Successfully started service 'sparkDriver' on port 41249.
+2022-11-30 06:10:20 INFO  SparkEnv:54 - Registering MapOutputTracker
+2022-11-30 06:10:20 INFO  SparkEnv:54 - Registering BlockManagerMaster
+2022-11-30 06:10:20 INFO  BlockManagerMasterEndpoint:54 - Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+2022-11-30 06:10:20 INFO  BlockManagerMasterEndpoint:54 - BlockManagerMasterEndpoint up
+2022-11-30 06:10:20 INFO  DiskBlockManager:54 - Created local directory at /tmp/blockmgr-ef3c492f-a596-4eee-9e6d-768338bb2276
+2022-11-30 06:10:21 INFO  MemoryStore:54 - MemoryStore started with capacity 806.7 MB
+2022-11-30 06:10:21 INFO  SparkEnv:54 - Registering OutputCommitCoordinator
+2022-11-30 06:10:21 INFO  log:192 - Logging initialized @7551ms
+2022-11-30 06:10:21 INFO  Server:351 - jetty-9.3.z-SNAPSHOT, build timestamp: unknown, git hash: unknown
+2022-11-30 06:10:21 INFO  Server:419 - Started @7832ms
+2022-11-30 06:10:21 INFO  AbstractConnector:278 - Started ServerConnector@78aea4b9{HTTP/1.1,[http/1.1]}{0.0.0.0:4040}
+2022-11-30 06:10:21 INFO  Utils:54 - Successfully started service 'SparkUI' on port 4040.
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@6865c751{/jobs,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@60bdf15d{/jobs/json,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@47da3952{/jobs/job,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@46e8a539{/jobs/job/json,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@495083a0{/stages,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@5fd62371{/stages/json,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@28a0fd6c{/stages/stage,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@841e575{/stages/stage/json,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@27a5328c{/stages/pool,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@1e5f4170{/stages/pool/json,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@6c345c5f{/storage,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@6b5966e1{/storage/json,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@65e61854{/storage/rdd,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@1568159{/storage/rdd/json,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@4fcee388{/environment,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@6f80fafe{/environment/json,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@3af17be2{/executors,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@f9879ac{/executors/json,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@37f21974{/executors/threadDump,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@5f4d427e{/executors/threadDump/json,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@6e521c1e{/static,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@63cd604c{/,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@40dd3977{/api,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@4b6579e8{/jobs/job/kill,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@6fff253c{/stages/stage/kill,null,AVAILABLE,@Spark}
+2022-11-30 06:10:22 INFO  SparkUI:54 - Bound SparkUI to 0.0.0.0, and started at http://192.168.43.52:4040
+2022-11-30 06:10:22 WARN  JettyUtils:87 - GET /jobs/ failed: java.util.NoSuchElementException
+java.util.NoSuchElementException
+	at java.util.Collections$EmptyIterator.next(Collections.java:4189)
+	at org.apache.spark.util.kvstore.InMemoryStore$InMemoryIterator.next(InMemoryStore.java:281)
+	at org.apache.spark.status.AppStatusStore.applicationInfo(AppStatusStore.scala:38)
+	at org.apache.spark.ui.jobs.AllJobsPage.render(AllJobsPage.scala:275)
+	at org.apache.spark.ui.WebUI$$anonfun$2.apply(WebUI.scala:82)
+	at org.apache.spark.ui.WebUI$$anonfun$2.apply(WebUI.scala:82)
+	at org.apache.spark.ui.JettyUtils$$anon$3.doGet(JettyUtils.scala:90)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:687)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:790)
+	at org.spark_project.jetty.servlet.ServletHolder.handle(ServletHolder.java:848)
+	at org.spark_project.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:584)
+	at org.spark_project.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1180)
+	at org.spark_project.jetty.servlet.ServletHandler.doScope(ServletHandler.java:512)
+	at org.spark_project.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1112)
+	at org.spark_project.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)
+	at org.spark_project.jetty.server.handler.gzip.GzipHandler.handle(GzipHandler.java:493)
+	at org.spark_project.jetty.server.handler.ContextHandlerCollection.handle(ContextHandlerCollection.java:213)
+	at org.spark_project.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:134)
+	at org.spark_project.jetty.server.Server.handle(Server.java:539)
+	at org.spark_project.jetty.server.HttpChannel.handle(HttpChannel.java:333)
+	at org.spark_project.jetty.server.HttpConnection.onFillable(HttpConnection.java:251)
+	at org.spark_project.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:283)
+	at org.spark_project.jetty.io.FillInterest.fillable(FillInterest.java:108)
+	at org.spark_project.jetty.io.SelectChannelEndPoint$2.run(SelectChannelEndPoint.java:93)
+	at org.spark_project.jetty.util.thread.strategy.ExecuteProduceConsume.executeProduceConsume(ExecuteProduceConsume.java:303)
+	at org.spark_project.jetty.util.thread.strategy.ExecuteProduceConsume.produceConsume(ExecuteProduceConsume.java:148)
+	at org.spark_project.jetty.util.thread.strategy.ExecuteProduceConsume.run(ExecuteProduceConsume.java:136)
+	at org.spark_project.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:671)
+	at org.spark_project.jetty.util.thread.QueuedThreadPool$2.run(QueuedThreadPool.java:589)
+	at java.lang.Thread.run(Thread.java:748)
+2022-11-30 06:10:22 WARN  ServletHandler:632 - /jobs/
+java.util.NoSuchElementException
+	at java.util.Collections$EmptyIterator.next(Collections.java:4189)
+	at org.apache.spark.util.kvstore.InMemoryStore$InMemoryIterator.next(InMemoryStore.java:281)
+	at org.apache.spark.status.AppStatusStore.applicationInfo(AppStatusStore.scala:38)
+	at org.apache.spark.ui.jobs.AllJobsPage.render(AllJobsPage.scala:275)
+	at org.apache.spark.ui.WebUI$$anonfun$2.apply(WebUI.scala:82)
+	at org.apache.spark.ui.WebUI$$anonfun$2.apply(WebUI.scala:82)
+	at org.apache.spark.ui.JettyUtils$$anon$3.doGet(JettyUtils.scala:90)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:687)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:790)
+	at org.spark_project.jetty.servlet.ServletHolder.handle(ServletHolder.java:848)
+	at org.spark_project.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:584)
+	at org.spark_project.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1180)
+	at org.spark_project.jetty.servlet.ServletHandler.doScope(ServletHandler.java:512)
+	at org.spark_project.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1112)
+	at org.spark_project.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)
+	at org.spark_project.jetty.server.handler.gzip.GzipHandler.handle(GzipHandler.java:493)
+	at org.spark_project.jetty.server.handler.ContextHandlerCollection.handle(ContextHandlerCollection.java:213)
+	at org.spark_project.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:134)
+	at org.spark_project.jetty.server.Server.handle(Server.java:539)
+	at org.spark_project.jetty.server.HttpChannel.handle(HttpChannel.java:333)
+	at org.spark_project.jetty.server.HttpConnection.onFillable(HttpConnection.java:251)
+	at org.spark_project.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:283)
+	at org.spark_project.jetty.io.FillInterest.fillable(FillInterest.java:108)
+	at org.spark_project.jetty.io.SelectChannelEndPoint$2.run(SelectChannelEndPoint.java:93)
+	at org.spark_project.jetty.util.thread.strategy.ExecuteProduceConsume.executeProduceConsume(ExecuteProduceConsume.java:303)
+	at org.spark_project.jetty.util.thread.strategy.ExecuteProduceConsume.produceConsume(ExecuteProduceConsume.java:148)
+	at org.spark_project.jetty.util.thread.strategy.ExecuteProduceConsume.run(ExecuteProduceConsume.java:136)
+	at org.spark_project.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:671)
+	at org.spark_project.jetty.util.thread.QueuedThreadPool$2.run(QueuedThreadPool.java:589)
+	at java.lang.Thread.run(Thread.java:748)
+2022-11-30 06:10:23 INFO  Executor:54 - Starting executor ID driver on host localhost
+2022-11-30 06:10:23 WARN  JettyUtils:87 - GET /jobs/ failed: java.util.NoSuchElementException
+java.util.NoSuchElementException
+	at java.util.Collections$EmptyIterator.next(Collections.java:4189)
+	at org.apache.spark.util.kvstore.InMemoryStore$InMemoryIterator.next(InMemoryStore.java:281)
+	at org.apache.spark.status.AppStatusStore.applicationInfo(AppStatusStore.scala:38)
+	at org.apache.spark.ui.jobs.AllJobsPage.render(AllJobsPage.scala:275)
+	at org.apache.spark.ui.WebUI$$anonfun$2.apply(WebUI.scala:82)
+	at org.apache.spark.ui.WebUI$$anonfun$2.apply(WebUI.scala:82)
+	at org.apache.spark.ui.JettyUtils$$anon$3.doGet(JettyUtils.scala:90)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:687)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:790)
+	at org.spark_project.jetty.servlet.ServletHolder.handle(ServletHolder.java:848)
+	at org.spark_project.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:584)
+	at org.spark_project.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1180)
+	at org.spark_project.jetty.servlet.ServletHandler.doScope(ServletHandler.java:512)
+	at org.spark_project.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1112)
+	at org.spark_project.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)
+	at org.spark_project.jetty.server.handler.gzip.GzipHandler.handle(GzipHandler.java:493)
+	at org.spark_project.jetty.server.handler.ContextHandlerCollection.handle(ContextHandlerCollection.java:213)
+	at org.spark_project.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:134)
+	at org.spark_project.jetty.server.Server.handle(Server.java:539)
+	at org.spark_project.jetty.server.HttpChannel.handle(HttpChannel.java:333)
+	at org.spark_project.jetty.server.HttpConnection.onFillable(HttpConnection.java:251)
+	at org.spark_project.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:283)
+	at org.spark_project.jetty.io.FillInterest.fillable(FillInterest.java:108)
+	at org.spark_project.jetty.io.SelectChannelEndPoint$2.run(SelectChannelEndPoint.java:93)
+	at org.spark_project.jetty.util.thread.strategy.ExecuteProduceConsume.executeProduceConsume(ExecuteProduceConsume.java:303)
+	at org.spark_project.jetty.util.thread.strategy.ExecuteProduceConsume.produceConsume(ExecuteProduceConsume.java:148)
+	at org.spark_project.jetty.util.thread.strategy.ExecuteProduceConsume.run(ExecuteProduceConsume.java:136)
+	at org.spark_project.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:671)
+	at org.spark_project.jetty.util.thread.QueuedThreadPool$2.run(QueuedThreadPool.java:589)
+	at java.lang.Thread.run(Thread.java:748)
+2022-11-30 06:10:23 WARN  ServletHandler:632 - /jobs/
+java.util.NoSuchElementException
+	at java.util.Collections$EmptyIterator.next(Collections.java:4189)
+	at org.apache.spark.util.kvstore.InMemoryStore$InMemoryIterator.next(InMemoryStore.java:281)
+	at org.apache.spark.status.AppStatusStore.applicationInfo(AppStatusStore.scala:38)
+	at org.apache.spark.ui.jobs.AllJobsPage.render(AllJobsPage.scala:275)
+	at org.apache.spark.ui.WebUI$$anonfun$2.apply(WebUI.scala:82)
+	at org.apache.spark.ui.WebUI$$anonfun$2.apply(WebUI.scala:82)
+	at org.apache.spark.ui.JettyUtils$$anon$3.doGet(JettyUtils.scala:90)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:687)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:790)
+	at org.spark_project.jetty.servlet.ServletHolder.handle(ServletHolder.java:848)
+	at org.spark_project.jetty.servlet.ServletHandler.doHandle(ServletHandler.java:584)
+	at org.spark_project.jetty.server.handler.ContextHandler.doHandle(ContextHandler.java:1180)
+	at org.spark_project.jetty.servlet.ServletHandler.doScope(ServletHandler.java:512)
+	at org.spark_project.jetty.server.handler.ContextHandler.doScope(ContextHandler.java:1112)
+	at org.spark_project.jetty.server.handler.ScopedHandler.handle(ScopedHandler.java:141)
+	at org.spark_project.jetty.server.handler.gzip.GzipHandler.handle(GzipHandler.java:493)
+	at org.spark_project.jetty.server.handler.ContextHandlerCollection.handle(ContextHandlerCollection.java:213)
+	at org.spark_project.jetty.server.handler.HandlerWrapper.handle(HandlerWrapper.java:134)
+	at org.spark_project.jetty.server.Server.handle(Server.java:539)
+	at org.spark_project.jetty.server.HttpChannel.handle(HttpChannel.java:333)
+	at org.spark_project.jetty.server.HttpConnection.onFillable(HttpConnection.java:251)
+	at org.spark_project.jetty.io.AbstractConnection$ReadCallback.succeeded(AbstractConnection.java:283)
+	at org.spark_project.jetty.io.FillInterest.fillable(FillInterest.java:108)
+	at org.spark_project.jetty.io.SelectChannelEndPoint$2.run(SelectChannelEndPoint.java:93)
+	at org.spark_project.jetty.util.thread.strategy.ExecuteProduceConsume.executeProduceConsume(ExecuteProduceConsume.java:303)
+	at org.spark_project.jetty.util.thread.strategy.ExecuteProduceConsume.produceConsume(ExecuteProduceConsume.java:148)
+	at org.spark_project.jetty.util.thread.strategy.ExecuteProduceConsume.run(ExecuteProduceConsume.java:136)
+	at org.spark_project.jetty.util.thread.QueuedThreadPool.runJob(QueuedThreadPool.java:671)
+	at org.spark_project.jetty.util.thread.QueuedThreadPool$2.run(QueuedThreadPool.java:589)
+	at java.lang.Thread.run(Thread.java:748)
+2022-11-30 06:10:23 INFO  Utils:54 - Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 44185.
+2022-11-30 06:10:23 INFO  NettyBlockTransferService:54 - Server created on 192.168.43.52:44185
+2022-11-30 06:10:23 INFO  BlockManager:54 - Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+2022-11-30 06:10:23 INFO  BlockManagerMaster:54 - Registering BlockManager BlockManagerId(driver, 192.168.43.52, 44185, None)
+2022-11-30 06:10:23 INFO  BlockManagerMasterEndpoint:54 - Registering block manager 192.168.43.52:44185 with 806.7 MB RAM, BlockManagerId(driver, 192.168.43.52, 44185, None)
+2022-11-30 06:10:23 INFO  BlockManagerMaster:54 - Registered BlockManager BlockManagerId(driver, 192.168.43.52, 44185, None)
+2022-11-30 06:10:23 INFO  BlockManager:54 - Initialized BlockManager: BlockManagerId(driver, 192.168.43.52, 44185, None)
+2022-11-30 06:10:24 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@1532c619{/metrics/json,null,AVAILABLE,@Spark}
+2022-11-30 06:10:25 INFO  SharedState:54 - Setting hive.metastore.warehouse.dir ('null') to the value of spark.sql.warehouse.dir ('file:/home/raj/eclipse-workspace/untitled1/spark-warehouse/').
+2022-11-30 06:10:25 INFO  SharedState:54 - Warehouse path is 'file:/home/raj/eclipse-workspace/untitled1/spark-warehouse/'.
+2022-11-30 06:10:25 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@781a9412{/SQL,null,AVAILABLE,@Spark}
+2022-11-30 06:10:25 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@5a4c638d{/SQL/json,null,AVAILABLE,@Spark}
+2022-11-30 06:10:25 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@1f12e153{/SQL/execution,null,AVAILABLE,@Spark}
+2022-11-30 06:10:25 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@389562d6{/SQL/execution/json,null,AVAILABLE,@Spark}
+2022-11-30 06:10:25 INFO  ContextHandler:781 - Started o.s.j.s.ServletContextHandler@60f2e0bd{/static/sql,null,AVAILABLE,@Spark}
+2022-11-30 06:10:27 INFO  StateStoreCoordinatorRef:54 - Registered StateStoreCoordinator endpoint
+2022-11-30 06:10:33 INFO  FileSourceStrategy:54 - Pruning directories with: 
+2022-11-30 06:10:33 INFO  FileSourceStrategy:54 - Post-Scan Filters: (length(trim(value#0, None)) > 0)
+2022-11-30 06:10:33 INFO  FileSourceStrategy:54 - Output Data Schema: struct<value: string>
+2022-11-30 06:10:33 INFO  FileSourceScanExec:54 - Pushed Filters: 
+2022-11-30 06:10:34 INFO  CodeGenerator:54 - Code generated in 601.506785 ms
+2022-11-30 06:10:36 INFO  CodeGenerator:54 - Code generated in 174.623121 ms
+2022-11-30 06:10:36 INFO  MemoryStore:54 - Block broadcast_0 stored as values in memory (estimated size 221.2 KB, free 806.5 MB)
+2022-11-30 06:10:36 INFO  MemoryStore:54 - Block broadcast_0_piece0 stored as bytes in memory (estimated size 20.7 KB, free 806.5 MB)
+2022-11-30 06:10:36 INFO  BlockManagerInfo:54 - Added broadcast_0_piece0 in memory on 192.168.43.52:44185 (size: 20.7 KB, free: 806.7 MB)
+2022-11-30 06:10:36 INFO  SparkContext:54 - Created broadcast 0 from csv at obj1.scala:22
+2022-11-30 06:10:36 INFO  FileSourceScanExec:54 - Planning scan with bin packing, max size: 4194304 bytes, open cost is considered as scanning 4194304 bytes.
+2022-11-30 06:10:37 INFO  SparkContext:54 - Starting job: csv at obj1.scala:22
+2022-11-30 06:10:37 INFO  DAGScheduler:54 - Got job 0 (csv at obj1.scala:22) with 1 output partitions
+2022-11-30 06:10:37 INFO  DAGScheduler:54 - Final stage: ResultStage 0 (csv at obj1.scala:22)
+2022-11-30 06:10:37 INFO  DAGScheduler:54 - Parents of final stage: List()
+2022-11-30 06:10:37 INFO  DAGScheduler:54 - Missing parents: List()
+2022-11-30 06:10:37 INFO  DAGScheduler:54 - Submitting ResultStage 0 (MapPartitionsRDD[3] at csv at obj1.scala:22), which has no missing parents
+2022-11-30 06:10:37 INFO  MemoryStore:54 - Block broadcast_1 stored as values in memory (estimated size 8.9 KB, free 806.5 MB)
+2022-11-30 06:10:37 INFO  MemoryStore:54 - Block broadcast_1_piece0 stored as bytes in memory (estimated size 4.4 KB, free 806.5 MB)
+2022-11-30 06:10:37 INFO  BlockManagerInfo:54 - Added broadcast_1_piece0 in memory on 192.168.43.52:44185 (size: 4.4 KB, free: 806.7 MB)
+2022-11-30 06:10:37 INFO  SparkContext:54 - Created broadcast 1 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:37 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 0 (MapPartitionsRDD[3] at csv at obj1.scala:22) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:37 INFO  TaskSchedulerImpl:54 - Adding task set 0.0 with 1 tasks
+2022-11-30 06:10:37 INFO  TaskSetManager:54 - Starting task 0.0 in stage 0.0 (TID 0, localhost, executor driver, partition 0, PROCESS_LOCAL, 8350 bytes)
+2022-11-30 06:10:37 INFO  Executor:54 - Running task 0.0 in stage 0.0 (TID 0)
+2022-11-30 06:10:38 INFO  FileScanRDD:54 - Reading File path: file:///home/raj/eclipse-workspace/untitled1/src/main/resources/question_tags_10K.csv, range: 0-146161, partition values: [empty row]
+2022-11-30 06:10:38 INFO  CodeGenerator:54 - Code generated in 39.531085 ms
+2022-11-30 06:10:38 INFO  Executor:54 - Finished task 0.0 in stage 0.0 (TID 0). 1267 bytes result sent to driver
+2022-11-30 06:10:38 INFO  TaskSetManager:54 - Finished task 0.0 in stage 0.0 (TID 0) in 572 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:38 INFO  TaskSchedulerImpl:54 - Removed TaskSet 0.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:38 INFO  DAGScheduler:54 - ResultStage 0 (csv at obj1.scala:22) finished in 1.015 s
+2022-11-30 06:10:38 INFO  DAGScheduler:54 - Job 0 finished: csv at obj1.scala:22, took 1.298907 s
+2022-11-30 06:10:38 INFO  FileSourceStrategy:54 - Pruning directories with: 
+2022-11-30 06:10:38 INFO  FileSourceStrategy:54 - Post-Scan Filters: 
+2022-11-30 06:10:38 INFO  FileSourceStrategy:54 - Output Data Schema: struct<value: string>
+2022-11-30 06:10:38 INFO  FileSourceScanExec:54 - Pushed Filters: 
+2022-11-30 06:10:38 INFO  CodeGenerator:54 - Code generated in 23.57921 ms
+2022-11-30 06:10:38 INFO  MemoryStore:54 - Block broadcast_2 stored as values in memory (estimated size 221.2 KB, free 806.2 MB)
+2022-11-30 06:10:38 INFO  MemoryStore:54 - Block broadcast_2_piece0 stored as bytes in memory (estimated size 20.7 KB, free 806.2 MB)
+2022-11-30 06:10:38 INFO  BlockManagerInfo:54 - Added broadcast_2_piece0 in memory on 192.168.43.52:44185 (size: 20.7 KB, free: 806.7 MB)
+2022-11-30 06:10:38 INFO  SparkContext:54 - Created broadcast 2 from csv at obj1.scala:22
+2022-11-30 06:10:38 INFO  FileSourceScanExec:54 - Planning scan with bin packing, max size: 4194304 bytes, open cost is considered as scanning 4194304 bytes.
+2022-11-30 06:10:38 INFO  SparkContext:54 - Starting job: csv at obj1.scala:22
+2022-11-30 06:10:38 INFO  DAGScheduler:54 - Got job 1 (csv at obj1.scala:22) with 1 output partitions
+2022-11-30 06:10:38 INFO  DAGScheduler:54 - Final stage: ResultStage 1 (csv at obj1.scala:22)
+2022-11-30 06:10:38 INFO  DAGScheduler:54 - Parents of final stage: List()
+2022-11-30 06:10:38 INFO  DAGScheduler:54 - Missing parents: List()
+2022-11-30 06:10:38 INFO  DAGScheduler:54 - Submitting ResultStage 1 (MapPartitionsRDD[8] at csv at obj1.scala:22), which has no missing parents
+2022-11-30 06:10:39 INFO  MemoryStore:54 - Block broadcast_3 stored as values in memory (estimated size 12.6 KB, free 806.2 MB)
+2022-11-30 06:10:39 INFO  MemoryStore:54 - Block broadcast_3_piece0 stored as bytes in memory (estimated size 6.8 KB, free 806.2 MB)
+2022-11-30 06:10:39 INFO  BlockManagerInfo:54 - Added broadcast_3_piece0 in memory on 192.168.43.52:44185 (size: 6.8 KB, free: 806.6 MB)
+2022-11-30 06:10:39 INFO  SparkContext:54 - Created broadcast 3 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:39 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 1 (MapPartitionsRDD[8] at csv at obj1.scala:22) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:39 INFO  TaskSchedulerImpl:54 - Adding task set 1.0 with 1 tasks
+2022-11-30 06:10:39 INFO  TaskSetManager:54 - Starting task 0.0 in stage 1.0 (TID 1, localhost, executor driver, partition 0, PROCESS_LOCAL, 8350 bytes)
+2022-11-30 06:10:39 INFO  Executor:54 - Running task 0.0 in stage 1.0 (TID 1)
+2022-11-30 06:10:39 INFO  FileScanRDD:54 - Reading File path: file:///home/raj/eclipse-workspace/untitled1/src/main/resources/question_tags_10K.csv, range: 0-146161, partition values: [empty row]
+2022-11-30 06:10:39 INFO  Executor:54 - Finished task 0.0 in stage 1.0 (TID 1). 1567 bytes result sent to driver
+2022-11-30 06:10:39 INFO  TaskSetManager:54 - Finished task 0.0 in stage 1.0 (TID 1) in 513 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:39 INFO  DAGScheduler:54 - ResultStage 1 (csv at obj1.scala:22) finished in 0.557 s
+2022-11-30 06:10:39 INFO  TaskSchedulerImpl:54 - Removed TaskSet 1.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:39 INFO  DAGScheduler:54 - Job 1 finished: csv at obj1.scala:22, took 0.582706 s
+2022-11-30 06:10:39 INFO  FileSourceStrategy:54 - Pruning directories with: 
+2022-11-30 06:10:39 INFO  FileSourceStrategy:54 - Post-Scan Filters: 
+2022-11-30 06:10:39 INFO  FileSourceStrategy:54 - Output Data Schema: struct<Id: int, Tag: string>
+2022-11-30 06:10:39 INFO  FileSourceScanExec:54 - Pushed Filters: 
+2022-11-30 06:10:39 INFO  CodeGenerator:54 - Code generated in 37.571705 ms
+2022-11-30 06:10:39 INFO  CodeGenerator:54 - Code generated in 77.607281 ms
+2022-11-30 06:10:39 INFO  MemoryStore:54 - Block broadcast_4 stored as values in memory (estimated size 221.2 KB, free 806.0 MB)
+2022-11-30 06:10:39 INFO  MemoryStore:54 - Block broadcast_4_piece0 stored as bytes in memory (estimated size 20.7 KB, free 806.0 MB)
+2022-11-30 06:10:39 INFO  BlockManagerInfo:54 - Added broadcast_4_piece0 in memory on 192.168.43.52:44185 (size: 20.7 KB, free: 806.6 MB)
+2022-11-30 06:10:39 INFO  SparkContext:54 - Created broadcast 4 from show at obj1.scala:25
+2022-11-30 06:10:39 INFO  FileSourceScanExec:54 - Planning scan with bin packing, max size: 4194304 bytes, open cost is considered as scanning 4194304 bytes.
+2022-11-30 06:10:40 INFO  SparkContext:54 - Starting job: show at obj1.scala:25
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Got job 2 (show at obj1.scala:25) with 1 output partitions
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Final stage: ResultStage 2 (show at obj1.scala:25)
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Parents of final stage: List()
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Missing parents: List()
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Submitting ResultStage 2 (MapPartitionsRDD[12] at show at obj1.scala:25), which has no missing parents
+2022-11-30 06:10:40 INFO  MemoryStore:54 - Block broadcast_5 stored as values in memory (estimated size 11.3 KB, free 805.9 MB)
+2022-11-30 06:10:40 INFO  MemoryStore:54 - Block broadcast_5_piece0 stored as bytes in memory (estimated size 5.9 KB, free 805.9 MB)
+2022-11-30 06:10:40 INFO  BlockManagerInfo:54 - Added broadcast_5_piece0 in memory on 192.168.43.52:44185 (size: 5.9 KB, free: 806.6 MB)
+2022-11-30 06:10:40 INFO  SparkContext:54 - Created broadcast 5 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 2 (MapPartitionsRDD[12] at show at obj1.scala:25) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:40 INFO  TaskSchedulerImpl:54 - Adding task set 2.0 with 1 tasks
+2022-11-30 06:10:40 INFO  TaskSetManager:54 - Starting task 0.0 in stage 2.0 (TID 2, localhost, executor driver, partition 0, PROCESS_LOCAL, 8350 bytes)
+2022-11-30 06:10:40 INFO  Executor:54 - Running task 0.0 in stage 2.0 (TID 2)
+2022-11-30 06:10:40 INFO  FileScanRDD:54 - Reading File path: file:///home/raj/eclipse-workspace/untitled1/src/main/resources/question_tags_10K.csv, range: 0-146161, partition values: [empty row]
+2022-11-30 06:10:40 INFO  CodeGenerator:54 - Code generated in 48.63905 ms
+2022-11-30 06:10:40 INFO  Executor:54 - Finished task 0.0 in stage 2.0 (TID 2). 1419 bytes result sent to driver
+2022-11-30 06:10:40 INFO  TaskSetManager:54 - Finished task 0.0 in stage 2.0 (TID 2) in 187 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:40 INFO  TaskSchedulerImpl:54 - Removed TaskSet 2.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - ResultStage 2 (show at obj1.scala:25) finished in 0.219 s
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Job 2 finished: show at obj1.scala:25, took 0.237978 s
++---+-------------------+
+| id|                tag|
++---+-------------------+
+|  1|               data|
+|  4|                 c#|
+|  4|           winforms|
+|  4|    type-conversion|
+|  4|            decimal|
+|  4|            opacity|
+|  6|               html|
+|  6|                css|
+|  6|               css3|
+|  6|internet-explorer-7|
++---+-------------------+
+only showing top 10 rows
+
+root
+ |-- id: integer (nullable = true)
+ |-- tag: string (nullable = true)
+
+2022-11-30 06:10:40 INFO  FileSourceStrategy:54 - Pruning directories with: 
+2022-11-30 06:10:40 INFO  FileSourceStrategy:54 - Post-Scan Filters: 
+2022-11-30 06:10:40 INFO  FileSourceStrategy:54 - Output Data Schema: struct<Id: int, Tag: string>
+2022-11-30 06:10:40 INFO  FileSourceScanExec:54 - Pushed Filters: 
+2022-11-30 06:10:40 INFO  MemoryStore:54 - Block broadcast_6 stored as values in memory (estimated size 221.2 KB, free 805.7 MB)
+2022-11-30 06:10:40 INFO  MemoryStore:54 - Block broadcast_6_piece0 stored as bytes in memory (estimated size 20.7 KB, free 805.7 MB)
+2022-11-30 06:10:40 INFO  BlockManagerInfo:54 - Added broadcast_6_piece0 in memory on 192.168.43.52:44185 (size: 20.7 KB, free: 806.6 MB)
+2022-11-30 06:10:40 INFO  SparkContext:54 - Created broadcast 6 from show at obj1.scala:30
+2022-11-30 06:10:40 INFO  FileSourceScanExec:54 - Planning scan with bin packing, max size: 4194304 bytes, open cost is considered as scanning 4194304 bytes.
+2022-11-30 06:10:40 INFO  SparkContext:54 - Starting job: show at obj1.scala:30
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Got job 3 (show at obj1.scala:30) with 1 output partitions
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Final stage: ResultStage 3 (show at obj1.scala:30)
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Parents of final stage: List()
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Missing parents: List()
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Submitting ResultStage 3 (MapPartitionsRDD[16] at show at obj1.scala:30), which has no missing parents
+2022-11-30 06:10:40 INFO  MemoryStore:54 - Block broadcast_7 stored as values in memory (estimated size 11.3 KB, free 805.7 MB)
+2022-11-30 06:10:40 INFO  MemoryStore:54 - Block broadcast_7_piece0 stored as bytes in memory (estimated size 5.9 KB, free 805.7 MB)
+2022-11-30 06:10:40 INFO  BlockManagerInfo:54 - Added broadcast_7_piece0 in memory on 192.168.43.52:44185 (size: 5.9 KB, free: 806.6 MB)
+2022-11-30 06:10:40 INFO  SparkContext:54 - Created broadcast 7 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 3 (MapPartitionsRDD[16] at show at obj1.scala:30) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:40 INFO  TaskSchedulerImpl:54 - Adding task set 3.0 with 1 tasks
+2022-11-30 06:10:40 INFO  TaskSetManager:54 - Starting task 0.0 in stage 3.0 (TID 3, localhost, executor driver, partition 0, PROCESS_LOCAL, 8350 bytes)
+2022-11-30 06:10:40 INFO  Executor:54 - Running task 0.0 in stage 3.0 (TID 3)
+2022-11-30 06:10:40 INFO  FileScanRDD:54 - Reading File path: file:///home/raj/eclipse-workspace/untitled1/src/main/resources/question_tags_10K.csv, range: 0-146161, partition values: [empty row]
+2022-11-30 06:10:40 INFO  Executor:54 - Finished task 0.0 in stage 3.0 (TID 3). 1462 bytes result sent to driver
+2022-11-30 06:10:40 INFO  TaskSetManager:54 - Finished task 0.0 in stage 3.0 (TID 3) in 77 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:40 INFO  TaskSchedulerImpl:54 - Removed TaskSet 3.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - ResultStage 3 (show at obj1.scala:30) finished in 0.129 s
+2022-11-30 06:10:40 INFO  DAGScheduler:54 - Job 3 finished: show at obj1.scala:30, took 0.157932 s
++---+-------------------+
+| id|                tag|
++---+-------------------+
+|  1|               data|
+|  4|                 c#|
+|  4|           winforms|
+|  4|    type-conversion|
+|  4|            decimal|
+|  4|            opacity|
+|  6|               html|
+|  6|                css|
+|  6|               css3|
+|  6|internet-explorer-7|
++---+-------------------+
+only showing top 10 rows
+
+2022-11-30 06:10:41 INFO  FileSourceStrategy:54 - Pruning directories with: 
+2022-11-30 06:10:41 INFO  FileSourceStrategy:54 - Post-Scan Filters: isnotnull(Tag#11),(Tag#11 = php)
+2022-11-30 06:10:41 INFO  FileSourceStrategy:54 - Output Data Schema: struct<Id: int, Tag: string>
+2022-11-30 06:10:41 INFO  FileSourceScanExec:54 - Pushed Filters: IsNotNull(Tag),EqualTo(Tag,php)
+2022-11-30 06:10:41 INFO  CodeGenerator:54 - Code generated in 58.987535 ms
+2022-11-30 06:10:41 INFO  MemoryStore:54 - Block broadcast_8 stored as values in memory (estimated size 221.2 KB, free 805.5 MB)
+2022-11-30 06:10:42 INFO  MemoryStore:54 - Block broadcast_8_piece0 stored as bytes in memory (estimated size 20.7 KB, free 805.5 MB)
+2022-11-30 06:10:42 INFO  BlockManagerInfo:54 - Added broadcast_8_piece0 in memory on 192.168.43.52:44185 (size: 20.7 KB, free: 806.6 MB)
+2022-11-30 06:10:42 INFO  SparkContext:54 - Created broadcast 8 from show at obj1.scala:33
+2022-11-30 06:10:42 INFO  FileSourceScanExec:54 - Planning scan with bin packing, max size: 4194304 bytes, open cost is considered as scanning 4194304 bytes.
+2022-11-30 06:10:42 INFO  SparkContext:54 - Starting job: show at obj1.scala:33
+2022-11-30 06:10:42 INFO  DAGScheduler:54 - Got job 4 (show at obj1.scala:33) with 1 output partitions
+2022-11-30 06:10:42 INFO  DAGScheduler:54 - Final stage: ResultStage 4 (show at obj1.scala:33)
+2022-11-30 06:10:42 INFO  DAGScheduler:54 - Parents of final stage: List()
+2022-11-30 06:10:42 INFO  DAGScheduler:54 - Missing parents: List()
+2022-11-30 06:10:42 INFO  DAGScheduler:54 - Submitting ResultStage 4 (MapPartitionsRDD[20] at show at obj1.scala:33), which has no missing parents
+2022-11-30 06:10:42 INFO  MemoryStore:54 - Block broadcast_9 stored as values in memory (estimated size 12.0 KB, free 805.4 MB)
+2022-11-30 06:10:42 INFO  MemoryStore:54 - Block broadcast_9_piece0 stored as bytes in memory (estimated size 6.2 KB, free 805.4 MB)
+2022-11-30 06:10:42 INFO  BlockManagerInfo:54 - Added broadcast_9_piece0 in memory on 192.168.43.52:44185 (size: 6.2 KB, free: 806.6 MB)
+2022-11-30 06:10:42 INFO  SparkContext:54 - Created broadcast 9 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:42 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 4 (MapPartitionsRDD[20] at show at obj1.scala:33) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:42 INFO  TaskSchedulerImpl:54 - Adding task set 4.0 with 1 tasks
+2022-11-30 06:10:42 INFO  TaskSetManager:54 - Starting task 0.0 in stage 4.0 (TID 4, localhost, executor driver, partition 0, PROCESS_LOCAL, 8350 bytes)
+2022-11-30 06:10:42 INFO  Executor:54 - Running task 0.0 in stage 4.0 (TID 4)
+2022-11-30 06:10:42 INFO  FileScanRDD:54 - Reading File path: file:///home/raj/eclipse-workspace/untitled1/src/main/resources/question_tags_10K.csv, range: 0-146161, partition values: [empty row]
+2022-11-30 06:10:42 INFO  Executor:54 - Finished task 0.0 in stage 4.0 (TID 4). 1363 bytes result sent to driver
+2022-11-30 06:10:42 INFO  TaskSetManager:54 - Finished task 0.0 in stage 4.0 (TID 4) in 170 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:42 INFO  TaskSchedulerImpl:54 - Removed TaskSet 4.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:42 INFO  DAGScheduler:54 - ResultStage 4 (show at obj1.scala:33) finished in 0.223 s
+2022-11-30 06:10:42 INFO  DAGScheduler:54 - Job 4 finished: show at obj1.scala:33, took 0.241853 s
++---+---+
+| id|tag|
++---+---+
+| 23|php|
+| 42|php|
+| 85|php|
+|126|php|
+|146|php|
+|227|php|
+|249|php|
+|328|php|
+|588|php|
+|657|php|
++---+---+
+only showing top 10 rows
+
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 55
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 90
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 106
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 93
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 124
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 9
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 150
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 139
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 7
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 8
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 134
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 18
+2022-11-30 06:10:42 INFO  BlockManagerInfo:54 - Removed broadcast_4_piece0 on 192.168.43.52:44185 in memory (size: 20.7 KB, free: 806.6 MB)
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 11
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 111
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 135
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 50
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 145
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 64
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 12
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 127
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 87
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 118
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 113
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 59
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 47
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 136
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 146
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 105
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 115
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 27
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 56
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 78
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 70
+2022-11-30 06:10:42 INFO  BlockManagerInfo:54 - Removed broadcast_8_piece0 on 192.168.43.52:44185 in memory (size: 20.7 KB, free: 806.6 MB)
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 15
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 107
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 75
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 28
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 60
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 81
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 119
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 123
+2022-11-30 06:10:42 INFO  BlockManagerInfo:54 - Removed broadcast_1_piece0 on 192.168.43.52:44185 in memory (size: 4.4 KB, free: 806.6 MB)
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 54
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 83
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 62
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 122
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 80
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 96
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 98
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 16
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 58
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 53
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 116
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 97
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 110
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 46
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 86
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 103
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 38
+2022-11-30 06:10:42 INFO  BlockManagerInfo:54 - Removed broadcast_7_piece0 on 192.168.43.52:44185 in memory (size: 5.9 KB, free: 806.6 MB)
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 68
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 45
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 77
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 94
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 132
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 36
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 65
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 39
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 85
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 126
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 137
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 147
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 42
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 101
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 72
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 10
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 114
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 130
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 23
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 66
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 20
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 84
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 92
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 30
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 117
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 69
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 48
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 73
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 43
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 44
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 95
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 71
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 120
+2022-11-30 06:10:42 INFO  BlockManagerInfo:54 - Removed broadcast_5_piece0 on 192.168.43.52:44185 in memory (size: 5.9 KB, free: 806.6 MB)
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 121
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 51
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 14
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 148
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 99
+2022-11-30 06:10:42 INFO  BlockManagerInfo:54 - Removed broadcast_6_piece0 on 192.168.43.52:44185 in memory (size: 20.7 KB, free: 806.6 MB)
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 131
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 25
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 151
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 26
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 52
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 149
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 82
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 100
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 76
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 129
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 22
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 61
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 125
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 104
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 142
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 13
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 144
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 140
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 143
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 138
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 74
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 109
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 128
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 40
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 108
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 29
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 17
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 24
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 133
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 102
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 57
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 63
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 19
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 91
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 112
+2022-11-30 06:10:42 INFO  BlockManagerInfo:54 - Removed broadcast_9_piece0 on 192.168.43.52:44185 in memory (size: 6.2 KB, free: 806.7 MB)
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 49
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 6
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 141
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 89
+2022-11-30 06:10:42 INFO  BlockManagerInfo:54 - Removed broadcast_3_piece0 on 192.168.43.52:44185 in memory (size: 6.8 KB, free: 806.7 MB)
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 21
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 67
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 79
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 41
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 37
+2022-11-30 06:10:42 INFO  ContextCleaner:54 - Cleaned accumulator 88
+2022-11-30 06:10:42 INFO  FileSourceStrategy:54 - Pruning directories with: 
+2022-11-30 06:10:42 INFO  FileSourceStrategy:54 - Post-Scan Filters: isnotnull(Tag#11),(Tag#11 = php)
+2022-11-30 06:10:42 INFO  FileSourceStrategy:54 - Output Data Schema: struct<Tag: string>
+2022-11-30 06:10:42 INFO  FileSourceScanExec:54 - Pushed Filters: IsNotNull(Tag),EqualTo(Tag,php)
+2022-11-30 06:10:43 INFO  CodeGenerator:54 - Code generated in 41.661824 ms
+2022-11-30 06:10:43 INFO  CodeGenerator:54 - Code generated in 48.103742 ms
+2022-11-30 06:10:43 INFO  MemoryStore:54 - Block broadcast_10 stored as values in memory (estimated size 221.2 KB, free 806.0 MB)
+2022-11-30 06:10:43 INFO  MemoryStore:54 - Block broadcast_10_piece0 stored as bytes in memory (estimated size 20.7 KB, free 806.0 MB)
+2022-11-30 06:10:43 INFO  BlockManagerInfo:54 - Added broadcast_10_piece0 in memory on 192.168.43.52:44185 (size: 20.7 KB, free: 806.6 MB)
+2022-11-30 06:10:43 INFO  SparkContext:54 - Created broadcast 10 from count at obj1.scala:36
+2022-11-30 06:10:43 INFO  FileSourceScanExec:54 - Planning scan with bin packing, max size: 4194304 bytes, open cost is considered as scanning 4194304 bytes.
+2022-11-30 06:10:43 INFO  SparkContext:54 - Starting job: count at obj1.scala:36
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - Registering RDD 23 (count at obj1.scala:36)
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - Got job 5 (count at obj1.scala:36) with 1 output partitions
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - Final stage: ResultStage 6 (count at obj1.scala:36)
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - Parents of final stage: List(ShuffleMapStage 5)
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - Missing parents: List(ShuffleMapStage 5)
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - Submitting ShuffleMapStage 5 (MapPartitionsRDD[23] at count at obj1.scala:36), which has no missing parents
+2022-11-30 06:10:43 INFO  MemoryStore:54 - Block broadcast_11 stored as values in memory (estimated size 13.6 KB, free 806.0 MB)
+2022-11-30 06:10:43 INFO  MemoryStore:54 - Block broadcast_11_piece0 stored as bytes in memory (estimated size 7.0 KB, free 806.0 MB)
+2022-11-30 06:10:43 INFO  BlockManagerInfo:54 - Added broadcast_11_piece0 in memory on 192.168.43.52:44185 (size: 7.0 KB, free: 806.6 MB)
+2022-11-30 06:10:43 INFO  SparkContext:54 - Created broadcast 11 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ShuffleMapStage 5 (MapPartitionsRDD[23] at count at obj1.scala:36) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:43 INFO  TaskSchedulerImpl:54 - Adding task set 5.0 with 1 tasks
+2022-11-30 06:10:43 INFO  TaskSetManager:54 - Starting task 0.0 in stage 5.0 (TID 5, localhost, executor driver, partition 0, PROCESS_LOCAL, 8339 bytes)
+2022-11-30 06:10:43 INFO  Executor:54 - Running task 0.0 in stage 5.0 (TID 5)
+2022-11-30 06:10:43 INFO  FileScanRDD:54 - Reading File path: file:///home/raj/eclipse-workspace/untitled1/src/main/resources/question_tags_10K.csv, range: 0-146161, partition values: [empty row]
+2022-11-30 06:10:43 INFO  Executor:54 - Finished task 0.0 in stage 5.0 (TID 5). 1694 bytes result sent to driver
+2022-11-30 06:10:43 INFO  TaskSetManager:54 - Finished task 0.0 in stage 5.0 (TID 5) in 448 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:43 INFO  TaskSchedulerImpl:54 - Removed TaskSet 5.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - ShuffleMapStage 5 (count at obj1.scala:36) finished in 0.485 s
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - looking for newly runnable stages
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - running: Set()
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - waiting: Set(ResultStage 6)
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - failed: Set()
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - Submitting ResultStage 6 (MapPartitionsRDD[26] at count at obj1.scala:36), which has no missing parents
+2022-11-30 06:10:43 INFO  MemoryStore:54 - Block broadcast_12 stored as values in memory (estimated size 7.5 KB, free 806.0 MB)
+2022-11-30 06:10:43 INFO  MemoryStore:54 - Block broadcast_12_piece0 stored as bytes in memory (estimated size 3.9 KB, free 806.0 MB)
+2022-11-30 06:10:43 INFO  BlockManagerInfo:54 - Added broadcast_12_piece0 in memory on 192.168.43.52:44185 (size: 3.9 KB, free: 806.6 MB)
+2022-11-30 06:10:43 INFO  SparkContext:54 - Created broadcast 12 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:43 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 6 (MapPartitionsRDD[26] at count at obj1.scala:36) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:43 INFO  TaskSchedulerImpl:54 - Adding task set 6.0 with 1 tasks
+2022-11-30 06:10:43 INFO  TaskSetManager:54 - Starting task 0.0 in stage 6.0 (TID 6, localhost, executor driver, partition 0, ANY, 7754 bytes)
+2022-11-30 06:10:43 INFO  Executor:54 - Running task 0.0 in stage 6.0 (TID 6)
+2022-11-30 06:10:44 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:44 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 20 ms
+2022-11-30 06:10:44 INFO  Executor:54 - Finished task 0.0 in stage 6.0 (TID 6). 1825 bytes result sent to driver
+2022-11-30 06:10:44 INFO  TaskSetManager:54 - Finished task 0.0 in stage 6.0 (TID 6) in 137 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:44 INFO  TaskSchedulerImpl:54 - Removed TaskSet 6.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - ResultStage 6 (count at obj1.scala:36) finished in 0.167 s
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - Job 5 finished: count at obj1.scala:36, took 0.729324 s
+Number of php tags = 133
+2022-11-30 06:10:44 INFO  FileSourceStrategy:54 - Pruning directories with: 
+2022-11-30 06:10:44 INFO  FileSourceStrategy:54 - Post-Scan Filters: isnotnull(Tag#11),StartsWith(Tag#11, s)
+2022-11-30 06:10:44 INFO  FileSourceStrategy:54 - Output Data Schema: struct<Id: int, Tag: string>
+2022-11-30 06:10:44 INFO  FileSourceScanExec:54 - Pushed Filters: IsNotNull(Tag),StringStartsWith(Tag,s)
+2022-11-30 06:10:44 INFO  CodeGenerator:54 - Code generated in 96.011503 ms
+2022-11-30 06:10:44 INFO  MemoryStore:54 - Block broadcast_13 stored as values in memory (estimated size 221.2 KB, free 805.7 MB)
+2022-11-30 06:10:44 INFO  MemoryStore:54 - Block broadcast_13_piece0 stored as bytes in memory (estimated size 20.7 KB, free 805.7 MB)
+2022-11-30 06:10:44 INFO  BlockManagerInfo:54 - Added broadcast_13_piece0 in memory on 192.168.43.52:44185 (size: 20.7 KB, free: 806.6 MB)
+2022-11-30 06:10:44 INFO  SparkContext:54 - Created broadcast 13 from show at obj1.scala:39
+2022-11-30 06:10:44 INFO  FileSourceScanExec:54 - Planning scan with bin packing, max size: 4194304 bytes, open cost is considered as scanning 4194304 bytes.
+2022-11-30 06:10:44 INFO  SparkContext:54 - Starting job: show at obj1.scala:39
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - Got job 6 (show at obj1.scala:39) with 1 output partitions
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - Final stage: ResultStage 7 (show at obj1.scala:39)
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - Parents of final stage: List()
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - Missing parents: List()
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - Submitting ResultStage 7 (MapPartitionsRDD[30] at show at obj1.scala:39), which has no missing parents
+2022-11-30 06:10:44 INFO  MemoryStore:54 - Block broadcast_14 stored as values in memory (estimated size 12.0 KB, free 805.7 MB)
+2022-11-30 06:10:44 INFO  MemoryStore:54 - Block broadcast_14_piece0 stored as bytes in memory (estimated size 6.2 KB, free 805.7 MB)
+2022-11-30 06:10:44 INFO  BlockManagerInfo:54 - Added broadcast_14_piece0 in memory on 192.168.43.52:44185 (size: 6.2 KB, free: 806.6 MB)
+2022-11-30 06:10:44 INFO  SparkContext:54 - Created broadcast 14 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 7 (MapPartitionsRDD[30] at show at obj1.scala:39) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:44 INFO  TaskSchedulerImpl:54 - Adding task set 7.0 with 1 tasks
+2022-11-30 06:10:44 INFO  TaskSetManager:54 - Starting task 0.0 in stage 7.0 (TID 7, localhost, executor driver, partition 0, PROCESS_LOCAL, 8350 bytes)
+2022-11-30 06:10:44 INFO  Executor:54 - Running task 0.0 in stage 7.0 (TID 7)
+2022-11-30 06:10:44 INFO  FileScanRDD:54 - Reading File path: file:///home/raj/eclipse-workspace/untitled1/src/main/resources/question_tags_10K.csv, range: 0-146161, partition values: [empty row]
+2022-11-30 06:10:44 INFO  Executor:54 - Finished task 0.0 in stage 7.0 (TID 7). 1489 bytes result sent to driver
+2022-11-30 06:10:44 INFO  TaskSetManager:54 - Finished task 0.0 in stage 7.0 (TID 7) in 33 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:44 INFO  TaskSchedulerImpl:54 - Removed TaskSet 7.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - ResultStage 7 (show at obj1.scala:39) finished in 0.055 s
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - Job 6 finished: show at obj1.scala:39, took 0.065798 s
++---+-------------+
+| id|          tag|
++---+-------------+
+| 25|      sockets|
+| 36|          sql|
+| 36|   sql-server|
+| 40| structuremap|
+| 48|submit-button|
+| 79|          svn|
+| 79|    subclipse|
+| 85|          sql|
+| 90|          svn|
+|108|          svn|
++---+-------------+
+only showing top 10 rows
+
+2022-11-30 06:10:44 INFO  FileSourceStrategy:54 - Pruning directories with: 
+2022-11-30 06:10:44 INFO  FileSourceStrategy:54 - Post-Scan Filters: isnotnull(Tag#11),StartsWith(Tag#11, s),((Id#10 = 25) || (Id#10 = 108))
+2022-11-30 06:10:44 INFO  FileSourceStrategy:54 - Output Data Schema: struct<Id: int, Tag: string>
+2022-11-30 06:10:44 INFO  FileSourceScanExec:54 - Pushed Filters: IsNotNull(Tag),StringStartsWith(Tag,s),Or(EqualTo(Id,25),EqualTo(Id,108))
+2022-11-30 06:10:44 INFO  CodeGenerator:54 - Code generated in 54.724705 ms
+2022-11-30 06:10:44 INFO  MemoryStore:54 - Block broadcast_15 stored as values in memory (estimated size 221.2 KB, free 805.5 MB)
+2022-11-30 06:10:44 INFO  MemoryStore:54 - Block broadcast_15_piece0 stored as bytes in memory (estimated size 20.7 KB, free 805.5 MB)
+2022-11-30 06:10:44 INFO  BlockManagerInfo:54 - Added broadcast_15_piece0 in memory on 192.168.43.52:44185 (size: 20.7 KB, free: 806.6 MB)
+2022-11-30 06:10:44 INFO  SparkContext:54 - Created broadcast 15 from show at obj1.scala:45
+2022-11-30 06:10:44 INFO  FileSourceScanExec:54 - Planning scan with bin packing, max size: 4194304 bytes, open cost is considered as scanning 4194304 bytes.
+2022-11-30 06:10:44 INFO  SparkContext:54 - Starting job: show at obj1.scala:45
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - Got job 7 (show at obj1.scala:45) with 1 output partitions
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - Final stage: ResultStage 8 (show at obj1.scala:45)
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - Parents of final stage: List()
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - Missing parents: List()
+2022-11-30 06:10:44 INFO  DAGScheduler:54 - Submitting ResultStage 8 (MapPartitionsRDD[34] at show at obj1.scala:45), which has no missing parents
+2022-11-30 06:10:44 INFO  MemoryStore:54 - Block broadcast_16 stored as values in memory (estimated size 12.7 KB, free 805.5 MB)
+2022-11-30 06:10:45 INFO  MemoryStore:54 - Block broadcast_16_piece0 stored as bytes in memory (estimated size 6.4 KB, free 805.5 MB)
+2022-11-30 06:10:45 INFO  BlockManagerInfo:54 - Added broadcast_16_piece0 in memory on 192.168.43.52:44185 (size: 6.4 KB, free: 806.6 MB)
+2022-11-30 06:10:45 INFO  SparkContext:54 - Created broadcast 16 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:45 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 8 (MapPartitionsRDD[34] at show at obj1.scala:45) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:45 INFO  TaskSchedulerImpl:54 - Adding task set 8.0 with 1 tasks
+2022-11-30 06:10:45 INFO  TaskSetManager:54 - Starting task 0.0 in stage 8.0 (TID 8, localhost, executor driver, partition 0, PROCESS_LOCAL, 8350 bytes)
+2022-11-30 06:10:45 INFO  Executor:54 - Running task 0.0 in stage 8.0 (TID 8)
+2022-11-30 06:10:45 INFO  FileScanRDD:54 - Reading File path: file:///home/raj/eclipse-workspace/untitled1/src/main/resources/question_tags_10K.csv, range: 0-146161, partition values: [empty row]
+2022-11-30 06:10:45 INFO  Executor:54 - Finished task 0.0 in stage 8.0 (TID 8). 1310 bytes result sent to driver
+2022-11-30 06:10:45 INFO  TaskSetManager:54 - Finished task 0.0 in stage 8.0 (TID 8) in 266 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:45 INFO  TaskSchedulerImpl:54 - Removed TaskSet 8.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:45 INFO  DAGScheduler:54 - ResultStage 8 (show at obj1.scala:45) finished in 0.296 s
+2022-11-30 06:10:45 INFO  DAGScheduler:54 - Job 7 finished: show at obj1.scala:45, took 0.305818 s
++---+-------+
+| id|    tag|
++---+-------+
+| 25|sockets|
+|108|    svn|
++---+-------+
+
+2022-11-30 06:10:45 INFO  FileSourceStrategy:54 - Pruning directories with: 
+2022-11-30 06:10:45 INFO  FileSourceStrategy:54 - Post-Scan Filters: Id#10 IN (25,108)
+2022-11-30 06:10:45 INFO  FileSourceStrategy:54 - Output Data Schema: struct<Id: int, Tag: string>
+2022-11-30 06:10:45 INFO  FileSourceScanExec:54 - Pushed Filters: In(Id, [25,108])
+2022-11-30 06:10:45 INFO  CodeGenerator:54 - Code generated in 79.929771 ms
+2022-11-30 06:10:45 INFO  MemoryStore:54 - Block broadcast_17 stored as values in memory (estimated size 221.2 KB, free 805.2 MB)
+2022-11-30 06:10:45 INFO  MemoryStore:54 - Block broadcast_17_piece0 stored as bytes in memory (estimated size 20.7 KB, free 805.2 MB)
+2022-11-30 06:10:45 INFO  BlockManagerInfo:54 - Added broadcast_17_piece0 in memory on 192.168.43.52:44185 (size: 20.7 KB, free: 806.6 MB)
+2022-11-30 06:10:45 INFO  SparkContext:54 - Created broadcast 17 from show at obj1.scala:48
+2022-11-30 06:10:45 INFO  FileSourceScanExec:54 - Planning scan with bin packing, max size: 4194304 bytes, open cost is considered as scanning 4194304 bytes.
+2022-11-30 06:10:45 INFO  SparkContext:54 - Starting job: show at obj1.scala:48
+2022-11-30 06:10:45 INFO  DAGScheduler:54 - Got job 8 (show at obj1.scala:48) with 1 output partitions
+2022-11-30 06:10:45 INFO  DAGScheduler:54 - Final stage: ResultStage 9 (show at obj1.scala:48)
+2022-11-30 06:10:45 INFO  DAGScheduler:54 - Parents of final stage: List()
+2022-11-30 06:10:45 INFO  DAGScheduler:54 - Missing parents: List()
+2022-11-30 06:10:45 INFO  DAGScheduler:54 - Submitting ResultStage 9 (MapPartitionsRDD[38] at show at obj1.scala:48), which has no missing parents
+2022-11-30 06:10:45 INFO  MemoryStore:54 - Block broadcast_18 stored as values in memory (estimated size 12.5 KB, free 805.2 MB)
+2022-11-30 06:10:45 INFO  MemoryStore:54 - Block broadcast_18_piece0 stored as bytes in memory (estimated size 6.3 KB, free 805.2 MB)
+2022-11-30 06:10:45 INFO  BlockManagerInfo:54 - Added broadcast_18_piece0 in memory on 192.168.43.52:44185 (size: 6.3 KB, free: 806.5 MB)
+2022-11-30 06:10:45 INFO  SparkContext:54 - Created broadcast 18 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:45 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 9 (MapPartitionsRDD[38] at show at obj1.scala:48) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:45 INFO  TaskSchedulerImpl:54 - Adding task set 9.0 with 1 tasks
+2022-11-30 06:10:45 INFO  TaskSetManager:54 - Starting task 0.0 in stage 9.0 (TID 9, localhost, executor driver, partition 0, PROCESS_LOCAL, 8350 bytes)
+2022-11-30 06:10:45 INFO  Executor:54 - Running task 0.0 in stage 9.0 (TID 9)
+2022-11-30 06:10:45 INFO  FileScanRDD:54 - Reading File path: file:///home/raj/eclipse-workspace/untitled1/src/main/resources/question_tags_10K.csv, range: 0-146161, partition values: [empty row]
+2022-11-30 06:10:45 INFO  Executor:54 - Finished task 0.0 in stage 9.0 (TID 9). 1425 bytes result sent to driver
+2022-11-30 06:10:45 INFO  TaskSetManager:54 - Finished task 0.0 in stage 9.0 (TID 9) in 223 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:45 INFO  TaskSchedulerImpl:54 - Removed TaskSet 9.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:45 INFO  DAGScheduler:54 - ResultStage 9 (show at obj1.scala:48) finished in 0.243 s
+2022-11-30 06:10:45 INFO  DAGScheduler:54 - Job 8 finished: show at obj1.scala:48, took 0.252238 s
++---+---------+
+| id|      tag|
++---+---------+
+| 25|      c++|
+| 25|        c|
+| 25|  sockets|
+| 25|mainframe|
+| 25|      zos|
+|108|  windows|
+|108|      svn|
+|108|    64bit|
++---+---------+
+
+Group By tag value
+2022-11-30 06:10:46 INFO  FileSourceStrategy:54 - Pruning directories with: 
+2022-11-30 06:10:46 INFO  FileSourceStrategy:54 - Post-Scan Filters: 
+2022-11-30 06:10:46 INFO  FileSourceStrategy:54 - Output Data Schema: struct<Tag: string>
+2022-11-30 06:10:46 INFO  FileSourceScanExec:54 - Pushed Filters: 
+2022-11-30 06:10:46 INFO  CodeGenerator:54 - Code generated in 49.122439 ms
+2022-11-30 06:10:46 INFO  CodeGenerator:54 - Code generated in 120.528941 ms
+2022-11-30 06:10:46 INFO  CodeGenerator:54 - Code generated in 156.575903 ms
+2022-11-30 06:10:46 INFO  MemoryStore:54 - Block broadcast_19 stored as values in memory (estimated size 221.2 KB, free 805.0 MB)
+2022-11-30 06:10:46 INFO  MemoryStore:54 - Block broadcast_19_piece0 stored as bytes in memory (estimated size 20.7 KB, free 805.0 MB)
+2022-11-30 06:10:46 INFO  BlockManagerInfo:54 - Added broadcast_19_piece0 in memory on 192.168.43.52:44185 (size: 20.7 KB, free: 806.5 MB)
+2022-11-30 06:10:46 INFO  SparkContext:54 - Created broadcast 19 from show at obj1.scala:52
+2022-11-30 06:10:46 INFO  FileSourceScanExec:54 - Planning scan with bin packing, max size: 4194304 bytes, open cost is considered as scanning 4194304 bytes.
+2022-11-30 06:10:46 INFO  SparkContext:54 - Starting job: show at obj1.scala:52
+2022-11-30 06:10:46 INFO  DAGScheduler:54 - Registering RDD 41 (show at obj1.scala:52)
+2022-11-30 06:10:46 INFO  DAGScheduler:54 - Got job 9 (show at obj1.scala:52) with 1 output partitions
+2022-11-30 06:10:46 INFO  DAGScheduler:54 - Final stage: ResultStage 11 (show at obj1.scala:52)
+2022-11-30 06:10:46 INFO  DAGScheduler:54 - Parents of final stage: List(ShuffleMapStage 10)
+2022-11-30 06:10:46 INFO  DAGScheduler:54 - Missing parents: List(ShuffleMapStage 10)
+2022-11-30 06:10:46 INFO  DAGScheduler:54 - Submitting ShuffleMapStage 10 (MapPartitionsRDD[41] at show at obj1.scala:52), which has no missing parents
+2022-11-30 06:10:46 INFO  MemoryStore:54 - Block broadcast_20 stored as values in memory (estimated size 27.5 KB, free 804.9 MB)
+2022-11-30 06:10:46 INFO  MemoryStore:54 - Block broadcast_20_piece0 stored as bytes in memory (estimated size 12.6 KB, free 804.9 MB)
+2022-11-30 06:10:46 INFO  BlockManagerInfo:54 - Added broadcast_20_piece0 in memory on 192.168.43.52:44185 (size: 12.6 KB, free: 806.5 MB)
+2022-11-30 06:10:46 INFO  SparkContext:54 - Created broadcast 20 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:46 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ShuffleMapStage 10 (MapPartitionsRDD[41] at show at obj1.scala:52) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:46 INFO  TaskSchedulerImpl:54 - Adding task set 10.0 with 1 tasks
+2022-11-30 06:10:46 INFO  TaskSetManager:54 - Starting task 0.0 in stage 10.0 (TID 10, localhost, executor driver, partition 0, PROCESS_LOCAL, 8339 bytes)
+2022-11-30 06:10:46 INFO  Executor:54 - Running task 0.0 in stage 10.0 (TID 10)
+2022-11-30 06:10:47 INFO  CodeGenerator:54 - Code generated in 86.46944 ms
+2022-11-30 06:10:47 INFO  CodeGenerator:54 - Code generated in 60.542331 ms
+2022-11-30 06:10:47 INFO  CodeGenerator:54 - Code generated in 69.946365 ms
+2022-11-30 06:10:47 INFO  FileScanRDD:54 - Reading File path: file:///home/raj/eclipse-workspace/untitled1/src/main/resources/question_tags_10K.csv, range: 0-146161, partition values: [empty row]
+2022-11-30 06:10:47 INFO  Executor:54 - Finished task 0.0 in stage 10.0 (TID 10). 2401 bytes result sent to driver
+2022-11-30 06:10:47 INFO  TaskSetManager:54 - Finished task 0.0 in stage 10.0 (TID 10) in 807 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:47 INFO  TaskSchedulerImpl:54 - Removed TaskSet 10.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - ShuffleMapStage 10 (show at obj1.scala:52) finished in 0.843 s
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - looking for newly runnable stages
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - running: Set()
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - waiting: Set(ResultStage 11)
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - failed: Set()
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - Submitting ResultStage 11 (MapPartitionsRDD[45] at show at obj1.scala:52), which has no missing parents
+2022-11-30 06:10:47 INFO  MemoryStore:54 - Block broadcast_21 stored as values in memory (estimated size 25.2 KB, free 804.9 MB)
+2022-11-30 06:10:47 INFO  MemoryStore:54 - Block broadcast_21_piece0 stored as bytes in memory (estimated size 12.2 KB, free 804.9 MB)
+2022-11-30 06:10:47 INFO  BlockManagerInfo:54 - Added broadcast_21_piece0 in memory on 192.168.43.52:44185 (size: 12.2 KB, free: 806.5 MB)
+2022-11-30 06:10:47 INFO  SparkContext:54 - Created broadcast 21 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 11 (MapPartitionsRDD[45] at show at obj1.scala:52) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:47 INFO  TaskSchedulerImpl:54 - Adding task set 11.0 with 1 tasks
+2022-11-30 06:10:47 INFO  TaskSetManager:54 - Starting task 0.0 in stage 11.0 (TID 11, localhost, executor driver, partition 0, ANY, 7754 bytes)
+2022-11-30 06:10:47 INFO  Executor:54 - Running task 0.0 in stage 11.0 (TID 11)
+2022-11-30 06:10:47 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:47 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:47 INFO  Executor:54 - Finished task 0.0 in stage 11.0 (TID 11). 2966 bytes result sent to driver
+2022-11-30 06:10:47 INFO  TaskSetManager:54 - Finished task 0.0 in stage 11.0 (TID 11) in 40 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:47 INFO  TaskSchedulerImpl:54 - Removed TaskSet 11.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - ResultStage 11 (show at obj1.scala:52) finished in 0.064 s
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - Job 9 finished: show at obj1.scala:52, took 0.929554 s
+2022-11-30 06:10:47 INFO  SparkContext:54 - Starting job: show at obj1.scala:52
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - Got job 10 (show at obj1.scala:52) with 1 output partitions
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - Final stage: ResultStage 13 (show at obj1.scala:52)
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - Parents of final stage: List(ShuffleMapStage 12)
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - Missing parents: List()
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - Submitting ResultStage 13 (MapPartitionsRDD[45] at show at obj1.scala:52), which has no missing parents
+2022-11-30 06:10:47 INFO  MemoryStore:54 - Block broadcast_22 stored as values in memory (estimated size 25.2 KB, free 804.9 MB)
+2022-11-30 06:10:47 INFO  MemoryStore:54 - Block broadcast_22_piece0 stored as bytes in memory (estimated size 12.2 KB, free 804.8 MB)
+2022-11-30 06:10:47 INFO  BlockManagerInfo:54 - Added broadcast_22_piece0 in memory on 192.168.43.52:44185 (size: 12.2 KB, free: 806.5 MB)
+2022-11-30 06:10:47 INFO  SparkContext:54 - Created broadcast 22 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 13 (MapPartitionsRDD[45] at show at obj1.scala:52) (first 15 tasks are for partitions Vector(1))
+2022-11-30 06:10:47 INFO  TaskSchedulerImpl:54 - Adding task set 13.0 with 1 tasks
+2022-11-30 06:10:47 INFO  TaskSetManager:54 - Starting task 0.0 in stage 13.0 (TID 12, localhost, executor driver, partition 1, ANY, 7754 bytes)
+2022-11-30 06:10:47 INFO  Executor:54 - Running task 0.0 in stage 13.0 (TID 12)
+2022-11-30 06:10:47 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:47 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:47 INFO  Executor:54 - Finished task 0.0 in stage 13.0 (TID 12). 2945 bytes result sent to driver
+2022-11-30 06:10:47 INFO  TaskSetManager:54 - Finished task 0.0 in stage 13.0 (TID 12) in 31 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:47 INFO  TaskSchedulerImpl:54 - Removed TaskSet 13.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - ResultStage 13 (show at obj1.scala:52) finished in 0.050 s
+2022-11-30 06:10:47 INFO  DAGScheduler:54 - Job 10 finished: show at obj1.scala:52, took 0.060065 s
++--------------------+-----+
+|                 tag|count|
++--------------------+-----+
+|         type-safety|    4|
+|             jbutton|    1|
+|              iframe|    2|
+|           svn-hooks|    2|
+|           standards|    7|
+|knowledge-management|    2|
+|            trayicon|    1|
+|           arguments|    1|
+|                 zfs|    1|
+|              import|    3|
++--------------------+-----+
+only showing top 10 rows
+
+2022-11-30 06:10:48 INFO  FileSourceStrategy:54 - Pruning directories with: 
+2022-11-30 06:10:48 INFO  FileSourceStrategy:54 - Post-Scan Filters: 
+2022-11-30 06:10:48 INFO  FileSourceStrategy:54 - Output Data Schema: struct<Tag: string>
+2022-11-30 06:10:48 INFO  FileSourceScanExec:54 - Pushed Filters: 
+2022-11-30 06:10:48 INFO  CodeGenerator:54 - Code generated in 84.56042 ms
+2022-11-30 06:10:48 INFO  MemoryStore:54 - Block broadcast_23 stored as values in memory (estimated size 221.2 KB, free 804.6 MB)
+2022-11-30 06:10:48 INFO  MemoryStore:54 - Block broadcast_23_piece0 stored as bytes in memory (estimated size 20.7 KB, free 804.6 MB)
+2022-11-30 06:10:48 INFO  BlockManagerInfo:54 - Added broadcast_23_piece0 in memory on 192.168.43.52:44185 (size: 20.7 KB, free: 806.5 MB)
+2022-11-30 06:10:48 INFO  SparkContext:54 - Created broadcast 23 from show at obj1.scala:55
+2022-11-30 06:10:48 INFO  FileSourceScanExec:54 - Planning scan with bin packing, max size: 4194304 bytes, open cost is considered as scanning 4194304 bytes.
+2022-11-30 06:10:48 INFO  SparkContext:54 - Starting job: show at obj1.scala:55
+2022-11-30 06:10:48 INFO  DAGScheduler:54 - Registering RDD 48 (show at obj1.scala:55)
+2022-11-30 06:10:48 INFO  DAGScheduler:54 - Got job 11 (show at obj1.scala:55) with 1 output partitions
+2022-11-30 06:10:48 INFO  DAGScheduler:54 - Final stage: ResultStage 15 (show at obj1.scala:55)
+2022-11-30 06:10:48 INFO  DAGScheduler:54 - Parents of final stage: List(ShuffleMapStage 14)
+2022-11-30 06:10:48 INFO  DAGScheduler:54 - Missing parents: List(ShuffleMapStage 14)
+2022-11-30 06:10:48 INFO  DAGScheduler:54 - Submitting ShuffleMapStage 14 (MapPartitionsRDD[48] at show at obj1.scala:55), which has no missing parents
+2022-11-30 06:10:48 INFO  MemoryStore:54 - Block broadcast_24 stored as values in memory (estimated size 27.5 KB, free 804.6 MB)
+2022-11-30 06:10:48 INFO  MemoryStore:54 - Block broadcast_24_piece0 stored as bytes in memory (estimated size 12.6 KB, free 804.6 MB)
+2022-11-30 06:10:48 INFO  BlockManagerInfo:54 - Added broadcast_24_piece0 in memory on 192.168.43.52:44185 (size: 12.6 KB, free: 806.5 MB)
+2022-11-30 06:10:48 INFO  SparkContext:54 - Created broadcast 24 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:48 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ShuffleMapStage 14 (MapPartitionsRDD[48] at show at obj1.scala:55) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:48 INFO  TaskSchedulerImpl:54 - Adding task set 14.0 with 1 tasks
+2022-11-30 06:10:48 INFO  TaskSetManager:54 - Starting task 0.0 in stage 14.0 (TID 13, localhost, executor driver, partition 0, PROCESS_LOCAL, 8339 bytes)
+2022-11-30 06:10:48 INFO  Executor:54 - Running task 0.0 in stage 14.0 (TID 13)
+2022-11-30 06:10:48 INFO  FileScanRDD:54 - Reading File path: file:///home/raj/eclipse-workspace/untitled1/src/main/resources/question_tags_10K.csv, range: 0-146161, partition values: [empty row]
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 0.0 in stage 14.0 (TID 13). 2401 bytes result sent to driver
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 0.0 in stage 14.0 (TID 13) in 493 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:49 INFO  TaskSchedulerImpl:54 - Removed TaskSet 14.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - ShuffleMapStage 14 (show at obj1.scala:55) finished in 0.522 s
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - looking for newly runnable stages
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - running: Set()
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - waiting: Set(ResultStage 15)
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - failed: Set()
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Submitting ResultStage 15 (MapPartitionsRDD[52] at show at obj1.scala:55), which has no missing parents
+2022-11-30 06:10:49 INFO  MemoryStore:54 - Block broadcast_25 stored as values in memory (estimated size 26.9 KB, free 804.5 MB)
+2022-11-30 06:10:49 INFO  MemoryStore:54 - Block broadcast_25_piece0 stored as bytes in memory (estimated size 12.8 KB, free 804.5 MB)
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Added broadcast_25_piece0 in memory on 192.168.43.52:44185 (size: 12.8 KB, free: 806.4 MB)
+2022-11-30 06:10:49 INFO  SparkContext:54 - Created broadcast 25 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Submitting 1 missing tasks from ResultStage 15 (MapPartitionsRDD[52] at show at obj1.scala:55) (first 15 tasks are for partitions Vector(0))
+2022-11-30 06:10:49 INFO  TaskSchedulerImpl:54 - Adding task set 15.0 with 1 tasks
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 0.0 in stage 15.0 (TID 14, localhost, executor driver, partition 0, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 0.0 in stage 15.0 (TID 14)
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 0.0 in stage 15.0 (TID 14). 2843 bytes result sent to driver
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 0.0 in stage 15.0 (TID 14) in 37 ms on localhost (executor driver) (1/1)
+2022-11-30 06:10:49 INFO  TaskSchedulerImpl:54 - Removed TaskSet 15.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - ResultStage 15 (show at obj1.scala:55) finished in 0.058 s
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Job 11 finished: show at obj1.scala:55, took 0.596520 s
+2022-11-30 06:10:49 INFO  SparkContext:54 - Starting job: show at obj1.scala:55
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Got job 12 (show at obj1.scala:55) with 4 output partitions
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Final stage: ResultStage 17 (show at obj1.scala:55)
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Parents of final stage: List(ShuffleMapStage 16)
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Missing parents: List()
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Submitting ResultStage 17 (MapPartitionsRDD[52] at show at obj1.scala:55), which has no missing parents
+2022-11-30 06:10:49 INFO  MemoryStore:54 - Block broadcast_26 stored as values in memory (estimated size 26.9 KB, free 804.5 MB)
+2022-11-30 06:10:49 INFO  MemoryStore:54 - Block broadcast_26_piece0 stored as bytes in memory (estimated size 12.8 KB, free 804.5 MB)
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Added broadcast_26_piece0 in memory on 192.168.43.52:44185 (size: 12.8 KB, free: 806.4 MB)
+2022-11-30 06:10:49 INFO  SparkContext:54 - Created broadcast 26 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Submitting 4 missing tasks from ResultStage 17 (MapPartitionsRDD[52] at show at obj1.scala:55) (first 15 tasks are for partitions Vector(1, 2, 3, 4))
+2022-11-30 06:10:49 INFO  TaskSchedulerImpl:54 - Adding task set 17.0 with 4 tasks
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 0.0 in stage 17.0 (TID 15, localhost, executor driver, partition 1, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 1.0 in stage 17.0 (TID 16, localhost, executor driver, partition 2, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 2.0 in stage 17.0 (TID 17, localhost, executor driver, partition 3, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 3.0 in stage 17.0 (TID 18, localhost, executor driver, partition 4, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 0.0 in stage 17.0 (TID 15)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 1.0 in stage 17.0 (TID 16)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 3.0 in stage 17.0 (TID 18)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 2.0 in stage 17.0 (TID 17)
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 0 ms
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 2 ms
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 15 ms
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 3.0 in stage 17.0 (TID 18). 2837 bytes result sent to driver
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 2.0 in stage 17.0 (TID 17). 2797 bytes result sent to driver
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 3.0 in stage 17.0 (TID 18) in 110 ms on localhost (executor driver) (1/4)
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 0.0 in stage 17.0 (TID 15). 2797 bytes result sent to driver
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 2.0 in stage 17.0 (TID 17) in 113 ms on localhost (executor driver) (2/4)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 0.0 in stage 17.0 (TID 15) in 117 ms on localhost (executor driver) (3/4)
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 1.0 in stage 17.0 (TID 16). 2839 bytes result sent to driver
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 1.0 in stage 17.0 (TID 16) in 139 ms on localhost (executor driver) (4/4)
+2022-11-30 06:10:49 INFO  TaskSchedulerImpl:54 - Removed TaskSet 17.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - ResultStage 17 (show at obj1.scala:55) finished in 0.168 s
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Job 12 finished: show at obj1.scala:55, took 0.178800 s
+2022-11-30 06:10:49 INFO  SparkContext:54 - Starting job: show at obj1.scala:55
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Got job 13 (show at obj1.scala:55) with 20 output partitions
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Final stage: ResultStage 19 (show at obj1.scala:55)
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Parents of final stage: List(ShuffleMapStage 18)
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Missing parents: List()
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Submitting ResultStage 19 (MapPartitionsRDD[52] at show at obj1.scala:55), which has no missing parents
+2022-11-30 06:10:49 INFO  MemoryStore:54 - Block broadcast_27 stored as values in memory (estimated size 26.9 KB, free 804.5 MB)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 464
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 378
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 288
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 367
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 205
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 404
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 275
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 263
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 396
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 330
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 393
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 273
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 168
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 385
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 187
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 186
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_25_piece0 on 192.168.43.52:44185 in memory (size: 12.8 KB, free: 806.4 MB)
+2022-11-30 06:10:49 INFO  MemoryStore:54 - Block broadcast_27_piece0 stored as bytes in memory (estimated size 12.8 KB, free 804.5 MB)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 340
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 248
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 256
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 178
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 429
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 159
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 457
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 376
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 211
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 249
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 201
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 302
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 197
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 377
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 171
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 158
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Added broadcast_27_piece0 in memory on 192.168.43.52:44185 (size: 12.8 KB, free: 806.4 MB)
+2022-11-30 06:10:49 INFO  SparkContext:54 - Created broadcast 27 from broadcast at DAGScheduler.scala:1039
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_20_piece0 on 192.168.43.52:44185 in memory (size: 12.6 KB, free: 806.4 MB)
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Submitting 20 missing tasks from ResultStage 19 (MapPartitionsRDD[52] at show at obj1.scala:55) (first 15 tasks are for partitions Vector(5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19))
+2022-11-30 06:10:49 INFO  TaskSchedulerImpl:54 - Adding task set 19.0 with 20 tasks
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 479
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 347
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 486
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 189
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 0.0 in stage 19.0 (TID 19, localhost, executor driver, partition 5, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 164
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 473
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 173
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 321
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 1.0 in stage 19.0 (TID 20, localhost, executor driver, partition 6, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 462
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 220
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 438
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 471
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 2.0 in stage 19.0 (TID 21, localhost, executor driver, partition 7, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 3.0 in stage 19.0 (TID 22, localhost, executor driver, partition 8, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 1.0 in stage 19.0 (TID 20)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 448
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 0.0 in stage 19.0 (TID 19)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 3.0 in stage 19.0 (TID 22)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 2.0 in stage 19.0 (TID 21)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 258
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 242
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 366
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 427
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 387
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 489
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 200
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 303
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 203
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 373
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 445
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 314
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 384
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 170
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 276
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 265
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 349
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 156
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 359
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 326
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 320
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 480
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 4 ms
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 3 ms
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 2 ms
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 3.0 in stage 19.0 (TID 22). 2797 bytes result sent to driver
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 2.0 in stage 19.0 (TID 21). 2925 bytes result sent to driver
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 4.0 in stage 19.0 (TID 23, localhost, executor driver, partition 9, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 3.0 in stage 19.0 (TID 22) in 85 ms on localhost (executor driver) (1/20)
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 0.0 in stage 19.0 (TID 19). 2877 bytes result sent to driver
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned shuffle 1
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 5.0 in stage 19.0 (TID 24, localhost, executor driver, partition 10, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 6.0 in stage 19.0 (TID 25, localhost, executor driver, partition 11, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 2.0 in stage 19.0 (TID 21) in 96 ms on localhost (executor driver) (2/20)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 285
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 6.0 in stage 19.0 (TID 25)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 5.0 in stage 19.0 (TID 24)
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 1.0 in stage 19.0 (TID 20). 2847 bytes result sent to driver
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 185
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 0.0 in stage 19.0 (TID 19) in 97 ms on localhost (executor driver) (3/20)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 7.0 in stage 19.0 (TID 26, localhost, executor driver, partition 12, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 7.0 in stage 19.0 (TID 26)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 1.0 in stage 19.0 (TID 20) in 104 ms on localhost (executor driver) (4/20)
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_10_piece0 on 192.168.43.52:44185 in memory (size: 20.7 KB, free: 806.5 MB)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 380
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 230
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 190
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 493
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 358
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 306
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 342
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 400
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 245
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 257
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 426
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 204
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 499
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 247
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 308
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 219
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 472
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 350
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 295
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 436
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 488
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 165
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 364
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 224
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 196
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 292
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 353
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 492
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 261
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 483
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 215
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 227
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 332
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 437
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 435
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 325
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 193
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 498
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 381
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 213
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 304
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 269
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 407
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 246
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 281
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 255
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 4.0 in stage 19.0 (TID 23)
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 9 ms
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 271
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 253
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 240
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 463
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 208
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 266
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 13 ms
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 214
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 299
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 296
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 497
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 450
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 212
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 309
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 406
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 177
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 481
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 317
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 183
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 357
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 33 ms
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 262
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 312
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 283
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 216
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 284
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 289
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 333
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 374
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 482
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 339
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 166
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 188
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 6.0 in stage 19.0 (TID 25). 2839 bytes result sent to driver
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 7.0 in stage 19.0 (TID 26). 2888 bytes result sent to driver
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 5.0 in stage 19.0 (TID 24). 2846 bytes result sent to driver
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 8.0 in stage 19.0 (TID 27, localhost, executor driver, partition 13, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 6.0 in stage 19.0 (TID 25) in 130 ms on localhost (executor driver) (5/20)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 8.0 in stage 19.0 (TID 27)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 9.0 in stage 19.0 (TID 28, localhost, executor driver, partition 14, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 9.0 in stage 19.0 (TID 28)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 10.0 in stage 19.0 (TID 29, localhost, executor driver, partition 15, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 10.0 in stage 19.0 (TID 29)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 7.0 in stage 19.0 (TID 26) in 138 ms on localhost (executor driver) (6/20)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 5.0 in stage 19.0 (TID 24) in 157 ms on localhost (executor driver) (7/20)
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 157
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 352
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 394
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 392
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 449
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 232
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 222
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 369
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 477
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 278
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 181
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 375
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 4.0 in stage 19.0 (TID 23). 2880 bytes result sent to driver
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_13_piece0 on 192.168.43.52:44185 in memory (size: 20.7 KB, free: 806.5 MB)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 11.0 in stage 19.0 (TID 30, localhost, executor driver, partition 16, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 4.0 in stage 19.0 (TID 23) in 206 ms on localhost (executor driver) (8/20)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 11.0 in stage 19.0 (TID 30)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 402
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 346
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 152
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 459
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 236
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 336
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 365
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 167
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 431
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 397
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 338
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 274
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 491
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 467
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 235
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 290
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 371
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 484
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 441
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 223
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 465
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 195
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 192
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 252
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 335
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 466
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 180
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 169
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 8.0 in stage 19.0 (TID 27). 2840 bytes result sent to driver
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 12.0 in stage 19.0 (TID 31, localhost, executor driver, partition 17, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 12.0 in stage 19.0 (TID 31)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 8.0 in stage 19.0 (TID 27) in 98 ms on localhost (executor driver) (9/20)
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_16_piece0 on 192.168.43.52:44185 in memory (size: 6.4 KB, free: 806.5 MB)
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 9.0 in stage 19.0 (TID 28). 2840 bytes result sent to driver
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 13.0 in stage 19.0 (TID 32, localhost, executor driver, partition 18, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 9.0 in stage 19.0 (TID 28) in 92 ms on localhost (executor driver) (10/20)
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 10.0 in stage 19.0 (TID 29). 2916 bytes result sent to driver
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 13.0 in stage 19.0 (TID 32)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 14.0 in stage 19.0 (TID 33, localhost, executor driver, partition 19, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 10.0 in stage 19.0 (TID 29) in 96 ms on localhost (executor driver) (11/20)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 14.0 in stage 19.0 (TID 33)
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 446
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 403
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 447
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 250
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 237
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 251
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 458
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 494
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 360
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 344
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 315
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 270
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 355
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 294
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 311
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 282
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 233
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 460
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 46 ms
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_14_piece0 on 192.168.43.52:44185 in memory (size: 6.2 KB, free: 806.5 MB)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 370
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 398
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 298
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 453
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 490
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 388
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 291
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 495
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 313
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 244
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 272
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 348
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 328
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 254
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 440
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 351
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 356
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 218
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_18_piece0 on 192.168.43.52:44185 in memory (size: 6.3 KB, free: 806.5 MB)
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 7 ms
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 475
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 241
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 12.0 in stage 19.0 (TID 31). 2797 bytes result sent to driver
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 430
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 207
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 310
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 470
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 155
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 300
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 361
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 444
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 428
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 11.0 in stage 19.0 (TID 30). 2839 bytes result sent to driver
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 15.0 in stage 19.0 (TID 34, localhost, executor driver, partition 20, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 12.0 in stage 19.0 (TID 31) in 75 ms on localhost (executor driver) (12/20)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 15.0 in stage 19.0 (TID 34)
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 14.0 in stage 19.0 (TID 33). 2844 bytes result sent to driver
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_11_piece0 on 192.168.43.52:44185 in memory (size: 7.0 KB, free: 806.5 MB)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 16.0 in stage 19.0 (TID 35, localhost, executor driver, partition 21, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 14.0 in stage 19.0 (TID 33) in 69 ms on localhost (executor driver) (13/20)
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 13.0 in stage 19.0 (TID 32). 2948 bytes result sent to driver
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 17.0 in stage 19.0 (TID 36, localhost, executor driver, partition 22, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 172
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 456
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 13.0 in stage 19.0 (TID 32) in 79 ms on localhost (executor driver) (14/20)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 16.0 in stage 19.0 (TID 35)
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 17.0 in stage 19.0 (TID 36)
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_15_piece0 on 192.168.43.52:44185 in memory (size: 20.7 KB, free: 806.5 MB)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 18.0 in stage 19.0 (TID 37, localhost, executor driver, partition 23, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 182
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 478
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 176
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 162
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 11.0 in stage 19.0 (TID 30) in 142 ms on localhost (executor driver) (15/20)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 18.0 in stage 19.0 (TID 37)
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_19_piece0 on 192.168.43.52:44185 in memory (size: 20.7 KB, free: 806.6 MB)
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 17.0 in stage 19.0 (TID 36). 2923 bytes result sent to driver
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_22_piece0 on 192.168.43.52:44185 in memory (size: 12.2 KB, free: 806.6 MB)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Starting task 19.0 in stage 19.0 (TID 38, localhost, executor driver, partition 24, ANY, 7754 bytes)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 279
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 297
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 354
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 17.0 in stage 19.0 (TID 36) in 36 ms on localhost (executor driver) (16/20)
+2022-11-30 06:10:49 INFO  Executor:54 - Running task 19.0 in stage 19.0 (TID 38)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 363
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 179
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 268
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 496
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 362
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 225
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 154
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 305
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 395
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 15.0 in stage 19.0 (TID 34). 2837 bytes result sent to driver
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 15.0 in stage 19.0 (TID 34) in 61 ms on localhost (executor driver) (17/20)
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_26_piece0 on 192.168.43.52:44185 in memory (size: 12.8 KB, free: 806.6 MB)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 277
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 432
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 319
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 286
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 455
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 161
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 341
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 329
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 217
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 293
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 391
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 382
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 209
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_24_piece0 on 192.168.43.52:44185 in memory (size: 12.6 KB, free: 806.6 MB)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 267
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 184
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 16.0 in stage 19.0 (TID 35). 2837 bytes result sent to driver
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 16.0 in stage 19.0 (TID 35) in 68 ms on localhost (executor driver) (18/20)
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_12_piece0 on 192.168.43.52:44185 in memory (size: 3.9 KB, free: 806.6 MB)
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 3 ms
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 229
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Getting 1 non-empty blocks out of 1 blocks
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 260
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 461
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 198
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 234
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 327
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 452
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 389
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 434
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 160
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 442
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 194
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 191
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 439
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 476
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 153
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 390
+2022-11-30 06:10:49 INFO  ShuffleBlockFetcherIterator:54 - Started 0 remote fetches in 1 ms
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 487
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 334
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 401
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 323
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 485
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 386
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 175
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 202
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned shuffle 0
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 383
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 280
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 287
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 322
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 500
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 469
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 318
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 368
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 316
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 343
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 206
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 226
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 405
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 239
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 331
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 210
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 238
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 345
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 474
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 228
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 468
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 199
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 264
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 443
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 379
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 451
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 19.0 in stage 19.0 (TID 38). 2847 bytes result sent to driver
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_21_piece0 on 192.168.43.52:44185 in memory (size: 12.2 KB, free: 806.6 MB)
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 19.0 in stage 19.0 (TID 38) in 53 ms on localhost (executor driver) (19/20)
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 231
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 174
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 399
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 301
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 454
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 372
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 433
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 221
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 163
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 259
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 307
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 337
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 243
+2022-11-30 06:10:49 INFO  BlockManagerInfo:54 - Removed broadcast_17_piece0 on 192.168.43.52:44185 in memory (size: 20.7 KB, free: 806.6 MB)
+2022-11-30 06:10:49 INFO  Executor:54 - Finished task 18.0 in stage 19.0 (TID 37). 2931 bytes result sent to driver
+2022-11-30 06:10:49 INFO  ContextCleaner:54 - Cleaned accumulator 324
+2022-11-30 06:10:49 INFO  TaskSetManager:54 - Finished task 18.0 in stage 19.0 (TID 37) in 101 ms on localhost (executor driver) (20/20)
+2022-11-30 06:10:49 INFO  TaskSchedulerImpl:54 - Removed TaskSet 19.0, whose tasks have all completed, from pool 
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - ResultStage 19 (show at obj1.scala:55) finished in 0.597 s
+2022-11-30 06:10:49 INFO  DAGScheduler:54 - Job 13 finished: show at obj1.scala:55, took 0.631481 s
++----------------+-----+
+|             tag|count|
++----------------+-----+
+|       standards|    7|
+|        keyboard|    8|
+|             rss|   12|
+|   documentation|   15|
+|         session|    6|
+|build-automation|    9|
+|            unix|   34|
+|          iphone|   16|
+|             xss|    6|
+| database-design|   12|
++----------------+-----+
+only showing top 10 rows
+
+2022-11-30 06:10:49 INFO  SparkContext:54 - Invoking stop() from shutdown hook
+2022-11-30 06:10:50 INFO  AbstractConnector:318 - Stopped Spark@78aea4b9{HTTP/1.1,[http/1.1]}{0.0.0.0:4040}
+2022-11-30 06:10:50 INFO  SparkUI:54 - Stopped Spark web UI at http://192.168.43.52:4040
+2022-11-30 06:10:50 INFO  MapOutputTrackerMasterEndpoint:54 - MapOutputTrackerMasterEndpoint stopped!
+2022-11-30 06:10:50 INFO  MemoryStore:54 - MemoryStore cleared
+2022-11-30 06:10:50 INFO  BlockManager:54 - BlockManager stopped
+2022-11-30 06:10:50 INFO  BlockManagerMaster:54 - BlockManagerMaster stopped
+2022-11-30 06:10:50 INFO  OutputCommitCoordinator$OutputCommitCoordinatorEndpoint:54 - OutputCommitCoordinator stopped!
+2022-11-30 06:10:50 INFO  SparkContext:54 - Successfully stopped SparkContext
+2022-11-30 06:10:50 INFO  ShutdownHookManager:54 - Shutdown hook called
+2022-11-30 06:10:50 INFO  ShutdownHookManager:54 - Deleting directory /tmp/spark-01a2788f-7676-4f90-a7d4-7da51d74b7de
+
+Process finished with exit code 0

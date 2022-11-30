@@ -1,0 +1,643 @@
+package pack
+import org.apache.spark._
+import org.apache.spark.sql._
+trait Context {
+
+  lazy val sparkConf = new SparkConf()
+    .setAppName("Learn Spark")
+    .setMaster("local[*]")
+    .set("spark.cores.max", "2")
+
+  lazy val sparkSession = SparkSession
+    .builder()
+    .config(sparkConf)
+    .getOrCreate()
+}
+object obj1 extends App with Context{
+  // Create a DataFrame from reading a CSV file
+  val dfTags = sparkSession
+    .read
+    .option("header", "true")
+    .option("inferSchema", "true")
+    .csv("src/main/resources/question_tags_10K.csv")
+    .toDF("id", "tag")
+
+  dfTags.show(10)
+  // Print DataFrame schema
+  dfTags.printSchema()
+
+  // Query dataframe: select columns from a dataframe
+  dfTags.select("id", "tag").show(10)
+
+  // DataFrame Query: filter by column value of a dataframe
+  dfTags.filter("tag == 'php'").show(10)
+
+  // DataFrame Query: count rows of a dataframe
+  println(s"Number of php tags = ${dfTags.filter("tag == 'php'").count()}")
+
+  // DataFrame Query: SQL like query
+  dfTags.filter("tag like 's%'").show(10)
+
+  // DataFrame Query: Multiple filter chaining
+  dfTags
+    .filter("tag like 's%'")
+    .filter("id == 25 or id == 108")
+    .show(10)
+
+  //DataFrame Query: SQL IN clause
+  dfTags.filter("id in(25, 108)").show()
+
+  //DataFrame Query: SQL Group By
+  println("Group By tag value")
+  dfTags.groupBy("tag").count().show(10)
+
+  // DataFrame Query: SQL Group By with filter
+  dfTags.groupBy("tag").count().filter("count > 5").show(10)
+
+  // DataFrame Query: SQL order by
+  dfTags.groupBy("tag").count().filter("count > 5").orderBy("tag").show(10)
+
+  // DataFrame Query: Cast columns to specific data type
+  val dfQuestionsCSV = sparkSession
+    .read
+    .option("header", "true")
+    .option("inferSchema", "true")
+    .option("dateFormat", "yyyy-MM-dd HH:mm:ss")
+    .csv("src/main/resources/questions_10K.csv")
+    .toDF("id", "creation_date", "closed_date", "deletion_date", "score", "owner_userid", "answer_count")
+
+  dfQuestionsCSV.printSchema()
+
+  val dfQuestions = dfQuestionsCSV.select(
+    dfQuestionsCSV.col("id").cast("integer"),
+    dfQuestionsCSV.col("creation_date").cast("timestamp"),
+    dfQuestionsCSV.col("closed_date").cast("timestamp"),
+    dfQuestionsCSV.col("deletion_date").cast("date"),
+    dfQuestionsCSV.col("score").cast("integer"),
+    dfQuestionsCSV.col("owner_userid").cast("integer"),
+    dfQuestionsCSV.col("answer_count").cast("integer")
+  )
+
+  dfQuestions.printSchema()
+  dfQuestions.show(10)
+
+  // DataFrame Query: Operate on a sliced dataframe
+  val dfQuestionsSubset = dfQuestions.filter("score > 400 and score < 410").orderBy("score").toDF()
+  dfQuestionsSubset.show()
+
+  // DataFrame Query: Join
+  dfQuestionsSubset.join(dfTags, "id").show(10)
+
+  // DataFrame Query: Join and select columns
+  dfQuestionsSubset
+    .join(dfTags, "id")
+    .select("owner_userid", "tag", "creation_date", "score")
+    .show(10)
+
+  // DataFrame Query: Join on explicit columns
+  dfQuestionsSubset
+    .join(dfTags, dfTags("id") === dfQuestionsSubset("id"))
+    .show(10)
+
+  // DataFrame Query: Inner Join
+  dfQuestionsSubset
+    .join(dfTags, Seq("id"), "inner")
+    .show(10)
+
+  // DataFrame Query: Left Outer Join
+  dfQuestionsSubset
+    .join(dfTags, Seq("id"), "left_outer")
+    .show(10)
+  // DataFrame Query: Right Outer Join
+  dfTags
+    .join(dfQuestionsSubset, Seq("id"), "right_outer")
+    .show(10)
+
+  // DataFrame Query: Distinct
+  dfTags
+    .select("tag")
+    .distinct()
+    .show(10)
+
+  // Register temp table
+
+  dfTags.createOrReplaceTempView("so_tags")
+
+  // List all tables in Spark's catalog
+  sparkSession.catalog.listTables().show()
+
+  // List all tables in Spark's catalog using Spark SQL
+  sparkSession.sql("show tables").show()
+
+  // Select columns
+  sparkSession
+    .sql("select id, tag from so_tags limit 10")
+    .show()
+
+  // Filter by column value
+  sparkSession
+    .sql("select * from so_tags where tag = 'php'")
+    .show(10)
+
+  // Count number of rows
+  sparkSession
+    .sql(
+      """select
+        |count(*) as php_count
+        |from so_tags where tag='php'""".stripMargin)
+    .show(10)
+
+  // SQL like
+  sparkSession
+    .sql(
+      """select *
+        |from so_tags
+        |where tag like 's%'""".stripMargin)
+    .show(10)
+
+  // SQL where with and clause
+  sparkSession
+    .sql(
+      """select *
+        |from so_tags
+        |where tag like 's%'
+        |and (id = 25 or id = 108)""".stripMargin)
+    .show(10)
+
+  // SQL IN clause
+  sparkSession
+    .sql(
+      """select *
+        |from so_tags
+        |where id in (25, 108)""".stripMargin)
+    .show(10)
+
+  // SQL Group By
+  sparkSession
+    .sql(
+      """select tag, count(*) as count
+        |from so_tags group by tag""".stripMargin)
+    .show(10)
+
+  // SQL Group By with having clause
+  sparkSession
+    .sql(
+      """select tag, count(*) as count
+        |from so_tags group by tag having count > 5""".stripMargin)
+    .show(10)
+
+  // SQL Order by
+  sparkSession
+    .sql(
+      """select tag, count(*) as count
+        |from so_tags group by tag having count > 5 order by tag""".stripMargin)
+    .show(10)
+
+  
+}
+
+
+OUTPUT
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=3
++---+-------------------+
+| id|                tag|
++---+-------------------+
+|  1|               data|
+|  4|                 c#|
+|  4|           winforms|
+|  4|    type-conversion|
+|  4|            decimal|
+|  4|            opacity|
+|  6|               html|
+|  6|                css|
+|  6|               css3|
+|  6|internet-explorer-7|
++---+-------------------+
+only showing top 10 rows
+
+root
+ |-- id: integer (nullable = true)
+ |-- tag: string (nullable = true)
+
++---+-------------------+
+| id|                tag|
++---+-------------------+
+|  1|               data|
+|  4|                 c#|
+|  4|           winforms|
+|  4|    type-conversion|
+|  4|            decimal|
+|  4|            opacity|
+|  6|               html|
+|  6|                css|
+|  6|               css3|
+|  6|internet-explorer-7|
++---+-------------------+
+only showing top 10 rows
+
++---+---+
+| id|tag|
++---+---+
+| 23|php|
+| 42|php|
+| 85|php|
+|126|php|
+|146|php|
+|227|php|
+|249|php|
+|328|php|
+|588|php|
+|657|php|
++---+---+
+only showing top 10 rows
+
++---+-------------+
+| id|          tag|
++---+-------------+
+| 25|      sockets|
+| 36|          sql|
+| 36|   sql-server|
+| 40| structuremap|
+| 48|submit-button|
+| 79|          svn|
+| 79|    subclipse|
+| 85|          sql|
+| 90|          svn|
+|108|          svn|
++---+-------------+
+only showing top 10 rows
+
++---+-------+
+| id|    tag|
++---+-------+
+| 25|sockets|
+|108|    svn|
++---+-------+
+
++---+---------+
+| id|      tag|
++---+---------+
+| 25|      c++|
+| 25|        c|
+| 25|  sockets|
+| 25|mainframe|
+| 25|      zos|
+|108|  windows|
+|108|      svn|
+|108|    64bit|
++---+---------+
+
+Group By tag value
++--------------------+-----+
+|                 tag|count|
++--------------------+-----+
+|         type-safety|    4|
+|             jbutton|    1|
+|              iframe|    2|
+|           svn-hooks|    2|
+|           standards|    7|
+|knowledge-management|    2|
+|            trayicon|    1|
+|           arguments|    1|
+|                 zfs|    1|
+|              import|    3|
++--------------------+-----+
+only showing top 10 rows
+
++----------------+-----+
+|             tag|count|
++----------------+-----+
+|       standards|    7|
+|        keyboard|    8|
+|             rss|   12|
+|   documentation|   15|
+|         session|    6|
+|build-automation|    9|
+|            unix|   34|
+|          iphone|   16|
+|             xss|    6|
+| database-design|   12|
++----------------+-----+
+only showing top 10 rows
+
++----------------+-----+
+|             tag|count|
++----------------+-----+
+|            .net|  351|
+|        .net-2.0|   14|
+|        .net-3.5|   30|
+|           64bit|    7|
+|  actionscript-3|   22|
+|active-directory|   10|
+|         ado.net|   11|
+|           adobe|    7|
+|           agile|    8|
+|             air|   11|
++----------------+-----+
+only showing top 10 rows
+
+root
+ |-- id: integer (nullable = true)
+ |-- creation_date: timestamp (nullable = true)
+ |-- closed_date: string (nullable = true)
+ |-- deletion_date: string (nullable = true)
+ |-- score: integer (nullable = true)
+ |-- owner_userid: string (nullable = true)
+ |-- answer_count: string (nullable = true)
+
+root
+ |-- id: integer (nullable = true)
+ |-- creation_date: timestamp (nullable = true)
+ |-- closed_date: timestamp (nullable = true)
+ |-- deletion_date: date (nullable = true)
+ |-- score: integer (nullable = true)
+ |-- owner_userid: integer (nullable = true)
+ |-- answer_count: integer (nullable = true)
+
++---+-------------------+-------------------+-------------+-----+------------+------------+
+| id|      creation_date|        closed_date|deletion_date|score|owner_userid|answer_count|
++---+-------------------+-------------------+-------------+-----+------------+------------+
+|  1|2008-08-01 02:56:37|               null|   2011-03-28|    1|        null|           0|
+|  4|2008-08-01 03:12:52|               null|         null|  472|           8|          13|
+|  6|2008-08-01 03:38:08|               null|         null|  210|           9|           5|
+|  8|2008-08-01 05:03:19|2013-06-03 09:30:25|   2015-02-11|   42|        null|           8|
+|  9|2008-08-01 05:10:59|               null|         null| 1452|           1|          58|
+| 11|2008-08-01 05:25:37|               null|         null| 1154|           1|          33|
+| 13|2008-08-01 06:12:38|               null|         null|  464|           9|          25|
+| 14|2008-08-01 06:29:11|               null|         null|  296|          11|           8|
+| 16|2008-08-01 10:29:33|               null|         null|   84|           2|           5|
+| 17|2008-08-01 10:39:55|               null|         null|  119|           2|          11|
++---+-------------------+-------------------+-------------+-----+------------+------------+
+only showing top 10 rows
+
++-----+-------------------+-------------------+-------------+-----+------------+------------+
+|   id|      creation_date|        closed_date|deletion_date|score|owner_userid|answer_count|
++-----+-------------------+-------------------+-------------+-----+------------+------------+
+|28637|2008-08-26 22:39:45|               null|         null|  401|        2469|          15|
+|50467|2008-09-09 00:51:19|               null|         null|  402|        1967|          34|
+| 3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|
+|64860|2008-09-15 22:51:31|               null|         null|  402|        2948|          12|
+|28098|2008-08-26 19:26:49|               null|         null|  403|        2680|          23|
+|56628|2008-09-11 19:38:11|               null|         null|  403|        5469|          19|
+|  888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30|
+|16100|2008-08-19 18:21:55|               null|         null|  406|         203|          19|
+|41479|2008-09-03 16:59:57|               null|         null|  406|        3394|          86|
+| 1939|2008-08-05 11:09:36|2012-06-05 18:43:38|   2012-12-18|  408|        null|          48|
++-----+-------------------+-------------------+-------------+-----+------------+------------+
+
++----+-------------------+-------------------+-------------+-----+------------+------------+--------------------+
+|  id|      creation_date|        closed_date|deletion_date|score|owner_userid|answer_count|                 tag|
++----+-------------------+-------------------+-------------+-----+------------+------------+--------------------+
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|illegalargumentex...|
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|nullpointerexception|
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|                null|
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|           exception|
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|                java|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30|              xdebug|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30|            phpstorm|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30|           debugging|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30|             eclipse|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30|                 php|
++----+-------------------+-------------------+-------------+-----+------------+------------+--------------------+
+only showing top 10 rows
+
++------------+-----------+-------------------+-----+
+|owner_userid|        tag|      creation_date|score|
++------------+-----------+-------------------+-----+
+|         131|        php|2008-08-04 04:48:21|  405|
+|         131|    eclipse|2008-08-04 04:48:21|  405|
+|         131|  debugging|2008-08-04 04:48:21|  405|
+|         131|   phpstorm|2008-08-04 04:48:21|  405|
+|         131|     xdebug|2008-08-04 04:48:21|  405|
+|        null|     iphone|2008-08-05 11:09:36|  408|
+|        null|objective-c|2008-08-05 11:09:36|  408|
+|        null|        ios|2008-08-05 11:09:36|  408|
+|        null|        osx|2008-08-05 11:09:36|  408|
+|         122|       java|2008-08-07 00:56:30|  402|
++------------+-----------+-------------------+-----+
+only showing top 10 rows
+
++----+-------------------+-------------------+-------------+-----+------------+------------+----+--------------------+
+|  id|      creation_date|        closed_date|deletion_date|score|owner_userid|answer_count|  id|                 tag|
++----+-------------------+-------------------+-------------+-----+------------+------------+----+--------------------+
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|3881|illegalargumentex...|
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|3881|nullpointerexception|
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|3881|                null|
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|3881|           exception|
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|3881|                java|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30| 888|              xdebug|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30| 888|            phpstorm|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30| 888|           debugging|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30| 888|             eclipse|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30| 888|                 php|
++----+-------------------+-------------------+-------------+-----+------------+------------+----+--------------------+
+only showing top 10 rows
+
++----+-------------------+-------------------+-------------+-----+------------+------------+--------------------+
+|  id|      creation_date|        closed_date|deletion_date|score|owner_userid|answer_count|                 tag|
++----+-------------------+-------------------+-------------+-----+------------+------------+--------------------+
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|illegalargumentex...|
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|nullpointerexception|
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|                null|
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|           exception|
+|3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|                java|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30|              xdebug|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30|            phpstorm|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30|           debugging|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30|             eclipse|
+| 888|2008-08-04 04:48:21|2016-08-04 14:52:00|         null|  405|         131|          30|                 php|
++----+-------------------+-------------------+-------------+-----+------------+------------+--------------------+
+only showing top 10 rows
+
++-----+-------------------+-------------------+-------------+-----+------------+------------+--------------------+
+|   id|      creation_date|        closed_date|deletion_date|score|owner_userid|answer_count|                 tag|
++-----+-------------------+-------------------+-------------+-----+------------+------------+--------------------+
+|28637|2008-08-26 22:39:45|               null|         null|  401|        2469|          15|                null|
+| 3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|illegalargumentex...|
+| 3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|nullpointerexception|
+| 3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|                null|
+| 3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|           exception|
+| 3881|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|                java|
+|50467|2008-09-09 00:51:19|               null|         null|  402|        1967|          34|                null|
+|64860|2008-09-15 22:51:31|               null|         null|  402|        2948|          12|                null|
+|28098|2008-08-26 19:26:49|               null|         null|  403|        2680|          23|                null|
+|56628|2008-09-11 19:38:11|               null|         null|  403|        5469|          19|                null|
++-----+-------------------+-------------------+-------------+-----+------------+------------+--------------------+
+only showing top 10 rows
+
++-----+--------------------+-------------------+-------------------+-------------+-----+------------+------------+
+|   id|                 tag|      creation_date|        closed_date|deletion_date|score|owner_userid|answer_count|
++-----+--------------------+-------------------+-------------------+-------------+-----+------------+------------+
+|28637|                null|2008-08-26 22:39:45|               null|         null|  401|        2469|          15|
+| 3881|illegalargumentex...|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|
+| 3881|nullpointerexception|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|
+| 3881|                null|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|
+| 3881|           exception|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|
+| 3881|                java|2008-08-07 00:56:30|2016-09-23 19:04:31|         null|  402|         122|          27|
+|50467|                null|2008-09-09 00:51:19|               null|         null|  402|        1967|          34|
+|64860|                null|2008-09-15 22:51:31|               null|         null|  402|        2948|          12|
+|28098|                null|2008-08-26 19:26:49|               null|         null|  403|        2680|          23|
+|56628|                null|2008-09-11 19:38:11|               null|         null|  403|        5469|          19|
++-----+--------------------+-------------------+-------------------+-------------+-----+------------+------------+
+only showing top 10 rows
+
++--------------------+
+|                 tag|
++--------------------+
+|         type-safety|
+|             jbutton|
+|              iframe|
+|           svn-hooks|
+|           standards|
+|knowledge-management|
+|            trayicon|
+|           arguments|
+|                 zfs|
+|              import|
++--------------------+
+only showing top 10 rows
+
++-------+--------+-----------+---------+-----------+
+|   name|database|description|tableType|isTemporary|
++-------+--------+-----------+---------+-----------+
+|so_tags|    null|       null|TEMPORARY|       true|
++-------+--------+-----------+---------+-----------+
+
+2022-11-30 07:27:32 INFO  CodeGenerator:54 - Code generated in 21.515427 ms
+2022-11-30 07:27:32 INFO  CodeGenerator:54 - Code generated in 14.691484 ms
++--------+---------+-----------+
+|database|tableName|isTemporary|
++--------+---------+-----------+
+|        |  so_tags|       true|
++--------+---------+-----------+
+
++---+-------------------+
+| id|                tag|
++---+-------------------+
+|  1|               data|
+|  4|                 c#|
+|  4|           winforms|
+|  4|    type-conversion|
+|  4|            decimal|
+|  4|            opacity|
+|  6|               html|
+|  6|                css|
+|  6|               css3|
+|  6|internet-explorer-7|
++---+-------------------+
+
++---+---+
+| id|tag|
++---+---+
+| 23|php|
+| 42|php|
+| 85|php|
+|126|php|
+|146|php|
+|227|php|
+|249|php|
+|328|php|
+|588|php|
+|657|php|
++---+---+
+only showing top 10 rows
+
++---------+
+|php_count|
++---------+
+|      133|
++---------+
+
++---+-------------+
+| id|          tag|
++---+-------------+
+| 25|      sockets|
+| 36|          sql|
+| 36|   sql-server|
+| 40| structuremap|
+| 48|submit-button|
+| 79|          svn|
+| 79|    subclipse|
+| 85|          sql|
+| 90|          svn|
+|108|          svn|
++---+-------------+
+only showing top 10 rows
+
++---+-------+
+| id|    tag|
++---+-------+
+| 25|sockets|
+|108|    svn|
++---+-------+
+
++---+---------+
+| id|      tag|
++---+---------+
+| 25|      c++|
+| 25|        c|
+| 25|  sockets|
+| 25|mainframe|
+| 25|      zos|
+|108|  windows|
+|108|      svn|
+|108|    64bit|
++---+---------+
+
+
++--------------------+-----+
+|                 tag|count|
++--------------------+-----+
+|         type-safety|    4|
+|             jbutton|    1|
+|              iframe|    2|
+|           svn-hooks|    2|
+|           standards|    7|
+|knowledge-management|    2|
+|            trayicon|    1|
+|           arguments|    1|
+|                 zfs|    1|
+|              import|    3|
++--------------------+-----+
+only showing top 10 rows
+
+
++----------------+-----+
+|             tag|count|
++----------------+-----+
+|       standards|    7|
+|        keyboard|    8|
+|             rss|   12|
+|   documentation|   15|
+|         session|    6|
+|build-automation|    9|
+|            unix|   34|
+|          iphone|   16|
+|             xss|    6|
+| database-design|   12|
++----------------+-----+
+only showing top 10 rows
+
+
++----------------+-----+
+|             tag|count|
++----------------+-----+
+|            .net|  351|
+|        .net-2.0|   14|
+|        .net-3.5|   30|
+|           64bit|    7|
+|  actionscript-3|   22|
+|active-directory|   10|
+|         ado.net|   11|
+|           adobe|    7|
+|           agile|    8|
+|             air|   11|
++----------------+-----+
+only showing top 10 rows
+
+
+Process finished with exit code 0
+
+
+

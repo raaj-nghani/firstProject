@@ -1,0 +1,255 @@
+package pack
+
+object dataframeStatics extends App with Context{
+  // Create a dataframe from tags file question_tags_10K.csv
+  val dfTags = sparkSession
+    .read
+    .option("header", "true")
+    .option("inferSchema", "true")
+    .csv("src/main/resources/question_tags_10K.csv")
+    .toDF("id", "tag")
+
+  // Create a dataframe from questions file questions_10K.csv
+  val dfQuestionsCSV = sparkSession
+    .read
+    .option("header", "true")
+    .option("inferSchema", "true")
+    .option("dateFormat", "yyyy-MM-dd HH:mm:ss")
+    .csv("src/main/resources/questions_10K.csv")
+    .toDF("id", "creation_date", "closed_date", "deletion_date", "score", "owner_userid", "answer_count")
+
+  // cast columns to data types
+  val dfQuestions = dfQuestionsCSV.select(
+    dfQuestionsCSV.col("id").cast("integer"),
+    dfQuestionsCSV.col("creation_date").cast("timestamp"),
+    dfQuestionsCSV.col("closed_date").cast("timestamp"),
+    dfQuestionsCSV.col("deletion_date").cast("date"),
+    dfQuestionsCSV.col("score").cast("integer"),
+    dfQuestionsCSV.col("owner_userid").cast("integer"),
+    dfQuestionsCSV.col("answer_count").cast("integer")
+  )
+  //Average
+  import org.apache.spark.sql.functions._
+  dfQuestions.select(avg("score")).show()
+
+  //Maximum
+  dfQuestions.select(max("score")).show()
+
+  //Minimum
+  dfQuestions.select(min("Score")).show()
+
+  //Mean function
+  dfQuestions.select(mean("score")).show()
+
+  //Sum function
+  dfQuestions.select(sum("score")).show()
+
+  //GroupBy with statistics
+  dfQuestions.filter("id > 400 and id < 450")
+    .filter("owner_userid is not null")
+    .join(dfTags, dfQuestions.col("id").equalTo(dfTags("id")))
+    .groupBy(dfQuestions.col("owner_userid"))
+    .agg(avg("score"), max("answer_count"))
+    .show()
+
+  //DataFrame ZStatistics using describe() method
+  val dfQuestionsStatistics = dfQuestions.describe().show()
+
+  //Correlation
+  val correlation = dfQuestions.stat.corr("score", "answer_count")
+  println(s"correlation between column score and answer_count = $correlation")
+
+  //Coveriace
+  val covariance = dfQuestions.stat.cov("score","answer_count")
+  println(s"coveriance between column score and answer_count = $covariance")
+
+  //Frequent Items
+  val dfFrequentScore = dfQuestions.stat.freqItems(Seq("answer_count"))
+  dfFrequentScore.show()
+
+  //Crosstab
+  val dfScoreByUserid = dfQuestions.filter("owner_userid > 0 and owner_userid < 20")
+    .stat.crosstab("score","owner_userid").show(10)
+
+  // find all rows where answer_count in (5, 10, 20)
+  val dfQuestionsByAnswerCount = dfQuestions
+    .filter("owner_userid > 0")
+    .filter("answer_count in (5, 10, 20)")
+
+  // count how many rows match answer_count in (5, 10, 20)
+  dfQuestionsByAnswerCount
+    .groupBy("answer_count")
+    .count()
+    .show()
+
+  // Create a fraction map where we are only interested:
+  // - 50% of the rows that have answer_count = 5
+  // - 10% of the rows that have answer_count = 10
+  // - 100% of the rows that have answer_count = 20
+  // Note also that fractions should be in the range [0, 1]
+  val fractionKeyMap = Map(5 -> 0.5, 10 -> 0.1, 20 -> 1.0)
+
+  // Stratified sample using the fractionKeyMap.
+  dfQuestionsByAnswerCount
+    .stat
+    .sampleBy("answer_count", fractionKeyMap, 7L)
+    .groupBy("answer_count")
+    .count()
+    .show()
+
+  // Note that changing the random seed will modify your sampling outcome. As an example, let's change the random seed to 37.
+  dfQuestionsByAnswerCount
+    .stat
+    .sampleBy("answer_count", fractionKeyMap, 37L)
+    .groupBy("answer_count")
+    .count()
+    .show()
+
+  // Approximate Quantile
+  val quantiles = dfQuestions
+    .stat
+    .approxQuantile("score", Array(0, 0.5, 1), 0.25)
+  println(s"Qauntiles segments = ${quantiles.toSeq}")
+
+  dfQuestions.createOrReplaceTempView("so_questions")
+  sparkSession
+    .sql("select min(score), percentile_approx(score, 0.25), max(score) from so_questions")
+    .show()
+
+  // Bloom Filter
+  val tagsBloomFilter = dfTags.stat.bloomFilter("tag", 1000L, 0.1)
+  println(s"bloom filter contains java tag = ${tagsBloomFilter.mightContain("java")}")
+  println(s"bloom filter contains some unknown tag = ${tagsBloomFilter.mightContain("unknown tag")}")
+
+  // Count Min Sketch
+  val cmsTag = dfTags.stat.countMinSketch("tag", 0.1, 0.9, 37)
+  val estimatedFrequency = cmsTag.estimateCount("java")
+  println(s"Estimated frequency for tag java = $estimatedFrequency")
+
+  // Sampling With Replacement
+  val dfTagsSample = dfTags.sample(true, 0.2, 37L)
+  println(s"Number of rows in sample dfTagsSample = ${dfTagsSample.count()}")
+  println(s"Number of rows in dfTags = ${dfTags.count()}")
+
+}
+
+OUTPUT
+
+
+/home/raj/jdk1.8.0_202/bin/java -javaagent:/home/raj/Downloads/idea-IC-222.4167.29/lib/idea_rt.jar=40309:/home/ra
++-----------------+
+|       avg(score)|
++-----------------+
+|36.14631463146315|
++-----------------+
+
++----------+
+|max(score)|
++----------+
+|      4443|
++----------+
+
++----------+
+|min(Score)|
++----------+
+|       -27|
++----------+
+
++-----------------+
+|       avg(score)|
++-----------------+
+|36.14631463146315|
++-----------------+
+
++----------+
+|sum(score)|
++----------+
+|    361427|
++----------+
+
++------------+----------+-----------------+
+|owner_userid|avg(score)|max(answer_count)|
++------------+----------+-----------------+
+|         268|      26.0|                1|
+|         136|      57.6|                9|
+|         123|      20.0|                3|
++------------+----------+-----------------+
+
++-------+-----------------+------------------+-----------------+------------------+
+|summary|               id|             score|     owner_userid|      answer_count|
++-------+-----------------+------------------+-----------------+------------------+
+|  count|             9999|              9999|             7388|              9922|
+|   mean|33929.17081708171| 36.14631463146315|47389.99472116947|6.6232614392259626|
+| stddev|19110.09560532429|160.48316753972045|280943.1070344427| 9.069109116851138|
+|    min|                1|               -27|                1|                -5|
+|    max|            66037|              4443|          3431280|               316|
++-------+-----------------+------------------+-----------------+------------------+
+
+correlation between column score and answer_count = 0.3699847903294707
+
+coveriance between column score and answer_count = 537.513381444165
+
++----------------------+
+|answer_count_freqItems|
++----------------------+
+|  [23, 131, 77, 86,...|
++----------------------+
+
++------------------+---+---+---+---+---+---+---+---+---+---+
+|score_owner_userid|  1| 11| 13| 17|  2|  3|  4|  5|  8|  9|
++------------------+---+---+---+---+---+---+---+---+---+---+
+|                56|  0|  0|  0|  1|  0|  0|  0|  0|  0|  0|
+|               472|  0|  0|  0|  0|  0|  0|  0|  0|  1|  0|
+|                14|  0|  0|  0|  1|  0|  0|  0|  1|  0|  0|
+|                20|  0|  0|  0|  0|  0|  0|  0|  1|  0|  0|
+|               179|  0|  0|  0|  0|  0|  1|  0|  0|  0|  0|
+|                84|  0|  0|  0|  0|  1|  0|  0|  0|  0|  0|
+|               160|  0|  0|  1|  0|  0|  0|  0|  0|  0|  0|
+|                21|  0|  0|  0|  0|  0|  0|  0|  1|  0|  0|
+|                 9|  0|  0|  0|  0|  0|  0|  1|  1|  0|  0|
+|                 2|  0|  0|  0|  0|  0|  0|  0|  1|  0|  1|
++------------------+---+---+---+---+---+---+---+---+---+---+
+only showing top 10 rows
+
++------------+-----+
+|answer_count|count|
++------------+-----+
+|          20|   34|
+|           5|  811|
+|          10|  272|
++------------+-----+
+
++------------+-----+
+|answer_count|count|
++------------+-----+
+|          20|   34|
+|           5|  400|
+|          10|   26|
++------------+-----+
+
++------------+-----+
+|answer_count|count|
++------------+-----+
+|          20|   34|
+|           5|  388|
+|          10|   25|
++------------+-----+
+
+
+Qauntiles segments = WrappedArray(-27.0, 2.0, 4443.0)
+
++----------+-----------------------------------------------------+----------+
+|min(score)|percentile_approx(score, CAST(0.25 AS DOUBLE), 10000)|max(score)|
++----------+-----------------------------------------------------+----------+
+|       -27|                                                    2|      4443|
++----------+-----------------------------------------------------+----------+
+
+
+bloom filter contains java tag = true
+bloom filter contains some unknown tag = false
+
+Estimated frequency for tag java = 513
+
+Number of rows in sample dfTagsSample = 1948
+
+Process finished with exit code 0
